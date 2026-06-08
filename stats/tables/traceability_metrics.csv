@@ -1,0 +1,2 @@
+n_novel,lexical_recall_vs_gt,lexical_precision_vs_gt,recall_vs_valid_e1_timing,n_lexical,n_semantic_tier2,n_e1_dispute_exposed,halluc_rate_novel,H2a_inprinciple,H2b_inprinciple,H2a_lex_strippable,H2b_lex_strippable,proj_e1_accept_lex,proj_e1_accept_inprinciple
+32,1.0,1.0,0.947,18,1,1,0.594,7,3,6,3,0.312,0.344

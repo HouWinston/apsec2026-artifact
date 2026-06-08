@@ -1,0 +1,5 @@
+Comparison,Accepted,Total,Acceptance_Rate,Wilson_CI_lo,Wilson_CI_hi,Fisher_OR,Fisher_p_raw,Fisher_p_holm,Cohen_h,Significance
+Baseline,124,274,0.4526,0.3947,0.5117,—,—,—,—,—
+A+B (functional),143,215,0.6651,0.5996,0.7248,2.403,0.0,0.0,0.4316,***
+A-GitHub,57,87,0.6552,0.5506,0.7466,2.298,0.0007,0.0007,0.4106,***
+B-NHTSA,86,128,0.6719,0.5866,0.7472,2.477,0.0,0.0,0.4459,***

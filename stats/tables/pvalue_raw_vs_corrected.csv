@@ -1,0 +1,5 @@
+Comparison,k_treatment,n_treatment,k_<SIG>,n_<SIG>,OR,p_raw_one_sided,p_holm_corrected,Cohen_h
+Full Pipeline,181,331,124,274,1.46,0.0129,0.0258,0.1888
+A-GitHub,57,87,124,274,2.298,0.0007,0.0021,0.4106
+B-NHTSA,86,128,124,274,2.477,0.0000,0.0000,0.4459
+C-<SIG>,38,116,124,274,0.589,0.9922,0.9922,-0.2570

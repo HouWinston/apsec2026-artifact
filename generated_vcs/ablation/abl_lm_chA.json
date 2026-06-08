@@ -1,0 +1,2000 @@
+[
+ {
+  "syrs_id": "SYRS.0064",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   },
+   {
+    "id": 64,
+    "title": "can't get the <SIG>.service_data.values",
+    "body_excerpt": "Hello, friends,\r\nRecently I just found this UDS library and it's very useful for me.\r\nBut i am not yet familiar with it.\r\nI tried to follow the example in the document to read the$F190.\r\nBut i can't print the correct <SIG> and the error as below. and i confirm the actual request and <SIG> are ",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 121,
+    "title": "Send new request takes too long after receiving <SIG> from server",
+    "body_excerpt": "![image](https://user-images.githubusercontent.com/106702474/171485599-53b1809e-4501-45b2-94cf-d1e4a7e52083.png)\r\nRelative timestamps\r\n![image](https://user-images.githubusercontent.com/106702474/171485674-39697a4d-1ae6-41d3-a00b-627389ee25ca.png)\r\nDifferential timestamps. for easier understanding \r",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "Based on the provided real-world issues, I have identified two potential missing verification conditions that are not covered by the existing golden VCs. These VCs address corner cases related to timeouts and extended addressing modes.\n\n### VC 1: Verify ECU Response Time for <SIG> Access Request\nThis VC is inspired by the issue [pylessard/python-udsoncan#107] which mentions a timeout problem when trying to unlock security access.\n\n```yaml\n- VC_Item:\n    VC_ID: \"VC_SYRS.0064.LM-ChA.NEW.1\"\n    Title: \"Verify ECU <SIG> time for security access request\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a security access request to the ECU.\n        2. Measure the time taken for the ECU to respond with a positive acknowledgment.\n        3. Verify that the <SIG> time is within the specified timeout (e.g., 900ms).\n      Fail: |\n        - ECU does not respond within the specified timeout.\n        - ECU responds with an error or incorrect acknowledgment.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n```\n\n### VC 2: Verify ECU Support for <SIG> Addressing Modes\nThis VC is inspired by the issue [pylessard/python-can-isotp#44] which mentions a problem with extended addressing modes where the ECU does not receive anything.\n\n```yaml\n- VC_Item:\n    VC_ID: \"VC_SYRS.0064.LM-ChA.NEW.2\"\n    Title: \"Verify ECU support for extended addressing modes\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Positive Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 11-bit or 29-bit).\n        2. Send a message from the tester to the ECU using the configured extended addressing mode.\n        3. Verify that the ECU correctly receives and processes the message.\n      Fail: |\n        - ECU does not receive the message.\n        - ECU processes the message incorrectly.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n```\n\nThese VCs address specific corner cases that are not covered by the existing golden VCs and are testable at the ECU level.",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.1130_B_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.1130_B_A.LM-ChA.NEW.1\"\n    Title: \"Verify transmission on <SIG> edge cases (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate a change in '<SIG_116>' (e.g., 0->1) that persists for exactly 10ms.\n        2. Verify that the '<SIG_244>' message is <SIG>ted.\n        3. Simulate a change in '<SIG_116>' (e.g., 0->1) that persists for 10ms + 1ms.\n        4. Verify that the '<SIG_244>' message is <SIG>ted.\n        5. Simulate a change in '<SIG_116>' (e.g., 0->1) that persists for 9ms.\n        6. Verify that the '<SIG_244>' message is not <SIG>ted.\n      Fail: |\n        - The '<SIG_244>' message is <SIG>ted when the change persists for less than 10ms.\n        - The '<SIG_244>' message is not <SIG>ted when the change persists for exactly 10ms or slightly more.\n    Issue_Source: \"[ecubus/EcuBus-Pro#83] Vector support, [pylessard/python-udsoncan#107] Question about timeout\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.1130_B_A.LM-ChA.NEW.2\"\n    Title: \"Verify system behavior during simultaneous events (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate a change in '<SIG_116>' (e.g., 0->1) that persists for >= 10ms.\n        2. Simultaneously inject a fault (e.g., a transient signal glitch) on another related input (e.g., '<SIG_297>').\n        3. Verify that the '<SIG_244>' message is <SIG>ted correctly despite the fault.\n      Fail: |\n        - The '<SIG_244>' message is not <SIG>ted due to the injected fault.\n        - The '<SIG_244>' message is <SIG>ted incorrectly (e.g., with incorrect data).\n    Issue_Source: \"[pylessard/python-udsoncan#249] The method of simultaneously creating physical addressing and functional addressing\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.1130_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.1130_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify transmission latency under high system load (Stress Testing)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger a valid event transmission (per SYRS.1130_B_A, e.g., signal change > 10ms).\n        2. Simultaneously introduce a high system load (e.g., by running multiple background tasks or processes that consume significant CPU and memory resources).\n        3. Measure the latency between the 10ms <SIG> point (<SIG_245>) and the start of the CAN frame transmission (<SIG_246>).\n        4. Verify Latency (<SIG_246> - <SIG_245>) is ≤ 5ms.\n      Fail: |\n        - Measured latency is > 5ms.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.1130_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify transmission latency with extended addressing modes (<SIG> Addressing)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing modes (e.g., 11-bit or 29-bit addressing).\n        2. Trigger a valid event transmission (per SYRS.1130_B_A, e.g., signal change > 10ms).\n        3. Measure the latency between the 10ms <SIG> point (<SIG_245>) and the start of the CAN frame transmission (<SIG_246>).\n        4. Verify Latency (<SIG_246> - <SIG_245>) is ≤ 5ms.\n      Fail: |\n        - Measured latency is > 5ms.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0217_A_1",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0217_A_1.LM-ChA.NEW.1\"\n    Title: \"Verify LIN 2.0 Frame Reception with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 11-bit or 29-bit addressing).\n        2. Transmit a LIN 2.0 frame with the correct extended address and data payload.\n        3. Verify that the ECU correctly receives and processes the frame, including the extended address.\n      Fail: |\n        - The ECU fails to receive the frame.\n        - The ECU incorrectly processes the frame (e.g., incorrect data, address mismatch).\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0217_A_1.LM-ChA.NEW.2\"\n    Title: \"Verify LIN 2.0 Frame Transmission with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Positive Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 11-bit or 29-bit addressing).\n        2. Instruct the ECU to <SIG> a LIN 2.0 frame with the correct extended address and data payload.\n        3. Use a LIN protocol analyzer to verify that the <SIG>ted frame includes the correct extended address and data payload.\n      Fail: |\n        - The ECU fails to <SIG> the frame.\n        - The <SIG>ted frame does not include the correct extended address or data payload.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0217_A_2",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0217_A_2.LM-ChA.NEW.1\"\n    Title: \"Verify System Response to Repeated Checksum Errors (Stress Test)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection Testing, Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Identify a LIN message that triggers a system action (e.g., 'Turn on Light').\n        2. Send this message with a valid payload but an intentionally corrupted Enhanced Checksum.\n        3. Repeat the sending of the corrupted message 100 times in rapid succession.\n        4. Verify the system does *not* perform the action (i.e., the light does *not* turn on) for any of the 100 attempts.\n        5. Verify the system does not crash or enter an error state after the 100 attempts.\n      Fail: |\n        - The system accepts any of the corrupted frames and performs the action.\n        - The system crashes or resets during or after the 100 attempts.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0217_A_2.LM-ChA.NEW.2\"\n    Title: \"Verify System Response to Mixed Valid and Invalid Frames (Interleaved Test)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection Testing, Interleaved Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Identify a LIN message that triggers a system action (e.g., 'Turn on Light').\n        2. Send a sequence of 10 messages, where 5 messages have a valid payload and correct Enhanced Checksum, and 5 messages have a valid payload but an intentionally corrupted Enhanced Checksum.\n        3. Ensure the valid and invalid messages are interleaved (e.g., V-I-V-I-V-I-V-I-V-I).\n        4. Verify the system performs the action (i.e., the light turns on) only for the valid messages.\n        5. Verify the system does not crash or enter an error state.\n      Fail: |\n        - The system accepts any of the corrupted frames and performs the action.\n        - The system fails to perform the action for any of the valid frames.\n        - The system crashes or resets.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0217_A_3",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0217_A_3.LM-ChA.NEW.1\n    Title: \"Verify SNPD auto-addressing with simultaneous physical and functional addressing\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Connect the system (ECU) in a network with a LIN Master that can simulate both physical and functional addressing.\n        2. Initiate the auto-addressing sequence while simultaneously sending messages to the ECU using both physical and functional addressing.\n        3. Verify the ECU correctly follows the SNPD logic and accepts the new NAD assigned by the Master.\n        4. Send a request to the new NAD using both physical and functional addressing; verify the ECU responds appropriately to both.\n      Fail: |\n        - The ECU fails to auto-address.\n        - The ECU does not respond to its newly assigned NAD using either physical or functional addressing.\n    Issue_Source: pylessard/python-udsoncan#249\n\n- VC_Item:\n    VC_ID: VC_SYRS.0217_A_3.LM-ChA.NEW.2\n    Title: \"Verify SNPD auto-addressing with extended addressing modes\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Connect the system (ECU) in a network with a LIN Master that supports extended addressing modes (e.g., 11 bits, 29 bits).\n        2. Initiate the auto-addressing sequence using extended addressing.\n        3. Verify the ECU correctly follows the SNPD logic and accepts the new NAD assigned by the Master.\n        4. Send a request to the new NAD using extended addressing; verify the ECU responds.\n      Fail: |\n        - The ECU fails to auto-address.\n        - The ECU does not respond to its newly assigned NAD when using extended addressing.\n    Issue_Source: pylessard/python-can-isotp#44",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0444_A_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0444_A_A.LM-ChA.NEW.1\"\n    Title: \"Verify NACK Response with Signal Transition from Pass to Fail\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"State Transition Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate BRAKE1.<SIG>VSOSig<SIG> signal with value \"<SIG_298>\".\n        2. Send a Lock Request to the ESCL.\n        3. Verify the ESCL responds with an ACK (Data=0x01).\n        4. Change the BRAKE1.<SIG>VSOSig<SIG> signal to \"<SIG_100>\" while the ECU is in a state where it has accepted the lock request.\n        5. Verify the ESCL transitions to a state where it rejects any further Lock <SIG> and responds with a NACK <SIG> (Data=0x00).\n      Fail: |\n        - ESCL continues to accept Lock <SIG> after the BRAKE1.<SIG>VSOSig<SIG> signal changes to \"<SIG_100>\".\n        - ESCL does not transition to a state where it rejects further Lock <SIG>.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0444_A_A.LM-ChA.NEW.2\"\n    Title: \"Verify NACK Response with Signal <SIG> Failures\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate BRAKE1.<SIG>VSOSig<SIG> signal with value \"<SIG_298>\".\n        2. Send a Lock Request to the ESCL.\n        3. Verify the ESCL responds with an ACK (Data=0x01).\n        4. Introduce intermittent failures in the BRAKE1.<SIG>VSOSig<SIG> signal, toggling between \"<SIG_298>\" and \"<SIG_100>\" within a short time frame (e.g., 100ms).\n        5. Verify the ESCL responds with a NACK <SIG> (Data=0x00) if the signal indicates \"<SIG_100>\" at the time of the Lock Request.\n      Fail: |\n        - ESCL <SIG>s an ACK (e.g., Data=0x01) or ignores the request when the signal indicates \"<SIG_100>\".\n        - ESCL does not handle the intermittent signal changes correctly, leading to inconsistent <SIG>s.\n    Issue_Source: \"hardbyte/python-can#2053\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0444_A_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   },
+   {
+    "id": 284,
+    "title": "否定相应无法识别",
+    "body_excerpt": "2025-07-31 15:52:06,134 - UdsClient - INFO - DiagnosticSessionControl<0x10> - Switching session to programmingSession (0x02)\n2025-07-31 15:52:06,135 - isotp - DEBUG - Enqueuing a SendRequest for 2 bytes and TAT=<SIG>\n2025-07-31 15:52:06,135 - isotp - DEBUG - Tx: <7A9> (08) [ ] 0210020000000000\n20",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0444_A_B.LM-ChA.NEW.1\"\n    Title: \"Verify NACK Response in <SIG> Addressing Mode (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis, Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN ID).\n        2. Send a Lock Request with the correct extended address.\n        3. Measure Time T1 when the NACK <SIG> transmission begins.\n        4. Verify Delta (T1 - T0) ≤ 100 ms and that the NACK <SIG> is correctly received.\n      Fail: |\n        - Latency exceeds 100 ms.\n        - NACK <SIG> is not received or incorrectly formatted.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0444_A_B.LM-ChA.NEW.2\"\n    Title: \"Verify NACK Response Handling with Incorrect Source Address (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger the failure condition (Speed Fault Active).\n        2. Send a Lock Request with an incorrect source address.\n        3. Measure Time T1 when the NACK <SIG> transmission begins.\n        4. Verify Delta (T1 - T0) ≤ 100 ms and that the NACK <SIG> is correctly <SIG>ted.\n      Fail: |\n        - Latency exceeds 100 ms.\n        - NACK <SIG> is not <SIG>ted or incorrectly formatted.\n    Issue_Source: \"pylessard/python-udsoncan#284\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0077",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0077.LM-ChA.NEW.1\n    Title: \"Verify transmission aborts when FC frame is received just before the timeout (BVA Positive: Near Timeout)\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis (Positive)\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger a multi-frame ECU transmission.\n        2. After the ECU sends the last CF of a block, the tester (receiver) waits for 1990 ms and then sends an FC frame.\n        3. Verify the ECU does not abort the transmission and continues with the next steps as <SIG>.\n        4. Verify the time from (End of CF) to (FC frame reception) is 1990 ms (within tolerance, e.g., ± 10ms).\n      Fail: |\n        - ECU aborts the transmission before 2000 ms.\n        - ECU does not continue the transmission after receiving the FC frame.\n    Issue_Source: pylessard/python-udsoncan#107\n\n- VC_Item:\n    VC_ID: VC_SYRS.0077.LM-ChA.NEW.2\n    Title: \"Verify transmission aborts when multiple CF frames are sent without FC frame\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger a multi-frame ECU transmission.\n        2. After the ECU sends the first CF of a block, the tester (receiver) does not send any FC frame.\n        3. The ECU continues to send additional CF frames in the same block.\n        4. Verify the ECU aborts the transmission after 2000 ms from the end of the last CF frame.\n        5. Verify the time from (End of last CF) to (Abort) is 2000 ms (within tolerance, e.g., ± 10ms).\n      Fail: |\n        - ECU continues transmission attempts > 2010 ms.\n        - ECU aborts transmission < 1990 ms.\n    Issue_Source: pylessard/python-udsoncan#249\n\nThese VCs address potential corner cases that might be overlooked in the existing verification conditions. The first VC tests the scenario where the FC frame is received just before the timeout, ensuring the ECU does not prematurely abort the transmission. The second VC tests the scenario where multiple CF frames are sent without an FC frame, ensuring the ECU correctly times out and aborts the transmission.",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0205",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0205.LM-ChA.NEW.1\"\n    Title: \"Verify cycle time stability under varying system load (Test Case T3: 100ms with high CPU load)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Load a valid LDF specifying cycle time T1 = 100ms.\n        2. Simulate a high CPU load on the ECU (e.g., by running a CPU-intensive task in parallel).\n        3. Capture LIN messages.\n        4. Verify the average cycle time is 100ms (e.g., ±5% tolerance) and jitter (individual cycles) is within spec (e.g., ±10% tolerance).\n      Fail: |\n        - Measured average cycle time is outside 100ms ± 5%.\n        - Any single cycle deviates > 10% from 100ms.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0205.LM-ChA.NEW.2\"\n    Title: \"Verify cycle time consistency during LIN bus reset (Test Case T4: 100ms with LIN bus reset)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Load a valid LDF specifying cycle time T1 = 100ms.\n        2. Initiate a LIN bus reset while the ECU is <SIG>ting messages.\n        3. Capture LIN messages after the reset.\n        4. Verify the average cycle time is 100ms (e.g., ±5% tolerance) and jitter (individual cycles) is within spec (e.g., ±10% tolerance) after the reset.\n      Fail: |\n        - Measured average cycle time is outside 100ms ± 5% after the reset.\n        - Any single cycle deviates > 10% from 100ms after the reset.\n    Issue_Source: \"ecubus/EcuBus-Pro#83\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0226",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0226.LM-ChA.NEW.1\"\n    Title: \"Verify system behavior when the LIN message '<SIG_249>' is <SIG>ted with a corrupted Byte 7 (index 7)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the system to <SIG> '<SIG_249>'.\n        2. Capture the <SIG>ted LIN frame.\n        3. Manually compute the <SIG> CRC-8 using Bytes 0-6 as input.\n        4. Modify Byte 7 (index 7) of the captured frame to an incorrect value.\n        5. Re-<SIG> the modified LIN frame to the ECU.\n        6. Verify that the ECU detects the corruption and handles it appropriately (e.g., logs an error, retries transmission, or takes other defined corrective actions).\n      Fail: |\n        - The ECU does not detect the corruption in Byte 7.\n        - The ECU does not handle the corruption appropriately (e.g., no error logging, no retry, or no other defined corrective action).\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0226.LM-ChA.NEW.2\"\n    Title: \"Verify system behavior when the LIN message '<SIG_249>' is <SIG>ted with a timeout condition\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Negative Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the system to <SIG> '<SIG_249>'.\n        2. Introduce a delay in the transmission process to simulate a timeout condition (e.g., by delaying the <SIG> from the ECU).\n        3. Verify that the ECU handles the timeout condition appropriately (e.g., retries the transmission, logs an error, or takes other defined corrective actions).\n      Fail: |\n        - The ECU does not handle the timeout condition appropriately (e.g., no retry, no error logging, or no other defined corrective action).\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0693_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0693_A.LM-ChA.NEW.1\"\n    Title: \"Verify Bus Initialization Latency with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis, Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Place the FES in a restricted communication state (e.g., disabled Tx/Rx).\n        2. Send UDS 0x28 with ControlType = 0x00 (EnableRxAndTx) (Time T0).\n        3. Simultaneously create both physical and functional addressing on the bus.\n        4. Monitor the bus for the first periodic message transmission/successful <SIG> to a diagnostic request (T1).\n        5. Verify Delta (T1 - T0) <= <SIG_2> (e.g., 150 ms).\n      Fail: |\n        - Bus initialization time exceeds the maximum allowed time.\n        - Bus communication remains non-operational.\n        - The ECU fails to handle simultaneous physical and functional addressing correctly.\n    Issue_Source: \"pylessard/python-udsoncan#249\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0693_A.LM-ChA.NEW.2\"\n    Title: \"Verify Bus Initialization Latency with <SIG> Addressing Modes\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Place the FES in a restricted communication state (e.g., disabled Tx/Rx).\n        2. Send UDS 0x28 with ControlType = 0x00 (EnableRxAndTx) (Time T0).\n        3. Configure the ECU to use extended addressing modes (e.g., 11 bits, 29 bits).\n        4. Monitor the bus for the first periodic message transmission/successful <SIG> to a diagnostic request (T1).\n        5. Verify Delta (T1 - T0) <= <SIG_2> (e.g., 150 ms).\n      Fail: |\n        - Bus initialization time exceeds the maximum allowed time.\n        - Bus communication remains non-operational.\n        - The ECU fails to receive messages when using extended addressing modes.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0693_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0693_B.LM-ChA.NEW.1\n    Title: \"Verify Bus Initialization Latency with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Place the FES in a non-default session (e.g., <SIG> Session 0x02).\n        2. Configure the ECU to use both physical and functional addressing simultaneously.\n        3. Send UDS 0x10 with sub-function 0x01 (Default Session) (Time T0).\n        4. Monitor the bus for communication re-establishment (T1).\n        5. Verify Delta (T1 - T0) <= <SIG_2> (e.g., 150 ms).\n      Fail: |\n        - Measured initialization time exceeds the maximum allowed time.\n        - Communication re-establishment fails or is inconsistent.\n    Issue_Source: pylessard/python-udsoncan#249\n\n- VC_Item:\n    VC_ID: VC_SYRS.0693_B.LM-ChA.NEW.2\n    Title: \"Verify Bus Initialization Latency with <SIG> Addressing Modes\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Place the FES in a non-default session (e.g., <SIG> Session 0x02).\n        2. Configure the ECU to use extended addressing modes (e.g., 11 bits, 29 bits).\n        3. Send UDS 0x10 with sub-function 0x01 (Default Session) (Time T0).\n        4. Monitor the bus for communication re-establishment (T1).\n        5. Verify Delta (T1 - T0) <= <SIG_2> (e.g., 150 ms).\n      Fail: |\n        - Measured initialization time exceeds the maximum allowed time.\n        - Communication re-establishment fails or is inconsistent.\n    Issue_Source: pylessard/python-can-isotp#44",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0585_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0585_A.LM-ChA.NEW.1\"\n    Title: \"Verify Response to <SIG_3> with Invalid PROXI File (Negative Testing)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Negative Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set <SIG>.Info to '<SIG_88>'.\n        2. Inject an invalid PROXI file.\n        3. Send <SIG_3>.\n        4. Verify the system does not respond with any Configuration Code.\n      Fail: |\n        - System responds with a Configuration Code.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0585_A.LM-ChA.NEW.2\"\n    Title: \"Verify Response to <SIG_3> with Timeout (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set <SIG>.Info to '<SIG_88>'.\n        2. Inject a valid PROXI file with Code X.\n        3. Send <SIG_3>.\n        4. Introduce a delay just before the <SIG> <SIG> timeout.\n        5. Verify the system responds with Code X within the specified timeout period.\n      Fail: |\n        - System fails to respond within the specified timeout period.\n        - System responds with a different code.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0585_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   },
+   {
+    "id": 238,
+    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "body_excerpt": "Hello pylessard:\r\n  I want to use the ETAS 582.1 to read the DTC, but i got this error:\r\nudsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired (timeout=1.000 sec);\r\n\r\nthis is my code:\r\n[readTheDTCBy582.txt](https://github.com/user-attachments/files/15848",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0585_B.LM-ChA.NEW.1\"\n    Title: \"Verify Response Latency with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN).\n        2. Trigger the '<SIG_3>' message under valid conditions (Time T0).\n        3. Measure Time T1 when the <SIG> begins.\n        4. Verify Delta (T1 - T0) ≤ 100 ms.\n      Fail: |\n        - Latency exceeds 100 ms.\n        - No <SIG> is received.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0585_B.LM-ChA.NEW.2\"\n    Title: \"Verify Response Latency under Network Congestion\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Load Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate network congestion by sending a high volume of messages on the CAN bus.\n        2. Trigger the '<SIG_3>' message under valid conditions (Time T0).\n        3. Measure Time T1 when the <SIG> begins.\n        4. Verify Delta (T1 - T0) ≤ 100 ms.\n      Fail: |\n        - Latency exceeds 100 ms.\n        - No <SIG> is received.\n    Issue_Source: \"pylessard/python-udsoncan#238\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0470_B_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0470_B_A.LM-ChA.NEW.1\"\n    Title: \"Verify Odometer Acquisition and Storage with CAN Bus Timeout (Negative)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate the first-time setting of VinOrig to a valid value (Trigger).\n        2. Introduce a delay in the CAN bus <SIG> for the 'CLUSTER1.TotalOdometer' signal, exceeding the <SIG> timeout period.\n        3. Monitor the system memory/diagnostics for the stored Odometer value.\n        4. Confirm that the ESL does not store an incorrect or stale Odometer value due to the timeout.\n        5. Verify that the system logs an appropriate error or warning message indicating the timeout.\n      Fail: |\n        - The ESL stores an incorrect or stale Odometer value.\n        - No error or warning message is logged indicating the timeout.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0470_B_A.LM-ChA.NEW.2\"\n    Title: \"Verify Odometer Acquisition and Storage with <SIG> Addressing Mode (Positive)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate the first-time setting of VinOrig to a valid value (Trigger).\n        2. Configure the CAN bus to use extended addressing mode (e.g., 29-bit addressing).\n        3. Monitor the system memory/diagnostics for the stored Odometer value.\n        4. Confirm that the ESL successfully receives and stores the current 'CLUSTER1.TotalOdometer' value.\n        5. Verify the stored value matches the signal observed on the CAN bus at the time of acquisition.\n      Fail: |\n        - Odometer value is not captured or stored in system memory.\n        - The stored value does not match the signal observed on the CAN bus.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0470_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0470_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify Acquisition and Storage with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger the first-time VinOrig setting (Time T0).\n        2. Simultaneously create physical and functional addressing for the 'CLUSTER1.TotalOdometer' signal.\n        3. Measure Time T1 when the Odometer value is successfully processed and stored internally.\n        4. Verify Delta (T1 - T0) ≤ 500 ms.\n      Fail: |\n        - Latency exceeds 500 ms.\n        - The Odometer value is not correctly acquired or stored.\n    Issue_Source: \"pylessard/python-udsoncan#249\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0470_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify Acquisition and Storage with <SIG> Addressing Modes\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger the first-time VinOrig setting (Time T0).\n        2. Use extended addressing modes (e.g., 11 bits, 29 bits) to send the 'CLUSTER1.TotalOdometer' signal.\n        3. Measure Time T1 when the Odometer value is successfully processed and stored internally.\n        4. Verify Delta (T1 - T0) ≤ 500 ms.\n      Fail: |\n        - Latency exceeds 500 ms.\n        - The Odometer value is not correctly acquired or stored.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0586_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0586_A.LM-ChA.NEW.1\"\n    Title: \"Verify Response with Invalid <SIG>.Info (Negative Testing)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Negative Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set <SIG>.Info to a value other than '<SIG_88>' (e.g., '<SIG_129>', 'Accessories', or an invalid value).\n        2. Ensure the system has never received a PROXI file (No-PROXI state).\n        3. Send '<SIG_3>' message.\n        4. Verify that the system does not respond with a payload of all 0x00.\n      Fail: |\n        - System responds with a payload of all 0x00.\n        - System fails to respond at all.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0586_A.LM-ChA.NEW.2\"\n    Title: \"Verify Response with Timeout in No-PROXI State (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set <SIG>.Info to '<SIG_88>'.\n        2. Ensure the system has never received a PROXI file (No-PROXI state).\n        3. Introduce a delay or timeout condition in the ECU's <SIG> mechanism (e.g., simulate a network delay or ECU processing delay).\n        4. Send '<SIG_3>' message.\n        5. Verify that the system eventually responds with a payload of all 0x00, even if there is a delay.\n      Fail: |\n        - System does not respond within a reasonable timeout period.\n        - System responds with a payload that contains any byte not equal to 0x00.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0586_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0586_B.LM-ChA.NEW.1\n    Title: \"Verify Response Latency with <SIG> Addressing Mode\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN).\n        2. Trigger the '<SIG_3>' message (Time T0) under valid conditions.\n        3. Measure Time T1 when the <SIG> begins.\n        4. Verify Delta (T1 - T0) ≤ 50 ms.\n      Fail: |\n        - Latency exceeds 50 ms.\n        - The ECU does not respond at all.\n    Issue_Source: pylessard/python-can-isotp#44\n\n- VC_Item:\n    VC_ID: VC_SYRS.0586_B.LM-ChA.NEW.2\n    Title: \"Verify Response Latency with Simultaneous <SIG>\"\n    Method:\n      Type: Dynamic\n      Technique: Stress Testing\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to handle multiple simultaneous '<SIG_3>' messages.\n        2. Trigger multiple '<SIG_3>' messages (Time T0) within a short interval (e.g., 10 ms apart).\n        3. Measure Time T1 for each <SIG>.\n        4. Verify Delta (T1 - T0) ≤ 50 ms for each request.\n      Fail: |\n        - Any of the latencies exceed 50 ms.\n        - The ECU misses or drops any of the requests.\n    Issue_Source: Real-world issue where ECUs fail to handle multiple simultaneous requests, leading to missed or delayed <SIG>s.",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0346_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0346_A.LM-ChA.NEW.1\"\n    Title: \"Verify CAN Message Transmission under Network Congestion (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the system for normal communication.\n        2. Simulate network congestion by injecting a high volume of CAN messages on the bus.\n        3. Capture CAN frames over a duration of 1 second.\n        4. Verify message ID 0x101 is present and is <SIG>ted cyclically (non-spontaneous).\n        5. Verify the DLC of message 0x101 is exactly 8 bytes in all captured instances.\n      Fail: |\n        - Message 0x101 is not <SIG>ted cyclically.\n        - DLC is incorrect or inconsistent.\n        - Message 0x101 is dropped or delayed due to network congestion.\n    Issue_Source: \"hardbyte/python-can#2053\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0346_A.LM-ChA.NEW.2\"\n    Title: \"Verify CAN Message Transmission with <SIG> Addressing Mode (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the system for normal communication with extended addressing mode enabled.\n        2. Set the arbitration ID and source address for the extended addressing mode.\n        3. Capture CAN frames over a duration of 1 second.\n        4. Verify message ID 0x101 is present and is <SIG>ted cyclically (non-spontaneous).\n        5. Verify the DLC of message 0x101 is exactly 8 bytes in all captured instances.\n      Fail: |\n        - Message 0x101 is not <SIG>ted cyclically.\n        - DLC is incorrect or inconsistent.\n        - Message 0x101 is not received correctly in extended addressing mode.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0346_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0346_B.LM-ChA.NEW.1\"\n    Title: \"Verify CAN Message Transmission Under Network Congestion (Robustness)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate a high network load on the CAN bus by injecting a large number of messages from other ECUs.\n        2. Record a continuous CAN trace for 5 seconds.\n        3. Measure the inter-arrival time (IAT) between 100 consecutive instances of message ID 0x101.\n        4. Verify all IATs are within the specified tolerance (e.g., [9.5 ms, 10.5 ms]).\n      Fail: |\n        - Any inter-arrival time falls outside the [9.5 ms, 10.5 ms] range.\n    Issue_Source: \"hardbyte/python-can#2053\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0346_B.LM-ChA.NEW.2\"\n    Title: \"Verify CAN Message Transmission with <SIG> Addressing (Compatibility)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit addressing).\n        2. Transmit the CAN message (ID 0x101) with the extended address.\n        3. Record a continuous CAN trace for 5 seconds.\n        4. Verify that the message is correctly <SIG>ted and received with the correct extended address.\n      Fail: |\n        - The message is not <SIG>ted or received.\n        - The message is <SIG>ted or received with an incorrect extended address.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0346_C",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0346_C.LM-ChA.NEW.1\"\n    Title: \"Verify Signal Layout and Scaling Compliance Under <SIG> Addressing Modes (Dynamic)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing modes (e.g., 29-bit CAN).\n        2. Send a message with ID 0x101 using the extended addressing mode.\n        3. Verify that the ECU correctly interprets the signal layout and scaling as defined in '1-<SIG_250>.rtf'.\n      Fail: |\n        - The ECU fails to interpret the signal layout and scaling correctly when using extended addressing modes.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0346_C.LM-ChA.NEW.2\"\n    Title: \"Verify Signal Layout and Scaling Compliance During <SIG> Access Timeout (Dynamic)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Initiate a security access request to the ECU.\n        2. Set the timeout for the security access <SIG> to a <SIG> value (e.g., 900ms, 1000ms).\n        3. Send a message with ID 0x101 during the timeout period.\n        4. Verify that the ECU correctly interprets the signal layout and scaling as defined in '1-<SIG_250>.rtf' even if the security access is not yet completed.\n      Fail: |\n        - The ECU fails to interpret the signal layout and scaling correctly during the security access timeout.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0353",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0353.LM-ChA.NEW.1\"\n    Title: \"Verify Message Transmission with <SIG> Addressing Modes\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN ID).\n        2. Trigger the defined condition [<SIG_251>] to send the message.\n        3. Capture and log all <SIG>ted CAN frames for 30 seconds.\n        4. Confirm the ECU <SIG>s a CAN frame with the correct extended ID (0x18DAF1C4) and DLC exactly 8 bytes.\n        5. Verify that the message is received correctly by a receiver configured for extended addressing.\n      Fail: |\n        - The CAN frame is not <SIG>ted with the correct extended ID.\n        - The DLC is incorrect.\n        - The message is not received by the receiver configured for extended addressing.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0353.LM-ChA.NEW.2\"\n    Title: \"Verify Message Transmission Under Network Congestion\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate network congestion by injecting a high volume of CAN messages on the bus.\n        2. Trigger the defined condition [<SIG_251>] to send the message.\n        3. Capture and log all <SIG>ted CAN frames for 30 seconds.\n        4. Confirm the ECU <SIG>s a CAN frame with ID exactly 0x18DAF1C4 and DLC exactly 8 bytes.\n        5. Verify that the message is <SIG>ted successfully and received by the intended recipient, despite the network congestion.\n      Fail: |\n        - The CAN frame is not <SIG>ted with the correct ID or DLC.\n        - The message is not received by the intended recipient due to network congestion.\n    Issue_Source: \"hardbyte/python-can#2053\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0458_B_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0458_B_A.LM-ChA.NEW.1\"\n    Title: \"Verify Message Transmission with Timer Expiry and Incorrect SteeringLockMotorStatus (Negative Testing)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Negative Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate the '<SIG_252>' timer expiry.\n        2. Set 'SteeringLockMotorStatus.info' to a value other than '<SIG_253>'.\n        3. Verify that the '<SIG_4>' message is not <SIG>ted.\n      Fail: |\n        - The '<SIG_4>' message is <SIG>ted, or the FBK field is set to '<SIG_255>'.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0458_B_A.LM-ChA.NEW.2\"\n    Title: \"Verify Message Transmission with Partial Timer Expiry and Correct SteeringLockMotorStatus (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate the '<SIG_252>' timer to be just below the expiry <SIG>.\n        2. Set 'SteeringLockMotorStatus.info' to '<SIG_253>'.\n        3. Verify that the '<SIG_4>' message is not <SIG>ted.\n      Fail: |\n        - The '<SIG_4>' message is <SIG>ted, or the FBK field is set to '<SIG_255>'.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0458_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 121,
+    "title": "Send new request takes too long after receiving <SIG> from server",
+    "body_excerpt": "![image](https://user-images.githubusercontent.com/106702474/171485599-53b1809e-4501-45b2-94cf-d1e4a7e52083.png)\r\nRelative timestamps\r\n![image](https://user-images.githubusercontent.com/106702474/171485674-39697a4d-1ae6-41d3-a00b-627389ee25ca.png)\r\nDifferential timestamps. for easier understanding \r",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "```yaml\n- VC_Item:\n    VC_ID: \"VC_SYRS.0458_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify Transmission Latency Under High System Load\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger the last condition (timer expiry) at Time T0.\n        2. Simultaneously, introduce a high system load (e.g., by running multiple background processes or tasks).\n        3. Measure Time T1 when the '<SIG_4>' message transmission begins.\n        4. Verify Delta (T1 - T0) ≤ 100ms.\n      Fail: |\n        - Latency exceeds 100ms under high system load.\n    Issue_Source: \"pylessard/python-udsoncan#121\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0458_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify Transmission Latency After Receiving Multiple Responses\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Sequence Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger the last condition (timer expiry) at Time T0.\n        2. Ensure that the ECU receives multiple <SIG>s from the server in quick succession before the timer expiry.\n        3. Measure Time T1 when the '<SIG_4>' message transmission begins after the last <SIG> is received.\n        4. Verify Delta (T1 - T0) ≤ 100ms.\n      Fail: |\n        - Latency exceeds 100ms after receiving multiple <SIG>s.\n    Issue_Source: \"pylessard/python-udsoncan#121\"\n```",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0337",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0337.LM-ChA.NEW.1\"\n    Title: \"Verify Transceiver Disablement and Latency with Rapid Voltage Drop\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Apply a stable supply voltage at 6.0 V.\n        2. Rapidly reduce the supply voltage from 6.0 V to 4.0 V within 100 μs.\n        3. Measure time T0 when the voltage crosses 6.0 V.\n        4. Verify that the ESCL disables the CAN transceiver (e.g., via transceiver EN pin or bus signal cessation) at Time T1.\n        5. Confirm measured reaction latency (T1 - T0) is strictly ≤ 1 ms.\n      Fail: |\n        - Disablement delay exceeds 1 ms after voltage drops below 6.0 V.\n        - Transceiver remains enabled at any voltage below 6.0 V.\n    Issue_Source: \"hardbyte/python-can#2053\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0337.LM-ChA.NEW.2\"\n    Title: \"Verify Transceiver Disablement and Latency with Supply Voltage Noise\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Apply a stable supply voltage at 6.0 V.\n        2. Introduce a noisy supply voltage with a peak-to-peak amplitude of 0.5 V and a frequency of 1 kHz.\n        3. Gradually reduce the average supply voltage to 5.9 V, ensuring the noise causes the voltage to dip below 6.0 V.\n        4. Measure time T0 when the voltage first crosses 6.0 V.\n        5. Verify that the ESCL disables the CAN transceiver (e.g., via transceiver EN pin or bus signal cessation) at Time T1.\n        6. Confirm measured reaction latency (T1 - T0) is strictly ≤ 1 ms.\n      Fail: |\n        - Disablement delay exceeds 1 ms after voltage drops below 6.0 V.\n        - Transceiver remains enabled at any voltage below 6.0 V.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0503",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0503.LM-ChA.NEW.1\"\n    Title: \"Verify Payload Reduction During CAN Adapter Compatibility (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis, Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Establish nominal operating conditions.\n        2. Connect the ESCL to a Vector CAN Adapter (e.g., VN1610, VN1630).\n        3. Capture and log all CAN frames <SIG>ted by the ESCL for a 60-second duration.\n        4. Calculate the ESCL's total <SIG>ted payload (<SIG_5>).\n        5. Obtain the documented <SIG> payload size (<SIG_6>).\n        6. Verify the reduction is at least 20%: (<SIG_6> - <SIG_5>) / <SIG_6> ≥ 0.20.\n      Fail: |\n        - Calculated payload reduction is less than 20%.\n        - Inaccurate logging prevents calculation.\n        - The ESCL fails to communicate with the Vector CAN Adapter.\n    Issue_Source: \"ecubus/EcuBus-Pro#83\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0503.LM-ChA.NEW.2\"\n    Title: \"Verify Payload Reduction During <SIG> Addressing Mode (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Establish nominal operating conditions.\n        2. Configure the ESCL to use extended addressing mode (e.g., 29-bit addressing).\n        3. Inject faults in the extended addressing configuration to simulate potential misconfigurations or errors.\n        4. Capture and log all CAN frames <SIG>ted by the ESCL for a 60-second duration.\n        5. Calculate the ESCL's total <SIG>ted payload (<SIG_5>).\n        6. Obtain the documented <SIG> payload size (<SIG_6>).\n        7. Verify the reduction is at least 20%: (<SIG_6> - <SIG_5>) / <SIG_6> ≥ 0.20.\n      Fail: |\n        - Calculated payload reduction is less than 20%.\n        - Inaccurate logging prevents calculation.\n        - The ESCL fails to <SIG> messages in extended addressing mode.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0460_B_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0460_B_A.LM-ChA.NEW.1\"\n    Title: \"Verify Message Transmission with Timer Expiry and Invalid Motor Status\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Negative Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate the '<SIG_252>' timer expiry.\n        2. Set 'SteeringLockMotorStatus.info' to an invalid or un<SIG> value (e.g., a value outside the defined range or a corrupted value).\n        3. Verify that the '<SIG_4>' message is not <SIG>ted.\n      Fail: |\n        - The '<SIG_4>' message is <SIG>ted, or any other un<SIG> behavior occurs.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0460_B_A.LM-ChA.NEW.2\"\n    Title: \"Verify Message Transmission with Timer Expiry and Timeout in Communication\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate the '<SIG_252>' timer expiry.\n        2. Introduce a communication timeout (e.g., by delaying the <SIG> from the ECU or simulating a network delay) before setting 'SteeringLockMotorStatus.info' to '<SIG_54>'.\n        3. Verify that the '<SIG_4>' message is not <SIG>ted.\n      Fail: |\n        - The '<SIG_4>' message is <SIG>ted, or any other un<SIG> behavior occurs.\n    Issue_Source: \"pylessard/python-udsoncan#107\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0460_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 121,
+    "title": "Send new request takes too long after receiving <SIG> from server",
+    "body_excerpt": "![image](https://user-images.githubusercontent.com/106702474/171485599-53b1809e-4501-45b2-94cf-d1e4a7e52083.png)\r\nRelative timestamps\r\n![image](https://user-images.githubusercontent.com/106702474/171485674-39697a4d-1ae6-41d3-a00b-627389ee25ca.png)\r\nDifferential timestamps. for easier understanding \r",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 284,
+    "title": "否定相应无法识别",
+    "body_excerpt": "2025-07-31 15:52:06,134 - UdsClient - INFO - DiagnosticSessionControl<0x10> - Switching session to programmingSession (0x02)\n2025-07-31 15:52:06,135 - isotp - DEBUG - Enqueuing a SendRequest for 2 bytes and TAT=<SIG>\n2025-07-31 15:52:06,135 - isotp - DEBUG - Tx: <7A9> (08) [ ] 0210020000000000\n20",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0460_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify Transmission Latency with Back-to-Back <SIG>\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger the last condition (e.g., timer expiry) at Time T0.\n        2. Measure Time T1 when the '<SIG_4>' message transmission begins.\n        3. Verify Delta (T1 - T0) ≤ 10 ms.\n        4. Immediately after the first <SIG>, trigger the last condition again at Time T2.\n        5. Measure Time T3 when the second '<SIG_4>' message transmission begins.\n        6. Verify Delta (T3 - T2) ≤ 10 ms.\n      Fail: |\n        - Latency exceeds 10 ms for either of the back-to-back requests.\n    Issue_Source: \"pylessard/python-udsoncan#121\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0460_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify Transmission Latency with Simultaneous <SIG> from Multiple ECUs\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Concurrency Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set up a test environment with multiple ECUs that can trigger the same condition simultaneously.\n        2. Trigger the last condition (e.g., timer expiry) on all ECUs at the same time, marking this as Time T0.\n        3. Measure Time T1 when the '<SIG_4>' message transmission begins for each ECU.\n        4. Verify Delta (T1 - T0) ≤ 10 ms for each ECU.\n      Fail: |\n        - Latency exceeds 10 ms for any of the ECUs.\n    Issue_Source: \"pylessard/python-udsoncan#121\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0366_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0366_B.LM-ChA.NEW.1\n    Title: \"Verify BCM Command Timeout with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use both physical and functional addressing simultaneously.\n        2. Stop BCM message transmission.\n        3. Confirm that the system detects the '<SIG_8>' fault and enters '<SIG_9>' within 20 ms after '<SIG_7>'.\n      Fail: |\n        - The system fails to detect the '<SIG_8>' fault or does not enter '<SIG_9>' within the specified time.\n    Issue_Source: pylessard/python-udsoncan#249\n\n- VC_Item:\n    VC_ID: VC_SYRS.0366_B.LM-ChA.NEW.2\n    Title: \"Verify BCM Command Timeout with <SIG> Addressing Mode\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN).\n        2. Stop BCM message transmission.\n        3. Confirm that the system detects the '<SIG_8>' fault and enters '<SIG_9>' within 20 ms after '<SIG_7>'.\n      Fail: |\n        - The system fails to detect the '<SIG_8>' fault or does not enter '<SIG_9>' within the specified time.\n    Issue_Source: pylessard/python-can-isotp#44",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0459_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0459_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify NACK Response in Case of <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode.\n        2. Induce an '<SIG_10>' state.\n        3. Monitor the bus and capture the '<SIG_4>' message (Time T1).\n        4. Verify (T1 - T0) <= 100 ms AND NACK == 0x0E.\n      Fail: |\n        - Incorrect NACK value or transmission delay post-timeout > 100 ms.\n        - No '<SIG_4>' message received.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0459_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify NACK Response with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to simultaneously use physical and functional addressing.\n        2. Induce an '<SIG_10>' state.\n        3. Monitor the bus and capture the '<SIG_4>' message (Time T1).\n        4. Verify (T1 - T0) <= 100 ms AND NACK == 0x0E.\n      Fail: |\n        - Incorrect NACK value or transmission delay post-timeout > 100 ms.\n        - No '<SIG_4>' message received.\n    Issue_Source: \"pylessard/python-udsoncan#249\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0072_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0072_A.LM-ChA.NEW.1\"\n    Title: \"Verify Flow Control Parameter Implementation with <SIG> Addressing Mode (Positive)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. ECU in Application Mode.\n        2. Configure the CAN Transport Layer to use extended addressing mode (e.g., 29-bit addressing).\n        3. Initiate multi-frame reception (e.g., ReadDataByIdentifier).\n        4. Monitor ECU's Flow Control (FC) frame.\n        5. Confirm: Byte 1 (FS) = 0x00, Byte 2 (BS) = 0x08, Byte 3 (STmin) = 0x0A.\n      Fail: |\n        - Any FC parameter (BS, STmin, FS) deviates from the required values.\n        - The ECU does not respond or responds incorrectly when using extended addressing mode.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0072_A.LM-ChA.NEW.2\"\n    Title: \"Verify Flow Control Parameter Implementation with Simultaneous <SIG> and Functional Addressing (Positive)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. ECU in Application Mode.\n        2. Configure the CAN Transport Layer to simultaneously use physical and functional addressing.\n        3. Initiate multi-frame reception (e.g., ReadDataByIdentifier).\n        4. Monitor ECU's Flow Control (FC) frame.\n        5. Confirm: Byte 1 (FS) = 0x00, Byte 2 (BS) = 0x08, Byte 3 (STmin) = 0x0A.\n      Fail: |\n        - Any FC parameter (BS, STmin, FS) deviates from the required values.\n        - The ECU does not respond or responds incorrectly when using simultaneous physical and functional addressing.\n    Issue_Source: \"pylessard/python-udsoncan#249\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0072_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 121,
+    "title": "Send new request takes too long after receiving <SIG> from server",
+    "body_excerpt": "![image](https://user-images.githubusercontent.com/106702474/171485599-53b1809e-4501-45b2-94cf-d1e4a7e52083.png)\r\nRelative timestamps\r\n![image](https://user-images.githubusercontent.com/106702474/171485674-39697a4d-1ae6-41d3-a00b-627389ee25ca.png)\r\nDifferential timestamps. for easier understanding \r",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 238,
+    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "body_excerpt": "Hello pylessard:\r\n  I want to use the ETAS 582.1 to read the DTC, but i got this error:\r\nudsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired (timeout=1.000 sec);\r\n\r\nthis is my code:\r\n[readTheDTCBy582.txt](https://github.com/user-attachments/files/15848",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 242,
+    "title": "Transport layer frame capture problem",
+    "body_excerpt": "Hey,\r\n\r\nI'm using your lib in my desktop application and in the desktop application there is a field for flashing ECU. The flash process runs on a QThread and works fine when there is no frame in the bus. When I connect bus that contains more than one ECU, the CAN-TP layer miss messages. I can under",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 135,
+    "title": "can not write did",
+    "body_excerpt": "```\r\nfrom can.interfaces.vector import VectorBus\r\nfrom udsoncan.connections import PythonIsoTpConnection\r\nfrom udsoncan.client import Client\r\nimport isotp\r\nimport udsoncan.configs\r\nimport time\r\n\r\nisotp_params = {\r\n    'stmin': 32,\r\n    # Will request the sender to wait 32ms between consecutive frame",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 284,
+    "title": "否定相应无法识别",
+    "body_excerpt": "2025-07-31 15:52:06,134 - UdsClient - INFO - DiagnosticSessionControl<0x10> - Switching session to programmingSession (0x02)\n2025-07-31 15:52:06,135 - isotp - DEBUG - Enqueuing a SendRequest for 2 bytes and TAT=<SIG>\n2025-07-31 15:52:06,135 - isotp - DEBUG - Tx: <7A9> (08) [ ] 0210020000000000\n20",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0072_B.LM-ChA.NEW.1\n    Title: \"Verify BS Consistency During Prolonged Response Time\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Inject 70% background CAN traffic.\n        2. Initiate a large data transfer (e.g., TransferData $36).\n        3. Simulate a prolonged <SIG> time by delaying the server's <SIG> to the client's request (e.g., 1.5 seconds).\n        4. Verify that the Block Size (BS) remains exactly 8 across all FC frames, even with the delayed <SIG>.\n      Fail: |\n        - BS value jitters or resets to default (0) during the prolonged <SIG> time.\n    Issue_Source: pylessard/python-udsoncan#121\n\n- VC_Item:\n    VC_ID: VC_SYRS.0072_B.LM-ChA.NEW.2\n    Title: \"Verify BS Consistency During CAN-TP Frame Loss\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Inject 70% background CAN traffic.\n        2. Initiate a large data transfer (e.g., TransferData $36).\n        3. Simulate CAN-TP frame loss by dropping a few frames in the middle of the transfer.\n        4. Verify that the Block Size (BS) remains exactly 8 across all FC frames, and the system recovers gracefully from the dropped frames.\n      Fail: |\n        - BS value jitters or resets to default (0) due to frame loss.\n        - The system fails to recover and complete the data transfer.\n    Issue_Source: pylessard/python-udsoncan#242",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.1125_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.1125_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify Signal Transmission During Sensor Fault <SIG> (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger confirmed IDLE state (Time T0).\n        2. Inject a sensor fault and verify the signal transitions to 0xF.\n        3. Simulate sensor fault recovery and re-trigger the confirmed IDLE state (Time T1).\n        4. Monitor bus: Measure Time T2 when signal 0x0 is <SIG>ted after fault recovery.\n        5. Verify (T2 - T1) ≤ 80 ms.\n      Fail: |\n        - Signal does not transition to 0x0 after fault recovery.\n        - Transmission latency post-fault recovery > 80 ms.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.1125_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify Signal Transmission with <SIG> Addressing Modes (Boundary Value Analysis)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN ID).\n        2. Trigger confirmed IDLE state (Time T0).\n        3. Monitor bus: Measure Time T1 when signal 0x0 is <SIG>ted.\n        4. Verify (T1 - T0) ≤ 80 ms.\n        5. Inject sensor fault and verify the signal transitions to 0xF.\n      Fail: |\n        - Incorrect signal value or transmission latency post-<SIG> > 80 ms.\n        - Signal does not transition to 0xF upon sensor fault.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0076_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0076_A.LM-ChA.NEW.1\n    Title: \"Verify <SIG_13> Timeout Behavior with <SIG> Access Failure\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure <SIG_13> = 2000 ms.\n        2. Initiate a security access request to the ECU.\n        3. Simulate a failure in the security access <SIG> (e.g., by not sending the <SIG> <SIG>).\n        4. Verify that the timer starts exactly at the FF <SIG> (<SIG_1> end) and times out after 2000 ms, triggering the appropriate timeout behavior.\n      Fail: |\n        - Timer does not start at the correct time.\n        - Timer does not trigger the timeout behavior after 2000 ms.\n        - The ECU does not handle the timeout correctly (e.g., retries, error logging, or other defined behavior).\n    Issue_Source: pylessard/python-udsoncan#107\n\n- VC_Item:\n    VC_ID: VC_SYRS.0076_A.LM-ChA.NEW.2\n    Title: \"Verify <SIG_13> Timeout Behavior with Variable Network Latency\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure <SIG_13> = 2000 ms.\n        2. Introduce variable network latency (e.g., 500 ms, 1000 ms, 1500 ms) between the FF transmission and the Flow Control <SIG>.\n        3. Verify that the timer starts exactly at the FF <SIG> (<SIG_1> end) and times out after 2000 ms, regardless of the introduced latency.\n      Fail: |\n        - Timer does not start at the correct time.\n        - Timer does not trigger the timeout behavior after 2000 ms.\n        - The ECU does not handle the timeout correctly (e.g., retries, error logging, or other defined behavior).\n    Issue_Source: pylessard/python-udsoncan#107",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0076_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0076_B.LM-ChA.NEW.1\n    Title: Verify <SIG_13> Timer Behavior with <SIG> Addressing Mode\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN).\n        2. Send a First Frame (FF) to the ECU.\n        3. Do not send a valid Flow Control (FC) frame within the <SIG_13> timer period.\n        4. Measure the time <SIG_256> from the FF transmission until the transmission is aborted.\n        5. Verify that 2000 ms <= <SIG_256> <= 2010 ms (includes resolution).\n        6. Verify that the Upper Layer receives an '<SIG_14>' notification.\n      Fail: |\n        - Transmission continues post-timeout or notification is missing.\n        - The ECU does not correctly handle the extended addressing mode, leading to incorrect behavior.\n    Issue_Source: pylessard/python-can-isotp#44\n\n- VC_Item:\n    VC_ID: VC_SYRS.0076_B.LM-ChA.NEW.2\n    Title: Verify <SIG_13> Timer Behavior with Simultaneous <SIG> and Functional Addressing\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to support both physical and functional addressing simultaneously.\n        2. Send a First Frame (FF) to the ECU using physical addressing.\n        3. Do not send a valid Flow Control (FC) frame within the <SIG_13> timer period.\n        4. Measure the time <SIG_256> from the FF transmission until the transmission is aborted.\n        5. Verify that 2000 ms <= <SIG_256> <= 2010 ms (includes resolution).\n        6. Verify that the Upper Layer receives an '<SIG_14>' notification.\n        7. Repeat steps 2-6 using functional addressing.\n      Fail: |\n        - Transmission continues post-timeout or notification is missing.\n        - The ECU does not correctly handle simultaneous physical and functional addressing, leading to incorrect behavior.\n    Issue_Source: pylessard/python-udsoncan#249",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.1085_C_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.1085_C_B.LM-ChA.NEW.1\"\n    Title: \"Verify Alert Transmission with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN).\n        2. Induce a '<SIG> Reset' fault.\n        3. Monitor the CAN bus for the '<SIG_257>' message.\n        4. Verify that the '<SIG_257>' message is <SIG>ted with both signals (<SIG_299>, <SIG_300>) set to '1'.\n        5. Measure the time from the completion of the Communication Stack initialization (Time T0) to the first transmission of the '<SIG_257>' message (Time T1).\n        6. Verify (T1 - T0) <= 10 ms.\n      Fail: |\n        - The '<SIG_257>' message is not <SIG>ted.\n        - The '<SIG_257>' message is <SIG>ted but with incorrect signal values.\n        - The transmission latency exceeds 10 ms post-init.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.1085_C_B.LM-ChA.NEW.2\"\n    Title: \"Verify Alert Transmission with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use both physical and functional addressing simultaneously.\n        2. Induce a '<SIG> Reset' fault.\n        3. Monitor the CAN bus for the '<SIG_257>' message.\n        4. Verify that the '<SIG_257>' message is <SIG>ted with both signals (<SIG_299>, <SIG_300>) set to '1'.\n        5. Measure the time from the completion of the Communication Stack initialization (Time T0) to the first transmission of the '<SIG_257>' message (Time T1).\n        6. Verify (T1 - T0) <= 10 ms.\n      Fail: |\n        - The '<SIG_257>' message is not <SIG>ted.\n        - The '<SIG_257>' message is <SIG>ted but with incorrect signal values.\n        - The transmission latency exceeds 10 ms post-init.\n    Issue_Source: \"pylessard/python-udsoncan#249\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0349_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0349_A.LM-ChA.NEW.1\n    Title: \"Verify CAN Message Transmission with <SIG> Addressing\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing (e.g., 29-bit CAN ID).\n        2. Transmit the '<SIG_15>' with the extended address.\n        3. Verify that the message is correctly received and processed by the receiver.\n      Fail: |\n        - The message is not received or incorrectly processed by the receiver.\n    Issue_Source: pylessard/python-can-isotp#44\n\n- VC_Item:\n    VC_ID: VC_SYRS.0349_A.LM-ChA.NEW.2\n    Title: \"Verify CAN Message Transmission with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to simultaneously use physical and functional addressing.\n        2. Transmit the '<SIG_15>' using both addressing methods.\n        3. Verify that the message is correctly received and processed by the receiver for both addressing methods.\n      Fail: |\n        - The message is not received or incorrectly processed by the receiver for either addressing method.\n    Issue_Source: pylessard/python-udsoncan#249",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0349_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0349_B.LM-ChA.NEW.1\n    Title: \"Verify Message 0xFC Transmission During System Mode Transition\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Initiate the system in '<SIG_16>'.\n        2. Simulate a transition to another mode (e.g., '<SIG_301>') and then back to '<SIG_16>'.\n        3. Verify that message 0xFC continues to be <SIG>ted with intervals within [9.0 ms, 11.0 ms] during the entire transition.\n        4. Confirm no dropped messages during the mode transitions.\n      Fail: |\n        - Any interval falls outside the defined jitter range during the mode transitions.\n        - Transmission of message 0xFC stops or is interrupted during the mode transitions.\n    Issue_Source: \"[pylessard/python-udsoncan#107] Question about timeout\"\n\n- VC_Item:\n    VC_ID: VC_SYRS.0349_B.LM-ChA.NEW.2\n    Title: \"Verify Message 0xFC Transmission Under <SIG> Addressing Modes\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing modes (e.g., 29-bit CAN).\n        2. Monitor message 0xFC for > 1000 samples.\n        3. Verify all inter-message intervals are within [9.0 ms, 11.0 ms].\n        4. Confirm zero dropped messages during the monitoring period.\n      Fail: |\n        - Any interval falls outside the defined jitter range.\n        - Transmission of message 0xFC stops or is interrupted.\n        - The ECU fails to <SIG> message 0xFC correctly under extended addressing modes.\n    Issue_Source: \"[pylessard/python-can-isotp#44] <SIG> address modes don't receive anything\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0453_B_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0453_B_B.LM-ChA.NEW.1\"\n    Title: \"Verify NACK Response with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN).\n        2. Trigger a '<SIG_17>' (Time T0).\n        3. Capture the '<SIG_4>' message on the bus (Time T1).\n        4. Verify (T1 - T0) <= 10 ms AND NACK == <SIG_18> hex value.\n      Fail: |\n        - Transmission delay > 10 ms or incorrect NACK encoding.\n        - No '<SIG_4>' message received.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0453_B_B.LM-ChA.NEW.2\"\n    Title: \"Verify NACK Response under Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to simultaneously use physical and functional addressing.\n        2. Trigger a '<SIG_17>' (Time T0).\n        3. Capture the '<SIG_4>' message on the bus (Time T1).\n        4. Verify (T1 - T0) <= 10 ms AND NACK == <SIG_18> hex value.\n      Fail: |\n        - Transmission delay > 10 ms or incorrect NACK encoding.\n        - No '<SIG_4>' message received.\n    Issue_Source: \"pylessard/python-udsoncan#249\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0022_H_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0022_H_A.LM-ChA.NEW.1\"\n    Title: \"Verify Transmission <SIG> During Signal Source Driver Initialization Failure\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger ECU Wake-up.\n        2. Inject a fault to simulate a failure in the Signal Source Driver initialization (e.g., ADC, PWM, SPI).\n        3. Monitor Bus: Confirm NO Application messages are sent even if the <SIG_20> is never set to TRUE.\n      Fail: |\n        - Messages are <SIG>ted despite the Signal Source Driver failing to complete its first valid measurement cycle.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0022_H_A.LM-ChA.NEW.2\"\n    Title: \"Verify Transmission <SIG> During <SIG> Addressing Mode Communication\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger ECU Wake-up.\n        2. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN identifiers).\n        3. Monitor Bus: Confirm NO Application messages are sent until the corresponding Signal Source Drivers have completed their first valid measurement cycle (<SIG_20> = TRUE).\n      Fail: |\n        - Messages are <SIG>ted before the Signal Source Drivers have completed their first valid measurement cycle.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0022_H_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0022_H_B.LM-ChA.NEW.1\"\n    Title: \"Verify Signal Initialization and Timeout Handling During Wake-Up Phase\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection, Time-based Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate a scenario where the ECU is in the <SIG_133> phase.\n        2. Inject a delay in the availability of a specific signal source (e.g., <SIG_28>) to simulate a timeout condition.\n        3. Verify that the '<SIG_134>' bit for the delayed signal is set to 'INIT' (0x01).\n        4. Confirm that the data field for the delayed signal is set to the defined <SIG_135>.\n      Fail: |\n        - The '<SIG_134>' bit is not set to 'INIT' (0x01) after the timeout.\n        - The data field for the delayed signal does not contain the defined <SIG_135>.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0022_H_B.LM-ChA.NEW.2\"\n    Title: \"Verify Signal Initialization with <SIG> Addressing Modes\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis, Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing modes (e.g., 11-bit or 29-bit CAN IDs).\n        2. Simulate a scenario where the ECU is in the <SIG_133> phase.\n        3. Ensure that the first captured physical value for a specific signal (e.g., <SIG_28>) is correctly received and set.\n        4. If the signal source is unavailable, verify that the '<SIG_134>' bit is set to 'INIT' (0x01) and the data field is set to the defined <SIG_135>.\n      Fail: |\n        - The '<SIG_134>' bit is not set to 'INIT' (0x01) when the signal source is unavailable.\n        - The data field for the unavailable signal does not contain the defined <SIG_135>.\n        - The ECU fails to correctly handle extended addressing modes, leading to incorrect signal initialization.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0068_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0068_A.LM-ChA.NEW.1\n    Title: \"Verify STmin Boundary Value at 0x7F (127 ms)\"\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Tester sends FC with STmin = 0x7F (127 ms).\n        2. Measure ECU CF inter-frame gap. Verify gap is within [127 ms, 128 ms].\n      Fail: |\n        - ECU fails to parse millisecond range or gap exceeds 128 ms.\n    Issue_Source: None\n\n- VC_Item:\n    VC_ID: VC_SYRS.0068_A.LM-ChA.NEW.2\n    Title: \"Verify STmin Transition from Microsecond to Millisecond Range\"\n    Method:\n      Type: Dynamic\n      Technique: State Transition Testing\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Tester sends FC with STmin = 0xF9 (900 μs).\n        2. Measure ECU CF inter-frame gap. Verify gap is within [900 μs, 1900 μs].\n        3. Tester sends FC with STmin = 0x00 (0 ms).\n        4. Measure ECU CF inter-frame gap. Verify gap is within [0 ms, 1 ms].\n      Fail: |\n        - ECU fails to transition correctly between microsecond and millisecond ranges or gaps exceed the specified bounds.\n    Issue_Source: None\n\nThese VCs address potential corner cases that might be overlooked in the existing test scenarios. The first VC tests the <SIG> value at the upper limit of the millisecond range, while the second VC ensures the ECU can handle a transition between the microsecond and millisecond ranges.",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0068_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0068_B.LM-ChA.NEW.1\"\n    Title: \"Verify Robustness for Invalid STmin (0xFA)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Negative Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Tester sends FC with STmin = 0xFA.\n        2. Verify ECU continues sending CF with inter-frame gap >= 127 ms.\n        3. Verify the current transport protocol session is not aborted.\n      Fail: |\n        - ECU aborts session or uses a separation time < 127 ms.\n    Issue_Source: \"ecubus/EcuBus-Pro#83\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0068_B.LM-ChA.NEW.2\"\n    Title: \"Verify Robustness for Invalid STmin (0xFF) and Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection, Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Tester sends FC with STmin = 0xFF.\n        2. Tester simultaneously sends frames using both physical and functional addressing.\n        3. Verify ECU continues sending CF with inter-frame gap >= 127 ms.\n        4. Verify the current transport protocol session is not aborted.\n      Fail: |\n        - ECU aborts session or uses a separation time < 127 ms.\n        - ECU fails to handle simultaneous physical and functional addressing correctly.\n    Issue_Source: \"pylessard/python-udsoncan#249\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0070_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 125,
+    "title": "Preformance issue of func \"specific_wait_frame\"",
+    "body_excerpt": "Hi pylessard,\r\n\r\n**softversion**\r\ncan-isotp:  2.0.4\r\ncomputer: win10\r\npython:  3.8.10 32bit\r\n\r\nWhen I  send a uds(service 36) packet complete, it always  wait 20ms-30ms for the program to send the next packet of data. Through testing I found the func `specific_wait_frame` always wait  some time, how",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0070_A.LM-ChA.NEW.1\"\n    Title: \"Verify <SIG_137> Latency with Variable STmin Values\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Tester sends FC with STmin = 0 ms.\n        2. ECU <SIG>s CF Index 1.\n        3. Measure interval <SIG_138> (FC End to CF 1 SOF).\n        4. Verify <SIG_138> <= 10.0 ms.\n        5. Repeat steps 1-4 with STmin = 10 ms, 20 ms, and 30 ms.\n        6. Verify <SIG_138> <= 10.0 ms for all STmin values.\n      Fail: |\n        - <SIG_138> exceeds 10.0 ms for any of the tested STmin values.\n    Issue_Source: \"pylessard/python-can-isotp#125\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0070_A.LM-ChA.NEW.2\"\n    Title: \"Verify <SIG_137> Latency Under Network Congestion\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Tester simulates network congestion by sending a high volume of CAN messages.\n        2. Tester sends FC with STmin = 50 ms.\n        3. ECU <SIG>s CF Index 1.\n        4. Measure interval <SIG_138> (FC End to CF 1 SOF).\n        5. Verify <SIG_138> <= 10.0 ms.\n      Fail: |\n        - <SIG_138> exceeds 10.0 ms under network congestion.\n    Issue_Source: \"pylessard/python-can-isotp#125\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0070_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0070_B.LM-ChA.NEW.1\n    Title: \"Verify STmin Enforcement with <SIG> Addressing Modes\"\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing modes (e.g., 11-bit or 29-bit).\n        2. Send a series of Consecutive Frames (CFs) with the correct extended address.\n        3. Measure the gap between CF 1 and CF 2, and subsequent CFs.\n        4. Verify that the gap is >= <SIG_140> AND <= (<SIG_140> + 2ms Jitter).\n      Fail: |\n        - The inter-frame gap is less than the requested STmin.\n        - The ECU fails to receive or process the CFs correctly due to extended addressing.\n    Issue_Source: pylessard/python-can-isotp#44\n\n- VC_Item:\n    VC_ID: VC_SYRS.0070_B.LM-ChA.NEW.2\n    Title: \"Verify STmin Enforcement During Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: Dynamic\n      Technique: Stress Testing\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to simultaneously handle physical and functional addressing.\n        2. Send a series of Consecutive Frames (CFs) using both physical and functional addressing.\n        3. Measure the gap between CF 1 and CF 2, and subsequent CFs for both addressing modes.\n        4. Verify that the gap is >= <SIG_140> AND <= (<SIG_140> + 2ms Jitter) for both addressing modes.\n      Fail: |\n        - The inter-frame gap is less than the requested STmin for either addressing mode.\n        - The ECU fails to correctly handle or process the CFs for either addressing mode.\n    Issue_Source: pylessard/python-udsoncan#249",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0067_A_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 125,
+    "title": "Preformance issue of func \"specific_wait_frame\"",
+    "body_excerpt": "Hi pylessard,\r\n\r\n**softversion**\r\ncan-isotp:  2.0.4\r\ncomputer: win10\r\npython:  3.8.10 32bit\r\n\r\nWhen I  send a uds(service 36) packet complete, it always  wait 20ms-30ms for the program to send the next packet of data. Through testing I found the func `specific_wait_frame` always wait  some time, how",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0067_A_A.LM-ChA.NEW.1\"\n    Title: \"Verify <SIG_21> Timing for FS=CTS with High System Load (Stress Testing)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Stress Testing\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Inject a valid FF.\n        2. Simulate high system load (e.g., by running multiple background tasks or processes).\n        3. Measure interval <SIG_22> (End of FF to SOF of FC).\n        4. Verify <SIG_22> <= 10.0 ms.\n      Fail: |\n        - <SIG_22> exceeds 10.0 ms under high system load.\n    Issue_Source: \"pylessard/python-can-isotp#125\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0067_A_A.LM-ChA.NEW.2\"\n    Title: \"Verify <SIG_21> Timing for FS=CTS with Network Congestion (Fault Injection)\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Inject a valid FF.\n        2. Simulate network congestion on the CAN bus (e.g., by injecting additional traffic or delaying frames).\n        3. Measure interval <SIG_22> (End of FF to SOF of FC).\n        4. Verify <SIG_22> <= 10.0 ms.\n      Fail: |\n        - <SIG_22> exceeds 10.0 ms under network congestion.\n    Issue_Source: \"pylessard/python-can-isotp#125\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0067_A_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0067_A_B.LM-ChA.NEW.1\"\n    Title: \"Verify FS=WAIT Behavior with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use both physical and functional addressing simultaneously.\n        2. Simulate high CPU load/buffer full condition.\n        3. Inject a valid FF (First Frame) using both physical and functional addressing.\n        4. Verify that the system <SIG>s a Flow Control frame with FS=1 within 10 ms for both addressing modes.\n      Fail: |\n        - System fails to send FC or sends FS=0 despite resource depletion.\n        - System only responds to one of the addressing modes, ignoring the other.\n    Issue_Source: \"pylessard/python-udsoncan#249\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0067_A_B.LM-ChA.NEW.2\"\n    Title: \"Verify FS=WAIT Behavior under <SIG> Addressing Modes\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Configure the ECU to use extended addressing modes (e.g., 11 bits, 29 bits).\n        2. Simulate high CPU load/buffer full condition.\n        3. Inject a valid FF using extended addressing.\n        4. Verify that the system <SIG>s a Flow Control frame with FS=1 within 10 ms.\n      Fail: |\n        - System fails to send FC or sends FS=0 despite resource depletion.\n        - System does not correctly handle the extended addressing mode and fails to respond.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0058_C_B",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0058_C_B.LM-ChA.NEW.1\"\n    Title: \"Verify CAN Transmission Resumption with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Transition voltage from 19.0V to 13.5V (Nominal).\n        2. Configure the ECU to use extended addressing mode (e.g., 29-bit CAN ID).\n        3. Measure time <SIG_24> until the first valid SOF on CAN.\n        4. Verify <SIG_24> <= 100 ms and that the message is correctly received by the intended recipient.\n      Fail: |\n        - Re-initialization delay exceeds 100 ms.\n        - Message format is invalid or not received by the intended recipient.\n    Issue_Source: \"pylessard/python-can-isotp#44\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0058_C_B.LM-ChA.NEW.2\"\n    Title: \"Verify CAN Transmission Resumption with Simultaneous <SIG> and Functional Addressing\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Transition voltage from 19.0V to 13.5V (Nominal).\n        2. Configure the ECU to simultaneously use physical and functional addressing.\n        3. Measure time <SIG_24> until the first valid SOF on CAN.\n        4. Verify <SIG_24> <= 100 ms and that the message is correctly received by both the physical and functional addresses.\n      Fail: |\n        - Re-initialization delay exceeds 100 ms.\n        - Message format is invalid or not received by either the physical or functional address.\n    Issue_Source: \"pylessard/python-udsoncan#249\"",
+  "ablation_condition": "LM-ChA"
+ },
+ {
+  "syrs_id": "SYRS.0355_B_A",
+  "category": "Communication_Stack",
+  "requirement": "<REDACTED: proprietary SYRS text>",
+  "golden_vc": "<REDACTED: proprietary SYRS text>",
+  "top_issues": [
+   {
+    "id": 83,
+    "title": "Vector support",
+    "body_excerpt": "Vector CAN Adapter support (VN1610, VN1630...)",
+    "source": "ecubus/EcuBus-Pro",
+    "llm_relevant": true
+   },
+   {
+    "id": 107,
+    "title": "Question about timeout",
+    "body_excerpt": "Hi. There is an nopen issue about flashing bootloader. I have two devices. And I could flash bootloader one of them. But other device is not responding when I want to unlock security access. There is my codes for unlock security access.\r\n\r\nMy first device timeout is about 900ms but it is working per",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 249,
+    "title": "The method of simultaneously creating physical addressing and functional addressing",
+    "body_excerpt": "hello, \r\nThe method of simultaneously creating physical addressing and functional addressing\r\n",
+    "source": "pylessard/python-udsoncan",
+    "llm_relevant": true
+   },
+   {
+    "id": 2053,
+    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "body_excerpt": "### Describe the bug\nPython-can’s `SocketcanBus` uses Python’s `select.select()` to wait for socket read and write availability. This function is an interface to the Unix `select` system call ([ref](https://docs.python.org/3.10/library/select.html#select.select)). There is a known issue where the fi",
+    "source": "hardbyte/python-can",
+    "llm_relevant": true
+   },
+   {
+    "id": 44,
+    "title": "<SIG> address modes don't receive anything",
+    "body_excerpt": "Hi,\r\ni tried to use stack with extended addressing modes (11 bits, 29 bits) - send works,\r\nbut it doesn't receive anything.\r\n\r\nI think there is a bug in Address._is_for_me_extended():\r\nline 228:  return msg.arbitration_id == self.rxid and int(msg.data[0]) == self.source_address\r\n\r\nMay be it should b",
+    "source": "pylessard/python-can-isotp",
+    "llm_relevant": true
+   }
+  ],
+  "generated_vc": "- VC_Item:\n    VC_ID: \"VC_SYRS.0355_B_A.LM-ChA.NEW.1\"\n    Title: \"Verify Message Staggering Delay with Network Congestion\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Fault Injection\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger Network Wakeup.\n        2. Simulate network congestion by injecting a high volume of CAN messages on the bus.\n        3. Identify the first NM Message (Time T0).\n        4. Identify the SOF of message 0x1E360015 (Time T1).\n        5. Verify 250.0 ms <= (T1 - T0) <= 260.0 ms.\n      Fail: |\n        - Message appears before 250 ms (violating staggered start) or after 260 ms.\n    Issue_Source: \"pylessard/python-udsoncan#107\"\n\n- VC_Item:\n    VC_ID: \"VC_SYRS.0355_B_A.LM-ChA.NEW.2\"\n    Title: \"Verify Message Staggering Delay with <SIG> Addressing Mode\"\n    Method:\n      Type: \"Dynamic\"\n      Technique: \"Boundary Value Analysis\"\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Trigger Network Wakeup.\n        2. Configure the ECU to use extended addressing mode for message 0x1E360015.\n        3. Identify the first NM Message (Time T0).\n        4. Identify the SOF of message 0x1E360015 (Time T1).\n        5. Verify 250.0 ms <= (T1 - T0) <= 260.0 ms.\n      Fail: |\n        - Message appears before 250 ms (violating staggered start) or after 260 ms.\n    Issue_Source: \"pylessard/python-can-isotp#44\"",
+  "ablation_condition": "LM-ChA"
+ }
+]

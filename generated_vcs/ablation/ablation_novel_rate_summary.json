@@ -1,0 +1,18 @@
+{
+ "abl_lm_chA": {
+  "novel_rate": 100.0,
+  "novel": 50,
+  "total": 50
+ },
+ "abl_lm_chB": {
+  "novel_rate": 87.1,
+  "novel": 61,
+  "total": 70
+ },
+ "abl_lm_chC": {
+  "novel_rate": 100.0,
+  "novel": 65,
+  "total": 65
+ },
+ "timestamp": "2026-05-23T13:05:43"
+}
