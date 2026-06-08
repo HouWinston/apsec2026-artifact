@@ -1,7 +1,8 @@
 # IssueDriven-VC — Replication Package
 
-Replication artifact for the paper *"Mining Field Failures for Verification:
-Issue-Driven Verification Criteria Completion for Automotive ECU Requirements."*
+Replication artifact for a double-blind conference submission on
+failure-grounded verification-criteria (VC) completion for automotive ECU
+requirements.
 
 > **Anonymous artifact for double-blind review.** No author, affiliation, or
 > identifying information is included. Please do not attempt to de-anonymize.
