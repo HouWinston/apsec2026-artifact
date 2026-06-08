@@ -244,7 +244,7 @@
     "title": "`SocketcanBus` does not support socket file descriptors over 1023",
     "distilled": {
      "trigger": "SocketCAN bus I/O using SocketcanBus with file descriptor > 1023",
-     "behavior": "Expected: non-blocking I/O readiness detection (read/write) via scalable system call (e.g., poll/epoll); Observed: use of select() causing ValueError on fd > 1023 due to <SIG_272> limit",
+     "behavior": "Expected: non-blocking I/O readiness detection (read/write) via scalable system call (e.g., poll/epoll); Observed: use of select() causing ValueError on fd > 1023 due to <SIG_253> limit",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5034100240914406
@@ -663,7 +663,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5224207697212923
@@ -673,8 +673,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_280> parameter on <SIG_281> channel",
-     "behavior": "Expected: <SIG_282> API SetValue() call with <SIG_280> = <SIG_283> should succeed (return <SIG_284>); Observed: returns error code 0x4000 (<SIG_285>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
+     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5146385401521373
@@ -988,8 +988,8 @@
     "issue_id": 1652,
     "title": "send_periodic not working on RPI Linux 6.1.21-v8+",
     "distilled": {
-     "trigger": "socketcan BCM <SIG_262> operation on Linux 6.1.21-v8+ kernel with periodic message scheduling",
-     "behavior": "Expected: kernel BCM socket accepts <SIG_262> frame to initiate periodic transmission. Observed: OS returns EINVAL (22) with 'You are probably referring to a non-existing frame', indicating BCM frame ID or setup structure mismatch or kernel regression.",
+     "trigger": "socketcan BCM <SIG_243> operation on Linux 6.1.21-v8+ kernel with periodic message scheduling",
+     "behavior": "Expected: kernel BCM socket accepts <SIG_243> frame to initiate periodic transmission. Observed: OS returns EINVAL (22) with 'You are probably referring to a non-existing frame', indicating BCM frame ID or setup structure mismatch or kernel regression.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5533344959851656
@@ -1052,7 +1052,7 @@
     "title": "Initialize Vector Dongle VN1610 with CAN-FD Fails",
     "distilled": {
      "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via xlCanFdSetConfiguration API call",
-     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_279> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
+     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_261> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5190378891740207
@@ -1092,7 +1092,7 @@
     "issue_id": 214,
     "title": "<SIG> access SAPR <SIG> not correctly interpreted",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
      "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises Un<SIG>ResponseException because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
      "fault_mode": "protocol non-compliance"
     },
@@ -1101,9 +1101,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 51,
-    "title": "<SIG> does not handle already-unlocked server",
+    "title": "<SIG>Access does not handle already-unlocked server",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
+     "trigger": "UDS <SIG>Access service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
      "behavior": "Expected: client detects all-zero seed and skips sendKey, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (requestSequenceError)",
      "fault_mode": "protocol non-compliance"
     },
@@ -1112,9 +1112,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 220,
-    "title": "<SIG> mishandes a level value of 0",
+    "title": "<SIG>Access mishandes a level value of 0",
     "distilled": {
-     "trigger": "UDS <SIG> service request with level=0 in RequestSeed mode",
+     "trigger": "UDS <SIG>Access service request with level=0 in RequestSeed mode",
      "behavior": "Expected: validation error or meaningful exception indicating invalid level value per UDS spec (level 0 is reserved); Observed: unhandled struct.pack() exception due to negative subfunction value (-1) during payload serialization",
      "fault_mode": "protocol non-compliance"
     },
@@ -1188,7 +1188,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -1408,7 +1408,7 @@
     "title": "PCAN interface is broken",
     "distilled": {
      "trigger": "PCAN interface initialization with BusState.ACTIVE or BusState.PASSIVE",
-     "behavior": "Expected: <SIG_274> parameter (c_ubyte) should be used in a hashable context for dictionary lookup; Observed: TypeError due to unhashable c_ubyte type in 'Parameter in {...}' check",
+     "behavior": "Expected: <SIG_255> parameter (c_ubyte) should be used in a hashable context for dictionary lookup; Observed: TypeError due to unhashable c_ubyte type in 'Parameter in {...}' check",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5077128234120172
@@ -1470,7 +1470,7 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_268> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
      "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
@@ -1493,7 +1493,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5882392598987026
@@ -1785,7 +1785,7 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_268> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
      "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
@@ -2174,7 +2174,7 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_268> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
      "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
@@ -2259,7 +2259,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -2279,7 +2279,7 @@
     "title": "read_data_by_identifier exception",
     "distilled": {
      "trigger": "UDS service 0x22 (ReadDataByIdentifier) request for identifier 0x210f over CAN, with server <SIG> containing payload bytes interpreted as an additional data identifier",
-     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_276>> <<SIG_277>> <data...>' — no embedded DIDs in payload).",
+     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_258>> <<SIG_259>> <data...>' — no embedded DIDs in payload).",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.7225946116000563
@@ -2741,7 +2741,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -2827,7 +2827,7 @@
     "title": "read_data_by_identifier exception",
     "distilled": {
      "trigger": "UDS service 0x22 (ReadDataByIdentifier) request for identifier 0x210f over CAN, with server <SIG> containing payload bytes interpreted as an additional data identifier",
-     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_276>> <<SIG_277>> <data...>' — no embedded DIDs in payload).",
+     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_258>> <<SIG_259>> <data...>' — no embedded DIDs in payload).",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6168897948366302
@@ -2868,7 +2868,7 @@
     "title": "Socketcan uses incorrect flag for direction",
     "distilled": {
      "trigger": "socketcan driver message flag configuration during CAN frame reception/transmission",
-     "behavior": "<SIG>: `is_rx` field correctly indicates direction (RX vs TX) using `<SIG_264>` to distinguish local-originating RX frames on virtual CAN interfaces; observed: `<SIG_265>` used instead, causing `is_rx` to always be false for virtual CAN due to lack of routing decision context",
+     "behavior": "<SIG>: `is_rx` field correctly indicates direction (RX vs TX) using `<SIG_245>` to distinguish local-originating RX frames on virtual CAN interfaces; observed: `<SIG_246>` used instead, causing `is_rx` to always be false for virtual CAN due to lack of routing decision context",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6234846714209279
@@ -3958,9 +3958,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 145,
-    "title": "Issue with <SIG>",
+    "title": "Issue with <SIG>Access",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27) with subfunction 0x05 (requestSeed), executed after session change to extended diagnostic mode (0x03)",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x05 (requestSeed), executed after session change to extended diagnostic mode (0x03)",
      "behavior": "Expected: positive <SIG> (0x67) containing a 2+ byte seed in <SIG>.data. Observed: <SIG> appears malformed or missing seed data — user explicitly asks 'Where is seed in <SIG>?' and shows screenshots suggesting un<SIG> payload content or parsing failure.",
      "fault_mode": "protocol non-compliance"
     },
@@ -4105,7 +4105,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -4125,9 +4125,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 51,
-    "title": "<SIG> does not handle already-unlocked server",
+    "title": "<SIG>Access does not handle already-unlocked server",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
+     "trigger": "UDS <SIG>Access service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
      "behavior": "Expected: client detects all-zero seed and skips sendKey, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (requestSequenceError)",
      "fault_mode": "protocol non-compliance"
     },
@@ -4138,7 +4138,7 @@
     "issue_id": 214,
     "title": "<SIG> access SAPR <SIG> not correctly interpreted",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
      "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises Un<SIG>ResponseException because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
      "fault_mode": "protocol non-compliance"
     },
@@ -4569,7 +4569,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5384346571928493
@@ -4831,8 +4831,8 @@
     "issue_id": 1453,
     "title": "CanInitializationError due to reported can_op_mode = 0",
     "distilled": {
-     "trigger": "Vector CANcaseXL driver reporting can_op_mode = 0 during CAN bus initialization (VectorBus constructor, <SIG_266>)",
-     "behavior": "Expected: can_op_mode should be interpreted as valid CAN 2.0 mode (<SIG_267>) or allow zero as default/legacy valid state; Observed: strict bitwise check fails when _can.can_op_mode == 0, causing CanInitializationError",
+     "trigger": "Vector CANcaseXL driver reporting can_op_mode = 0 during CAN bus initialization (VectorBus constructor, <SIG_247>)",
+     "behavior": "Expected: can_op_mode should be interpreted as valid CAN 2.0 mode (<SIG_248>) or allow zero as default/legacy valid state; Observed: strict bitwise check fails when _can.can_op_mode == 0, causing CanInitializationError",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5056462774445477
@@ -4842,8 +4842,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_280> parameter on <SIG_281> channel",
-     "behavior": "Expected: <SIG_282> API SetValue() call with <SIG_280> = <SIG_283> should succeed (return <SIG_284>); Observed: returns error code 0x4000 (<SIG_285>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
+     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5010264729129509
@@ -5084,7 +5084,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5432461245081666
@@ -5251,7 +5251,7 @@
     "title": "Initialize Vector Dongle VN1610 with CAN-FD Fails",
     "distilled": {
      "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via xlCanFdSetConfiguration API call",
-     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_279> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
+     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_261> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6157288319618639
@@ -5261,8 +5261,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_280> parameter on <SIG_281> channel",
-     "behavior": "Expected: <SIG_282> API SetValue() call with <SIG_280> = <SIG_283> should succeed (return <SIG_284>); Observed: returns error code 0x4000 (<SIG_285>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
+     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5970476128048805

@@ -58,27 +58,37 @@ def redact_text(s):
         return t if t in WHITELIST else _placeholder(t)
     return SIG_RE.sub(repl, s)
 
+def _chanC_key(k):
+    k=k.lower(); return "chc" in k or "cve" in k or k in ("c","channel_c","channelc")
+
 def walk_json(o, key=None):
     if isinstance(o,dict):
         return {k:(REDACT_BLANK if k.lower() in BLANK_KEYS
                    else (v if k.lower() in SKIP_KEYS else walk_json(v,k)))
-                for k,v in o.items()}
+                for k,v in o.items() if not _chanC_key(k)}
     if isinstance(o,list): return [walk_json(x,key) for x in o]
     if isinstance(o,str):  return redact_text(o)
     return o
+
+def _is_chanC(v):
+    v=v.strip().upper(); return v=="C" or v.startswith("C-") or "CVE" in v
 
 def do_csv(src,dst):
     with open(src,newline="",encoding="utf-8-sig") as f: rows=list(csv.reader(f))
     if not rows: return
     hdr=rows[0]; idx={h:i for i,h in enumerate(hdr)}
-    for r in rows[1:]:
+    chan_i=next((i for h,i in idx.items() if h.strip().lower()=="channel"), None)
+    body=rows[1:]
+    if chan_i is not None:        # drop Channel-C (CVE) rows -> A+B+baseline (489) only
+        body=[r for r in body if not (chan_i<len(r) and _is_chanC(r[chan_i]))]
+    for r in body:
         for col,i in idx.items():
             if i>=len(r): continue
             if col in BLANK_COLS: r[i]=REDACT_BLANK
             elif "id" in col.lower(): pass                 # keep IDs verbatim (SYRS_ID etc.)
             else: r[i]=redact_text(r[i])                   # redact ALL other cells
     dst.parent.mkdir(parents=True,exist_ok=True)
-    with open(dst,"w",newline="",encoding="utf-8") as f: csv.writer(f).writerows(rows)
+    with open(dst,"w",newline="",encoding="utf-8") as f: csv.writer(f).writerows([hdr]+body)
 
 def do_text(src,dst):
     dst.parent.mkdir(parents=True,exist_ok=True)

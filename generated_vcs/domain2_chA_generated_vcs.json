@@ -59,7 +59,7 @@
     "title": "`SocketcanBus` does not support socket file descriptors over 1023",
     "distilled": {
      "trigger": "SocketCAN bus I/O using SocketcanBus with file descriptor > 1023",
-     "behavior": "Expected: non-blocking I/O readiness detection (read/write) via scalable system call (e.g., poll/epoll); Observed: use of select() causing ValueError on fd > 1023 due to <SIG_272> limit",
+     "behavior": "Expected: non-blocking I/O readiness detection (read/write) via scalable system call (e.g., poll/epoll); Observed: use of select() causing ValueError on fd > 1023 due to <SIG_253> limit",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5034100240914406
@@ -72,7 +72,7 @@
   "latency_ms": 6078,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nThe provided issues are primarily related to the implementation and compliance of the ISO-TP and UDS protocols, rather than the specific system requirement (SYRS) about disabling the '<SIG_294>' function based on the count of valid voltage samples. The SYRS is focused on the internal logic of the ECU, while the issues listed are more about the communication and protocol handling. Therefore, it is challenging to derive genuinely useful verification conditions for the given SYRS from these issues.",
+  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nThe provided issues are primarily related to the implementation and compliance of the ISO-TP and UDS protocols, rather than the specific system requirement (SYRS) about disabling the '<SIG_276>' function based on the count of valid voltage samples. The SYRS is focused on the internal logic of the ECU, while the issues listed are more about the communication and protocol handling. Therefore, it is challenging to derive genuinely useful verification conditions for the given SYRS from these issues.",
   "is_novel": false,
   "output_chars": 545,
   "top1_sim": 0.5236,
@@ -872,7 +872,7 @@
   "latency_ms": 6797,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "NO_NOVEL_VC_FOUND\n\n### Explanation:\nThe provided issues are primarily related to the implementation and behavior of UDS, ISO-TP, and CAN protocol libraries, rather than directly testing the system requirement (SYRS) for setting the '<SIG_291>' to 'Active' upon detecting a '<SIG_292>' or '<SIG_293>' condition. The issues focus on communication and protocol handling, which are not directly relevant to the specific ECU functionality described in the SYRS.\n\nGiven the nature of the SYRS, the following types of VCs would be more appropriate:\n1. Testing the detection of '<SIG_292>' and '<SIG_293>' conditions.\n2. Verifying the fault flag is set within 200 ms.\n3. Ensuring the system behaves correctly under various environmental and operational conditions.\n\nHowever, the provided issues do not provide a clear basis for generating such VCs. Therefore, no genuinely useful missing VCs can be identified from these issues.",
+  "generated_vc": "NO_NOVEL_VC_FOUND\n\n### Explanation:\nThe provided issues are primarily related to the implementation and behavior of UDS, ISO-TP, and CAN protocol libraries, rather than directly testing the system requirement (SYRS) for setting the '<SIG_273>' to 'Active' upon detecting a '<SIG_274>' or '<SIG_275>' condition. The issues focus on communication and protocol handling, which are not directly relevant to the specific ECU functionality described in the SYRS.\n\nGiven the nature of the SYRS, the following types of VCs would be more appropriate:\n1. Testing the detection of '<SIG_274>' and '<SIG_275>' conditions.\n2. Verifying the fault flag is set within 200 ms.\n3. Ensuring the system behaves correctly under various environmental and operational conditions.\n\nHowever, the provided issues do not provide a clear basis for generating such VCs. Therefore, no genuinely useful missing VCs can be identified from these issues.",
   "is_novel": false,
   "output_chars": 948,
   "top1_sim": 0.5506,
@@ -917,7 +917,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5224207697212923
@@ -927,8 +927,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_280> parameter on <SIG_281> channel",
-     "behavior": "Expected: <SIG_282> API SetValue() call with <SIG_280> = <SIG_283> should succeed (return <SIG_284>); Observed: returns error code 0x4000 (<SIG_285>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
+     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5146385401521373
@@ -1247,8 +1247,8 @@
     "issue_id": 1652,
     "title": "send_periodic not working on RPI Linux 6.1.21-v8+",
     "distilled": {
-     "trigger": "socketcan BCM <SIG_262> operation on Linux 6.1.21-v8+ kernel with periodic message scheduling",
-     "behavior": "Expected: kernel BCM socket accepts <SIG_262> frame to initiate periodic transmission. Observed: OS returns EINVAL (22) with 'You are probably referring to a non-existing frame', indicating BCM frame ID or setup structure mismatch or kernel regression.",
+     "trigger": "socketcan BCM <SIG_243> operation on Linux 6.1.21-v8+ kernel with periodic message scheduling",
+     "behavior": "Expected: kernel BCM socket accepts <SIG_243> frame to initiate periodic transmission. Observed: OS returns EINVAL (22) with 'You are probably referring to a non-existing frame', indicating BCM frame ID or setup structure mismatch or kernel regression.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5533344959851656
@@ -1338,7 +1338,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -1385,7 +1385,7 @@
     "issue_id": 214,
     "title": "<SIG> access SAPR <SIG> not correctly interpreted",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
      "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises Un<SIG>ResponseException because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
      "fault_mode": "protocol non-compliance"
     },
@@ -1394,9 +1394,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 51,
-    "title": "<SIG> does not handle already-unlocked server",
+    "title": "<SIG>Access does not handle already-unlocked server",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
+     "trigger": "UDS <SIG>Access service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
      "behavior": "Expected: client detects all-zero seed and skips sendKey, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (requestSequenceError)",
      "fault_mode": "protocol non-compliance"
     },
@@ -1405,9 +1405,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 220,
-    "title": "<SIG> mishandes a level value of 0",
+    "title": "<SIG>Access mishandes a level value of 0",
     "distilled": {
-     "trigger": "UDS <SIG> service request with level=0 in RequestSeed mode",
+     "trigger": "UDS <SIG>Access service request with level=0 in RequestSeed mode",
      "behavior": "Expected: validation error or meaningful exception indicating invalid level value per UDS spec (level 0 is reserved); Observed: unhandled struct.pack() exception due to negative subfunction value (-1) during payload serialization",
      "fault_mode": "protocol non-compliance"
     },
@@ -1488,7 +1488,7 @@
     "title": "Initialize Vector Dongle VN1610 with CAN-FD Fails",
     "distilled": {
      "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via xlCanFdSetConfiguration API call",
-     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_279> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
+     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_261> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5190378891740207
@@ -1752,7 +1752,7 @@
   "latency_ms": 9906,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nAfter carefully analyzing the provided issues, it appears that none of them directly relate to the specific system requirement (SYRS) you provided. The SYRS is focused on ensuring that 'Bit 3: confirmedDTC' of the DTC status byte remains '0' for any newly detected DTC if the '<SIG_351>' condition is true. The issues listed are more related to protocol compliance, <SIG> handling, and timeout violations, which do not directly impact the behavior of the 'confirmedDTC' bit under the specified conditions.\n\nTherefore, no genuinely useful missing verification conditions can be generated from these issues that would test the given SYRS requirement.",
+  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nAfter carefully analyzing the provided issues, it appears that none of them directly relate to the specific system requirement (SYRS) you provided. The SYRS is focused on ensuring that 'Bit 3: confirmedDTC' of the DTC status byte remains '0' for any newly detected DTC if the '<SIG_333>' condition is true. The issues listed are more related to protocol compliance, <SIG> handling, and timeout violations, which do not directly impact the behavior of the 'confirmedDTC' bit under the specified conditions.\n\nTherefore, no genuinely useful missing verification conditions can be generated from these issues that would test the given SYRS requirement.",
   "is_novel": false,
   "output_chars": 691,
   "top1_sim": 0.5735,
@@ -1786,7 +1786,7 @@
     "title": "PCAN interface is broken",
     "distilled": {
      "trigger": "PCAN interface initialization with BusState.ACTIVE or BusState.PASSIVE",
-     "behavior": "Expected: <SIG_274> parameter (c_ubyte) should be used in a hashable context for dictionary lookup; Observed: TypeError due to unhashable c_ubyte type in 'Parameter in {...}' check",
+     "behavior": "Expected: <SIG_255> parameter (c_ubyte) should be used in a hashable context for dictionary lookup; Observed: TypeError due to unhashable c_ubyte type in 'Parameter in {...}' check",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5077128234120172
@@ -1865,7 +1865,7 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_268> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
      "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
@@ -1888,7 +1888,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5882392598987026
@@ -2152,7 +2152,7 @@
   "latency_ms": 11581,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0498_A.D2.1\n    Title: Reception Deadline Monitoring with Multiple <SIG> Messages\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a valid 'BRAKE1' message to the ECU.\n        2. Continuously send 0x7F NRC 0x78 (<SIG>) messages from the ECU to the client at intervals less than [<SIG_352>].\n        3. Verify: The watchdog timer is reset upon each reception of a 0x7F NRC 0x78 (<SIG>) message, and no '<SIG_167>' is detected within the [<SIG_352>] period.\n      Fail: |\n        - The watchdog timer does not reset upon receiving 0x7F NRC 0x78 (<SIG>) messages, leading to a premature '<SIG_167>'.\n    Issue_Source: pylessard/python-udsoncan#20\n\n- VC_Item:\n    VC_ID: VC_SYRS.0498_A.D2.2\n    Title: Reception Deadline Monitoring with CAN Bus Error Frames\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a valid 'BRAKE1' message to the ECU.\n        2. Inject CAN bus error frames immediately followed by valid 'BRAKE1' messages.\n        3. Verify: The watchdog timer is reset upon reception of each valid 'BRAKE1' message, and no '<SIG_167>' is detected within the [<SIG_352>] period.\n      Fail: |\n        - The watchdog timer does not reset upon receiving valid 'BRAKE1' messages after CAN bus error frames, leading to a premature '<SIG_167>'.\n    Issue_Source: hardbyte/python-can#1488",
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0498_A.D2.1\n    Title: Reception Deadline Monitoring with Multiple <SIG> Messages\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a valid 'BRAKE1' message to the ECU.\n        2. Continuously send 0x7F NRC 0x78 (<SIG>) messages from the ECU to the client at intervals less than [<SIG_334>].\n        3. Verify: The watchdog timer is reset upon each reception of a 0x7F NRC 0x78 (<SIG>) message, and no '<SIG_167>' is detected within the [<SIG_334>] period.\n      Fail: |\n        - The watchdog timer does not reset upon receiving 0x7F NRC 0x78 (<SIG>) messages, leading to a premature '<SIG_167>'.\n    Issue_Source: pylessard/python-udsoncan#20\n\n- VC_Item:\n    VC_ID: VC_SYRS.0498_A.D2.2\n    Title: Reception Deadline Monitoring with CAN Bus Error Frames\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a valid 'BRAKE1' message to the ECU.\n        2. Inject CAN bus error frames immediately followed by valid 'BRAKE1' messages.\n        3. Verify: The watchdog timer is reset upon reception of each valid 'BRAKE1' message, and no '<SIG_167>' is detected within the [<SIG_334>] period.\n      Fail: |\n        - The watchdog timer does not reset upon receiving valid 'BRAKE1' messages after CAN bus error frames, leading to a premature '<SIG_167>'.\n    Issue_Source: hardbyte/python-can#1488",
   "is_novel": true,
   "output_chars": 1569,
   "top1_sim": 0.621,
@@ -2185,7 +2185,7 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_268> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
      "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
@@ -2312,7 +2312,7 @@
   "latency_ms": 18328,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0498_B.D2.1\n    Title: Verify <SIG> Strategy for 'BRAKE1' Message Timeout with CAN Bus Error Frames\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Inject a series of CAN bus error frames preceding the 'BRAKE1' message.\n        2. Ensure that the ECU enters the '<SIG_167>' state due to the absence of valid 'BRAKE1' messages.\n        3. Send [<SIG_353>] (e.g., 1) valid 'BRAKE1' messages after the error frames.\n        4. Verify: The '<SIG_167>' is cleared immediately upon reception of the valid 'BRAKE1' message(s).\n      Fail: |\n        - The '<SIG_167>' is not cleared after receiving the valid 'BRAKE1' message(s).\n    Issue_Source: hardbyte/python-can#1488\n\n- VC_Item:\n    VC_ID: VC_SYRS.0498_B.D2.2\n    Title: Verify <SIG> Strategy for 'BRAKE1' Message Timeout with Long Inactivity Period\n    Method:\n      Type: Dynamic\n      Technique: Timing Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate a prolonged inactivity period (e.g., 1-5 minutes) on the CAN bus where no 'BRAKE1' messages are received.\n        2. Ensure that the ECU enters the '<SIG_167>' state due to the absence of 'BRAKE1' messages.\n        3. Send [<SIG_353>] (e.g., 1) valid 'BRAKE1' messages after the inactivity period.\n        4. Verify: The '<SIG_167>' is cleared immediately upon reception of the valid 'BRAKE1' message(s).\n      Fail: |\n        - The '<SIG_167>' is not cleared after receiving the valid 'BRAKE1' message(s).\n    Issue_Source: hardbyte/python-can#2017",
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0498_B.D2.1\n    Title: Verify <SIG> Strategy for 'BRAKE1' Message Timeout with CAN Bus Error Frames\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Inject a series of CAN bus error frames preceding the 'BRAKE1' message.\n        2. Ensure that the ECU enters the '<SIG_167>' state due to the absence of valid 'BRAKE1' messages.\n        3. Send [<SIG_335>] (e.g., 1) valid 'BRAKE1' messages after the error frames.\n        4. Verify: The '<SIG_167>' is cleared immediately upon reception of the valid 'BRAKE1' message(s).\n      Fail: |\n        - The '<SIG_167>' is not cleared after receiving the valid 'BRAKE1' message(s).\n    Issue_Source: hardbyte/python-can#1488\n\n- VC_Item:\n    VC_ID: VC_SYRS.0498_B.D2.2\n    Title: Verify <SIG> Strategy for 'BRAKE1' Message Timeout with Long Inactivity Period\n    Method:\n      Type: Dynamic\n      Technique: Timing Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Simulate a prolonged inactivity period (e.g., 1-5 minutes) on the CAN bus where no 'BRAKE1' messages are received.\n        2. Ensure that the ECU enters the '<SIG_167>' state due to the absence of 'BRAKE1' messages.\n        3. Send [<SIG_335>] (e.g., 1) valid 'BRAKE1' messages after the inactivity period.\n        4. Verify: The '<SIG_167>' is cleared immediately upon reception of the valid 'BRAKE1' message(s).\n      Fail: |\n        - The '<SIG_167>' is not cleared after receiving the valid 'BRAKE1' message(s).\n    Issue_Source: hardbyte/python-can#2017",
   "is_novel": true,
   "output_chars": 1654,
   "top1_sim": 0.5858,
@@ -2596,7 +2596,7 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_268> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
      "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
@@ -2778,7 +2778,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -2895,7 +2895,7 @@
     "title": "read_data_by_identifier exception",
     "distilled": {
      "trigger": "UDS service 0x22 (ReadDataByIdentifier) request for identifier 0x210f over CAN, with server <SIG> containing payload bytes interpreted as an additional data identifier",
-     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_276>> <<SIG_277>> <data...>' — no embedded DIDs in payload).",
+     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_258>> <<SIG_259>> <data...>' — no embedded DIDs in payload).",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.7225946116000563
@@ -3419,7 +3419,7 @@
     "title": "read_data_by_identifier exception",
     "distilled": {
      "trigger": "UDS service 0x22 (ReadDataByIdentifier) request for identifier 0x210f over CAN, with server <SIG> containing payload bytes interpreted as an additional data identifier",
-     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_276>> <<SIG_277>> <data...>' — no embedded DIDs in payload).",
+     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_258>> <<SIG_259>> <data...>' — no embedded DIDs in payload).",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6168897948366302
@@ -3432,7 +3432,7 @@
   "latency_ms": 11053,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0570_C_A.D2.1\n    Title: Verify ESCL Positive Response with Correct DID and Service ID After <SIG> Access Unlock\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a UDS service 0x27 (<SIG>) request to unlock the security access.\n        2. Send a UDS service 0x2E (WriteDataByIdentifier) request with DID $F1A4$ and valid data.\n        3. Verify: The ESCL <SIG>s a positive <SIG> containing the service ID 0x6E and DID 0xF1A4 (i.e., payload = [0x6E, 0xF1, 0xA4]).\n      Fail: |\n        - The ESCL does not <SIG> a positive <SIG>.\n        - The positive <SIG> does not contain the correct service ID 0x6E and DID 0xF1A4.\n    Issue_Source: pylessard/python-udsoncan#135\n\n- VC_Item:\n    VC_ID: VC_SYRS.0570_C_A.D2.2\n    Title: Verify ESCL Positive Response with Correct DID and Service ID After Malformed Request Handling\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a UDS service 0x2E (WriteDataByIdentifier) request with DID $F1A4$ and valid data, but with a malformed payload (e.g., incorrect endianness or corrupted DID).\n        2. Verify: The ESCL rejects the malformed request and does not <SIG> a positive <SIG>.\n        3. Send a UDS service 0x2E (WriteDataByIdentifier) request with DID $F1A4$ and valid data, correctly formatted.\n        4. Verify: The ESCL <SIG>s a positive <SIG> containing the service ID 0x6E and DID 0xF1A4 (i.e., payload = [0x6E, 0xF1, 0xA4]).\n      Fail: |\n        - The ESCL <SIG>s a positive <SIG> for the malformed request.\n        - The ESCL does not <SIG> a positive <SIG> for the correctly formatted request.\n        - The positive <SIG> does not contain the correct service ID 0x6E and DID 0xF1A4.\n    Issue_Source: pylessard/python-udsoncan#139",
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.0570_C_A.D2.1\n    Title: Verify ESCL Positive Response with Correct DID and Service ID After <SIG> Access Unlock\n    Method:\n      Type: Dynamic\n      Technique: Fault Injection\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a UDS service 0x27 (<SIG>Access) request to unlock the security access.\n        2. Send a UDS service 0x2E (WriteDataByIdentifier) request with DID $F1A4$ and valid data.\n        3. Verify: The ESCL <SIG>s a positive <SIG> containing the service ID 0x6E and DID 0xF1A4 (i.e., payload = [0x6E, 0xF1, 0xA4]).\n      Fail: |\n        - The ESCL does not <SIG> a positive <SIG>.\n        - The positive <SIG> does not contain the correct service ID 0x6E and DID 0xF1A4.\n    Issue_Source: pylessard/python-udsoncan#135\n\n- VC_Item:\n    VC_ID: VC_SYRS.0570_C_A.D2.2\n    Title: Verify ESCL Positive Response with Correct DID and Service ID After Malformed Request Handling\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Send a UDS service 0x2E (WriteDataByIdentifier) request with DID $F1A4$ and valid data, but with a malformed payload (e.g., incorrect endianness or corrupted DID).\n        2. Verify: The ESCL rejects the malformed request and does not <SIG> a positive <SIG>.\n        3. Send a UDS service 0x2E (WriteDataByIdentifier) request with DID $F1A4$ and valid data, correctly formatted.\n        4. Verify: The ESCL <SIG>s a positive <SIG> containing the service ID 0x6E and DID 0xF1A4 (i.e., payload = [0x6E, 0xF1, 0xA4]).\n      Fail: |\n        - The ESCL <SIG>s a positive <SIG> for the malformed request.\n        - The ESCL does not <SIG> a positive <SIG> for the correctly formatted request.\n        - The positive <SIG> does not contain the correct service ID 0x6E and DID 0xF1A4.\n    Issue_Source: pylessard/python-udsoncan#139",
   "is_novel": true,
   "output_chars": 1918,
   "top1_sim": 0.6459,
@@ -3477,7 +3477,7 @@
     "title": "Socketcan uses incorrect flag for direction",
     "distilled": {
      "trigger": "socketcan driver message flag configuration during CAN frame reception/transmission",
-     "behavior": "<SIG>: `is_rx` field correctly indicates direction (RX vs TX) using `<SIG_264>` to distinguish local-originating RX frames on virtual CAN interfaces; observed: `<SIG_265>` used instead, causing `is_rx` to always be false for virtual CAN due to lack of routing decision context",
+     "behavior": "<SIG>: `is_rx` field correctly indicates direction (RX vs TX) using `<SIG_245>` to distinguish local-originating RX frames on virtual CAN interfaces; observed: `<SIG_246>` used instead, causing `is_rx` to always be false for virtual CAN due to lack of routing decision context",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6234846714209279
@@ -3992,7 +3992,7 @@
   "latency_ms": 5843,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nThe provided issues are primarily related to protocol-specific behaviors and faults (LIN, CAN, ISO-TP) rather than the specific system requirement of detecting a '<SIG_189>' fault on the '<SIG_295>' pins and setting the Diagnostic Event Status. The issues do not directly inspire additional verification conditions that would test the SYRS requirement in a meaningful way. Therefore, no genuinely useful missing VCs can be identified from these issues.",
+  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nThe provided issues are primarily related to protocol-specific behaviors and faults (LIN, CAN, ISO-TP) rather than the specific system requirement of detecting a '<SIG_189>' fault on the '<SIG_277>' pins and setting the Diagnostic Event Status. The issues do not directly inspire additional verification conditions that would test the SYRS requirement in a meaningful way. Therefore, no genuinely useful missing VCs can be identified from these issues.",
   "is_novel": false,
   "output_chars": 488,
   "top1_sim": 0.6088,
@@ -4516,7 +4516,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -4712,7 +4712,7 @@
   "latency_ms": 5851,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "NO_NOVEL_VC_FOUND\n\n### Explanation:\nThe provided issues from the open-source automotive protocol software (UDS/ISO-TP/CAN) primarily focus on UDS service <SIG> handling, timeouts, and pending <SIG>s. These issues are more related to the protocol stack and client behavior rather than the specific system requirement (SYRS) that deals with setting a network management signal within a specified time frame.\n\nGiven the SYRS requirement:\n- When '<SIG_144>' is TRUE, the system shall set the network management signal '<SIG_238>' to 1.\n- The transition (both 0->1 and 1->0) shall be completed within 10 ms of the triggering event.\n\nThe issues listed do not directly relate to the timing and state transition of the '<SIG_238>' signal. Therefore, no genuinely useful missing verification conditions can be derived from these issues that would test the SYRS requirement in a non-redundant manner.",
+  "generated_vc": "NO_NOVEL_VC_FOUND\n\n### Explanation:\nThe provided issues from the open-source automotive protocol software (UDS/ISO-TP/CAN) primarily focus on UDS service <SIG> handling, timeouts, and pending <SIG>s. These issues are more related to the protocol stack and client behavior rather than the specific system requirement (SYRS) that deals with setting a network management signal within a specified time frame.\n\nGiven the SYRS requirement:\n- When '<SIG_144>' is TRUE, the system shall set the network management signal '<SIG_256>' to 1.\n- The transition (both 0->1 and 1->0) shall be completed within 10 ms of the triggering event.\n\nThe issues listed do not directly relate to the timing and state transition of the '<SIG_256>' signal. Therefore, no genuinely useful missing verification conditions can be derived from these issues that would test the SYRS requirement in a non-redundant manner.",
   "is_novel": false,
   "output_chars": 941,
   "top1_sim": 0.6425,
@@ -5016,9 +5016,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 145,
-    "title": "Issue with <SIG>",
+    "title": "Issue with <SIG>Access",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27) with subfunction 0x05 (requestSeed), executed after session change to extended diagnostic mode (0x03)",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x05 (requestSeed), executed after session change to extended diagnostic mode (0x03)",
      "behavior": "Expected: positive <SIG> (0x67) containing a 2+ byte seed in <SIG>.data. Observed: <SIG> appears malformed or missing seed data — user explicitly asks 'Where is seed in <SIG>?' and shows screenshots suggesting un<SIG> payload content or parsing failure.",
      "fault_mode": "protocol non-compliance"
     },
@@ -5032,7 +5032,7 @@
   "latency_ms": 9247,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nAfter carefully reviewing the provided issues, it appears that the specific failure patterns and corner cases described are more related to the implementation and behavior of the UDS/ISO-TP/CAN protocol libraries rather than the system requirement (SYRS) for the '<SIG_275>' routine. The issues primarily focus on protocol non-compliance, timing violations, and incorrect handling of <SIG>s, which are not directly relevant to the scope and persistence requirements of the '<SIG_275>' routine.\n\nThe SYRS requirement is focused on ensuring that the access restriction for DID 0x1005 is set to 'LOCKED' and that this state is volatile, persisting only within the current power cycle or until a transition to the 'Default Session' occurs. The provided issues do not provide a clear basis for additional verification conditions that would test these specific aspects of the requirement. Therefore, no genuinely useful missing VCs can be identified from the given issues.",
+  "generated_vc": "NO_NOVEL_VC_FOUND\n\nExplanation:\nAfter carefully reviewing the provided issues, it appears that the specific failure patterns and corner cases described are more related to the implementation and behavior of the UDS/ISO-TP/CAN protocol libraries rather than the system requirement (SYRS) for the '<SIG_257>' routine. The issues primarily focus on protocol non-compliance, timing violations, and incorrect handling of <SIG>s, which are not directly relevant to the scope and persistence requirements of the '<SIG_257>' routine.\n\nThe SYRS requirement is focused on ensuring that the access restriction for DID 0x1005 is set to 'LOCKED' and that this state is volatile, persisting only within the current power cycle or until a transition to the 'Default Session' occurs. The provided issues do not provide a clear basis for additional verification conditions that would test these specific aspects of the requirement. Therefore, no genuinely useful missing VCs can be identified from the given issues.",
   "is_novel": false,
   "output_chars": 1027,
   "top1_sim": 0.6407,
@@ -5294,7 +5294,7 @@
     "issue_id": 107,
     "title": "Question about timeout",
     "distilled": {
-     "trigger": "UDS <SIG> service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
+     "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
      "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
@@ -5314,9 +5314,9 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 51,
-    "title": "<SIG> does not handle already-unlocked server",
+    "title": "<SIG>Access does not handle already-unlocked server",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
+     "trigger": "UDS <SIG>Access service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
      "behavior": "Expected: client detects all-zero seed and skips sendKey, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (requestSequenceError)",
      "fault_mode": "protocol non-compliance"
     },
@@ -5327,7 +5327,7 @@
     "issue_id": 214,
     "title": "<SIG> access SAPR <SIG> not correctly interpreted",
     "distilled": {
-     "trigger": "UDS <SIG> service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
      "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises Un<SIG>ResponseException because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
      "fault_mode": "protocol non-compliance"
     },
@@ -5352,7 +5352,7 @@
   "latency_ms": 9572,
   "finish_reason": "stop",
   "attempt_number": 1,
-  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.1018_B_B.D2.1\n    Title: Verify ECU Response to RID 0x1008 with <SIG> Access Already <SIG>\n    Method:\n      Type: Dynamic\n      Technique: Equivalence Partitioning\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Ensure the security access level (e.g., <SIG> Access $27 L1) is already unlocked.\n        2. Send a request for RID 0x1008 to the ECU.\n        3. Verify: The ECU responds within 50 ms without returning NRC $33 (<SIG>Denied).\n      Fail: |\n        - The ECU does not respond within 50 ms.\n        - The ECU returns NRC $33 (<SIG>Denied).\n    Issue_Source: pylessard/python-udsoncan#51\n\n- VC_Item:\n    VC_ID: VC_SYRS.1018_B_B.D2.2\n    Title: Verify ECU Response to RID 0x1008 with Strict Timing Constraints\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set up the ECU and client with strict timing constraints (e.g., stmin, <SIG_1>, <SIG_21>) that require the 0x30 <SIG> within 10-20 ms.\n        2. Send a request for RID 0x1008 to the ECU.\n        3. Verify: The ECU responds within 50 ms, and if the security preconditions are not met, it returns NRC $33 (<SIG>Denied).\n      Fail: |\n        - The ECU does not respond within 50 ms.\n        - The ECU does not return NRC $33 (<SIG>Denied) when the security preconditions are not met.\n    Issue_Source: pylessard/python-udsoncan#107",
+  "generated_vc": "- VC_Item:\n    VC_ID: VC_SYRS.1018_B_B.D2.1\n    Title: Verify ECU Response to RID 0x1008 with <SIG> Access Already <SIG>\n    Method:\n      Type: Dynamic\n      Technique: Equivalence Partitioning\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Ensure the security access level (e.g., <SIG> Access $27 L1) is already unlocked.\n        2. Send a request for RID 0x1008 to the ECU.\n        3. Verify: The ECU responds within 50 ms without returning NRC $33 (<SIG>AccessDenied).\n      Fail: |\n        - The ECU does not respond within 50 ms.\n        - The ECU returns NRC $33 (<SIG>AccessDenied).\n    Issue_Source: pylessard/python-udsoncan#51\n\n- VC_Item:\n    VC_ID: VC_SYRS.1018_B_B.D2.2\n    Title: Verify ECU Response to RID 0x1008 with Strict Timing Constraints\n    Method:\n      Type: Dynamic\n      Technique: Boundary Value Analysis\n    Pass_Fail_Criteria:\n      Pass: |\n        1. Set up the ECU and client with strict timing constraints (e.g., stmin, <SIG_1>, <SIG_21>) that require the 0x30 <SIG> within 10-20 ms.\n        2. Send a request for RID 0x1008 to the ECU.\n        3. Verify: The ECU responds within 50 ms, and if the security preconditions are not met, it returns NRC $33 (<SIG>AccessDenied).\n      Fail: |\n        - The ECU does not respond within 50 ms.\n        - The ECU does not return NRC $33 (<SIG>AccessDenied) when the security preconditions are not met.\n    Issue_Source: pylessard/python-udsoncan#107",
   "is_novel": true,
   "output_chars": 1442,
   "top1_sim": 0.7108,
@@ -5797,7 +5797,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5384346571928493
@@ -6207,8 +6207,8 @@
     "issue_id": 1453,
     "title": "CanInitializationError due to reported can_op_mode = 0",
     "distilled": {
-     "trigger": "Vector CANcaseXL driver reporting can_op_mode = 0 during CAN bus initialization (VectorBus constructor, <SIG_266>)",
-     "behavior": "Expected: can_op_mode should be interpreted as valid CAN 2.0 mode (<SIG_267>) or allow zero as default/legacy valid state; Observed: strict bitwise check fails when _can.can_op_mode == 0, causing CanInitializationError",
+     "trigger": "Vector CANcaseXL driver reporting can_op_mode = 0 during CAN bus initialization (VectorBus constructor, <SIG_247>)",
+     "behavior": "Expected: can_op_mode should be interpreted as valid CAN 2.0 mode (<SIG_248>) or allow zero as default/legacy valid state; Observed: strict bitwise check fails when _can.can_op_mode == 0, causing CanInitializationError",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5056462774445477
@@ -6218,8 +6218,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_280> parameter on <SIG_281> channel",
-     "behavior": "Expected: <SIG_282> API SetValue() call with <SIG_280> = <SIG_283> should succeed (return <SIG_284>); Observed: returns error code 0x4000 (<SIG_285>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
+     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5010264729129509
@@ -6448,7 +6448,7 @@
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_268> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5432461245081666
@@ -6506,7 +6506,7 @@
     "title": "Initialize Vector Dongle VN1610 with CAN-FD Fails",
     "distilled": {
      "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via xlCanFdSetConfiguration API call",
-     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_279> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
+     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_261> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6157288319618639
@@ -6516,8 +6516,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_280> parameter on <SIG_281> channel",
-     "behavior": "Expected: <SIG_282> API SetValue() call with <SIG_280> = <SIG_283> should succeed (return <SIG_284>); Observed: returns error code 0x4000 (<SIG_285>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
+     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5970476128048805
