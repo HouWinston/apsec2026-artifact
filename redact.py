@@ -198,5 +198,17 @@ for fp in [p for p in DST.rglob("*") if p.is_file() and p.suffix in (".csv",".js
     if t!=orig: fp.write_text(t,encoding="utf-8"); swept+=1
 
 print(f"redacted {done} data files; pass2 swept {swept} files; {len(_sigmap)} signals + {len(frags)} fragments masked")
+# --- terminology normalization to match the paper (Distill->Filter, Abl-ND->Abl-NF) ---
+TERMMAP=[("Abl-ND","Abl-NF"),("abl_nd","abl_nf"),("No Distill","No Filter"),
+         ("Distillation","Filtering"),("distillation","filtering"),
+         ("Distill","Filter"),("distill","filter")]
+for fp in [p for p in DST.rglob("*") if p.is_file() and p.suffix in (".csv",".json",".jsonl",".md")]:
+    if fp.name=="REDACTION_MAP.json": continue
+    t=fp.read_text(encoding="utf-8"); o=t
+    for a,b in TERMMAP: t=t.replace(a,b)
+    if t!=o: fp.write_text(t,encoding="utf-8")
+for fp in list(DST.rglob("abl_nd_*")):
+    fp.rename(fp.with_name(fp.name.replace("abl_nd_","abl_nf_")))
+
 json.dump(_sigmap, open(DST/"REDACTION_MAP.json","w",encoding="utf-8"),
           ensure_ascii=False,indent=1)

@@ -8,7 +8,7 @@
   "reject": 17,
   "acceptance_rate": 0.66
  },
- "abl_nd": {
+ "abl_nf": {
   "accept": 47,
   "reject": 3,
   "acceptance_rate": 0.94

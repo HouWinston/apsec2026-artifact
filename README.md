@@ -9,7 +9,7 @@ requirements.
 
 ## What this package supports
 
-`IssueDriven-VC` is a five-stage pipeline (Fetch → Distill → Match → Generate →
+`IssueDriven-VC` is a five-stage pipeline (Fetch → Filter → Match → Generate →
 Review) that completes ASPICE SYS.2 verification criteria (VCs) by grounding LLM
 generation in empirical field-failure evidence from two external channels:
 open-source GitHub issues (**Channel A**) and NHTSA recall notices (**Channel B**).
@@ -23,8 +23,8 @@ Gwet's AC1, ablation, cross-LLM sensitivity).
 
 | Folder | Contents |
 |---|---|
-| `pipeline/` | Stage 1–5 scripts: corpus fetch + distill + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`), routing + traceability + E1 packet generation |
-| `prompts/` | `prompt_registry.md` (all Stage-2 distillation and Stage-4 generation prompts) and `model_config_manifest.md` (model/version configuration; API keys are read from environment variables, never stored) |
+| `pipeline/` | Stage 1–5 scripts: corpus fetch + filter + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`), routing + traceability + E1 packet generation |
+| `prompts/` | `prompt_registry.md` (all Stage-2 filtering and Stage-4 generation prompts) and `model_config_manifest.md` (model/version configuration; API keys are read from environment variables, never stored) |
 | `evaluation/` | Framework-B evaluation protocol, E1 adjudicator guide, annotation guide, and rater instructions |
 | `ablation/` | 50-item ablation evaluation instructions and rater brief |
 | `stats/` | Analysis scripts (`stats_optionC_AB.py`, `stats_optionC_iaa.py`, `stats_evaluator.py`, ablation/routing analysis, token-cost extraction) |
