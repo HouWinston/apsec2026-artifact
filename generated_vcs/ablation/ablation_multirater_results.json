@@ -4,7 +4,7 @@
   "evaluators": [
    "E1-author",
    "E2-ASPICE",
-   "E3-PhD",
+   "E3-<SIG>",
    "E4-Tier1"
   ],
   "protocol": "Framework B: C>=3 AND N=Y AND U=Y, majority vote E2/E3/E4"

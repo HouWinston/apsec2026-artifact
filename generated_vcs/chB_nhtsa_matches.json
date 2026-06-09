@@ -1443,7 +1443,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",
@@ -2641,7 +2641,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",
@@ -2677,7 +2677,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",
@@ -3095,7 +3095,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",
@@ -3301,7 +3301,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",
@@ -3939,7 +3939,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",
@@ -10505,7 +10505,7 @@
     "model": "COROLLA",
     "year": 2022,
     "component": "ELECTRICAL SYSTEM,EXTERIOR LIGHTING",
-    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by MyAutoImports licensed  Toyota repair center. Passenger side day running",
+    "summary": "Internal short within headlamp assembly causing the fuse to blow. Unrepairable, requires full replacement of part. Confirmed by <SIG> licensed  Toyota repair center. Passenger side day running",
     "distilled": {
      "trigger": "internal short circuit within headlamp assembly",
      "behavior": "<SIG>: DRL, low-beam, and high-beam functions on passenger side remain operational; actual: all three functions inoperative due to blown fuse, with subsequent instrument cluster warning message",

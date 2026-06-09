@@ -11,7 +11,7 @@
     "title": "CommunicationControl issue with 0x80 control_type",
     "distilled": {
      "trigger": "UDS CommunicationControl service (0x28) with control_type=0x80 (128) in request",
-     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for 'enableRxAndTx'; Observed: client library rejects 0x80 with ValueError, enforcing incorrect 0x0–0x7F range",
+     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for '<SIG>'; Observed: client library rejects 0x80 with <SIG>, enforcing incorrect 0x0–0x7F range",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.7130616535004075
@@ -21,7 +21,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -39,7 +39,7 @@
     "similarity": 0.6954885988500402
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 42,
     "title": "Can ECU-BUS support 0x29 service?",
     "distilled": {
@@ -73,7 +73,7 @@
     "issue_id": 159,
     "title": "Connection error after Reset",
     "distilled": {
-     "trigger": "ECU reset service (UDS 0x11) execution via DoIP transport",
+     "trigger": "ECU reset service (UDS 0x11) execution via <SIG> transport",
      "behavior": "Expected: ECU resets and remains reachable for subsequent UDS session; Observed: Transport connection terminates abruptly with TCP RST or broken pipe, preventing <SIG>ion",
      "fault_mode": "protocol non-compliance"
     },
@@ -85,7 +85,7 @@
     "title": "Using J2534Connection: No data received",
     "distilled": {
      "trigger": "J2534Connection send/receive with DiagnosticSessionControl (0x10) service, rxid=0x18DA_F1B0, txid=0x18DA_B0F1, P2 timeout=1.0s",
-     "behavior": "Expected: J2534 driver to receive and forward ECU <SIG> (e.g., positive <SIG> 0x50 0x03 or NRC) within P2 timeout; Observed: No data received from J2534 RxQueue despite successful transmission and valid firmware/driver initialization",
+     "behavior": "Expected: J2534 driver to receive and forward ECU <SIG> (e.g., positive <SIG> 0x50 0x03 or NRC) within P2 timeout; Observed: No data received from J2534 <SIG> despite successful transmission and valid firmware/driver initialization",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6328838960545321
@@ -93,10 +93,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6219013265662927
@@ -117,7 +117,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -159,7 +159,7 @@
     "title": "ASCWriter not writing CAN Frames in Vector compatible format (and therefore ASCReader fails to read file back)",
     "distilled": {
      "trigger": "ASCWriter logging CAN frames to file",
-     "behavior": "Expected Vector ASC format: '<Time> <Channel> <ID> <Dir> d <DLC> <D0>...<D8> Length =<Message<SIG>> BitCount = <MessageLength> ID = <IDnum><MessageFlags>'; observed non-compliant format with header blocks, absolute timestamps, and missing required fields (e.g., no 'd' delimiter before DLC, no 'Length =' or 'BitCount =' annotations, incorrect channel/ID formatting)",
+     "behavior": "Expected Vector ASC format: '<Time> <Channel> <ID> <Dir> d <DLC> <D0>...<D8> Length =<<SIG>> <SIG> = <<SIG>> ID = <IDnum><<SIG>>'; observed non-compliant format with header blocks, absolute timestamps, and missing required fields (e.g., no 'd' delimiter before DLC, no 'Length =' or '<SIG> =' annotations, incorrect channel/ID formatting)",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5674010538305074
@@ -167,10 +167,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 542,
-    "title": "When I try to set the CAN bus with CANoE Highspeed channel, the test failed with error:ValueError: negative shift count",
+    "title": "When I try to set the CAN bus with <SIG> Highspeed channel, the test failed with error:<SIG>: negative shift count",
     "distilled": {
      "trigger": "vector CAN interface initialization with channel index after prolonged test execution",
-     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing ValueError",
+     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5664857279153334
@@ -241,10 +241,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 2053,
-    "title": "`SocketcanBus` does not support socket file descriptors over 1023",
+    "title": "`<SIG>` does not support socket file descriptors over 1023",
     "distilled": {
-     "trigger": "SocketCAN bus I/O using SocketcanBus with file descriptor > 1023",
-     "behavior": "Expected: non-blocking I/O readiness detection (read/write) via scalable system call (e.g., poll/epoll); Observed: use of select() causing ValueError on fd > 1023 due to <SIG_253> limit",
+     "trigger": "<SIG> bus I/O using <SIG> with file descriptor > 1023",
+     "behavior": "Expected: non-blocking I/O readiness detection (read/write) via scalable system call (e.g., poll/epoll); Observed: use of select() causing <SIG> on fd > 1023 due to <SIG_254> limit",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5034100240914406
@@ -258,7 +258,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 19,
     "title": "UDS 0x2E 服务无法使用",
     "distilled": {
@@ -284,14 +284,14 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
     "similarity": 0.5709421356528884
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 25,
     "title": "There is no $36 service in the diagnostic service",
     "distilled": {
@@ -302,11 +302,11 @@
     "similarity": 0.5610939672425893
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 345,
-    "title": "[BUG] 开始测量之后 EcuBus-Pro 总是以1s周期向总线上发送3e 80  且没有勾选启用调试在线",
+    "title": "[BUG] 开始测量之后 <SIG>-Pro 总是以1s周期向总线上发送3e 80  且没有勾选启用调试在线",
     "distilled": {
-     "trigger": "UDS service 0x3E (Tester Present) with subfunction 0x80, initiated after 'start measurement' command on EcuBus-Pro hardware",
+     "trigger": "UDS service 0x3E (Tester Present) with subfunction 0x80, initiated after 'start measurement' command on <SIG>-Pro hardware",
      "behavior": "Expected: Tester Present messages only when debugging online is enabled or as required by session timing constraints. Observed: Continuous transmission of 0x3E 0x80 every 1 second regardless of debug-online setting.",
      "fault_mode": "protocol non-compliance"
     },
@@ -321,7 +321,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 337,
     "title": "[FEATURE] 序列中对周期指令的支持",
     "distilled": {
@@ -343,7 +343,7 @@
     "similarity": 0.537517839115947
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -367,9 +367,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1743,
-    "title": "IXXAT and isCAN dongle can't handle unit not responding",
+    "title": "IXXAT and <SIG> dongle can't handle unit not responding",
     "distilled": {
-     "trigger": "CAN bus interface (IXXAT/isCAN dongle) during <SIG>ion attempt after node power loss or cable disconnection",
+     "trigger": "CAN bus interface (IXXAT/<SIG> dongle) during <SIG>ion attempt after node power loss or cable disconnection",
      "behavior": "Expected: robust <SIG>ion and continued message reception (e.g., NMT, heartbeat) after transient bus unavailability; Observed: failure to re-establish connection — dongles remain unresponsive without manual intervention",
      "fault_mode": "silent failure"
     },
@@ -384,7 +384,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -400,7 +400,7 @@
     "title": "gs_usb does not support set_bitrate() for some Candlelight devices",
     "distilled": {
      "trigger": "gs_usb interface set_bitrate() service call on Candlelight-based MKS CANable V2.0 Pro device",
-     "behavior": "Expected: set_bitrate() returns True and configures CAN bitrate successfully; Observed: returns False, indicating failure to configure bitrate despite hardware support in Linux/SocketCAN",
+     "behavior": "Expected: set_bitrate() returns True and configures CAN bitrate successfully; Observed: returns False, indicating failure to configure bitrate despite hardware support in Linux/<SIG>",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5542292062023568
@@ -419,7 +419,7 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1846,
-    "title": "Filters not working properly (socketcan on rPi with MCP 2515 hat",
+    "title": "Filters not working properly (socketcan on <SIG> with MCP 2515 hat",
     "distilled": {
      "trigger": "socketcan interface with MCP2515 CAN controller on Raspberry Pi; dynamic filter update via can.interface.Bus.set_filters() while messages are buffered in kernel RX queue",
      "behavior": "Expected: CAN frames matching the updated hardware/software filter (0x200 only) to be received immediately after set_filters(); Observed: Pre-filtered messages (e.g., 0x100) continue to be delivered from kernel socket buffer despite active filter configuration",
@@ -474,7 +474,7 @@
     "title": "During the 34 service, sending 34 00 44 can <SIG> and receive normally, but when sending 34 10 44, NRC [7f3470]",
     "distilled": {
      "trigger": "UDS service 0x34 (RequestDownload) with subfunction 0x10 and data [0x44], during extended diagnostic session",
-     "behavior": "Expected positive <SIG> or appropriate NRC for valid request; observed NRC 0x70 (uploadDownloadNotAccepted) instead of <SIG> behavior for subfunction 0x10 (which should be valid for initiating download with memory address/length format)",
+     "behavior": "Expected positive <SIG> or appropriate NRC for valid request; observed NRC 0x70 (<SIG>) instead of <SIG> behavior for subfunction 0x10 (which should be valid for initiating download with memory address/length format)",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6649078154239365
@@ -485,7 +485,7 @@
     "title": "Appropriate failure <SIG> to send on timeout?",
     "distilled": {
      "trigger": "ISO-TP consecutive frame timeout (1-2s) during multi-frame message reception",
-     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (uploadDownloadNotAccepted) or 0x73 (requestCorrectlyReceived-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
+     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (<SIG>) or 0x73 (<SIG>-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.659706984314586
@@ -495,7 +495,7 @@
     "issue_id": 126,
     "title": "timeout,  Did not received ISOTP frame in time",
     "distilled": {
-     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (requestCorrectlyReceived-<SIG>) NRCs",
+     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (<SIG>-<SIG>) NRCs",
      "behavior": "Expected: timeout should be reset/reapplied for each frame reception attempt (e.g., per 0x78 or final <SIG>), enabling multi-second wait for slow ECUs. Observed: timeout value decays cumulatively across successive `specific_wait_frame()` calls, causing premature timeout on subsequent waits.",
      "fault_mode": "timing violation"
     },
@@ -510,7 +510,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -532,12 +532,12 @@
     "similarity": 0.5374165138768539
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 167,
-    "title": "Rx frames are not observed in the EcuBusPro which shows message error while using Vector driver VN 1611.",
+    "title": "Rx frames are not observed in the <SIG> which shows message error while using Vector driver VN 1611.",
     "distilled": {
-     "trigger": "LIN bus communication using Vector VN1611 driver with EcuBusPro v0.8.46, 19200 bps baudrate, 5 ms timebase",
-     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but EcuBusPro reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
+     "trigger": "LIN bus communication using Vector VN1611 driver with <SIG> v0.8.46, 19200 bps baudrate, 5 ms timebase",
+     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but <SIG> reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5369964535850401
@@ -547,14 +547,14 @@
     "issue_id": 1055,
     "title": "Error state indication for message with bitrate_switch=True",
     "distilled": {
-     "trigger": "CAN FD message transmission with bitrate_switch=True on socketCAN interface",
+     "trigger": "CAN FD message transmission with bitrate_switch=True on <SIG> interface",
      "behavior": "Expected: bitrate_switch=True sets the BRS (Bit Rate Switch) bit in the CAN FD frame, enabling higher data phase bitrate; Observed: frame shows 'EI' (Error Indication) flag set, indicating hardware or controller-level error state during transmission",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5369213775415479
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 19,
     "title": "UDS 0x2E 服务无法使用",
     "distilled": {
@@ -575,9 +575,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1291,
-    "title": "AsyncBufferedReader misses messages",
+    "title": "<SIG> misses messages",
     "distilled": {
-     "trigger": "AsyncBufferedReader.get_message() call timing with socketcan/peak_usb interface under high bus load",
+     "trigger": "<SIG>.get_message() call timing with socketcan/peak_usb interface under high bus load",
      "behavior": "Expected: all CAN frames received by hardware interface should be buffered and retrievable via get_message(); Observed: frames visible in Wireshark (hardware-level reception) are not delivered to application via get_message() when polling intervals exceed ~1ms",
      "fault_mode": "buffer overflow / silent failure"
     },
@@ -586,7 +586,7 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1846,
-    "title": "Filters not working properly (socketcan on rPi with MCP 2515 hat",
+    "title": "Filters not working properly (socketcan on <SIG> with MCP 2515 hat",
     "distilled": {
      "trigger": "socketcan interface with MCP2515 CAN controller on Raspberry Pi; dynamic filter update via can.interface.Bus.set_filters() while messages are buffered in kernel RX queue",
      "behavior": "Expected: CAN frames matching the updated hardware/software filter (0x200 only) to be received immediately after set_filters(); Observed: Pre-filtered messages (e.g., 0x100) continue to be delivered from kernel socket buffer despite active filter configuration",
@@ -597,10 +597,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1821,
-    "title": "ValueError: non-hexadecimal number found in fromhex() arg at position 15",
+    "title": "<SIG>: non-hexadecimal number found in fromhex() arg at position 15",
     "distilled": {
      "trigger": "SLCAN interface raw serial data parsing in _recv_internal, position 15 (or 1) of hex string",
-     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise ValueError",
+     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5649047662627494
@@ -621,7 +621,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -636,7 +636,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 4,
     "title": "CAN ID display error in PEAK TP Setting",
     "distilled": {
@@ -649,21 +649,21 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 2051,
-    "title": "Kvaser: multiple canIoCtlInit calls fail with canERR_PARAM (-1) on Kvaser Leaf Light v2",
+    "title": "Kvaser: multiple <SIG> calls fail with canERR_PARAM (-1) on Kvaser Leaf Light v2",
     "distilled": {
-     "trigger": "Kvaser CANLIB canIoCtlInit calls (canIOCTL_SET_TIMER_SCALE, canIOCTL_SET_LOCAL_TXECHO, canIOCTL_SET_LOCAL_TXACK) during KvaserBus.__init__ on Leaf Light v2",
-     "behavior": "Expected: ioctl calls to succeed after successful canOpenChannel; Observed: all fail with canERR_PARAM (-1), indicating invalid parameter usage in the context of this hardware/firmware",
+     "trigger": "Kvaser CANLIB <SIG> calls (canIOCTL_SET_TIMER_SCALE, canIOCTL_SET_LOCAL_TXECHO, canIOCTL_SET_LOCAL_TXACK) during <SIG>.__init__ on Leaf Light v2",
+     "behavior": "Expected: ioctl calls to succeed after successful <SIG>; Observed: all fail with canERR_PARAM (-1), indicating invalid parameter usage in the context of this hardware/firmware",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5335138194369717
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 48,
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_250> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5224207697212923
@@ -673,8 +673,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
-     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_263> parameter on <SIG_264> channel",
+     "behavior": "Expected: <SIG_265> API <SIG>() call with <SIG_263> = <SIG_266> should succeed (return <SIG_267>); Observed: returns error code 0x4000 (<SIG_268>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5146385401521373
@@ -685,7 +685,7 @@
     "title": "gs_usb does not support set_bitrate() for some Candlelight devices",
     "distilled": {
      "trigger": "gs_usb interface set_bitrate() service call on Candlelight-based MKS CANable V2.0 Pro device",
-     "behavior": "Expected: set_bitrate() returns True and configures CAN bitrate successfully; Observed: returns False, indicating failure to configure bitrate despite hardware support in Linux/SocketCAN",
+     "behavior": "Expected: set_bitrate() returns True and configures CAN bitrate successfully; Observed: returns False, indicating failure to configure bitrate despite hardware support in Linux/<SIG>",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5082717345213328
@@ -714,7 +714,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -734,9 +734,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1488,
-    "title": "Overloaded BufferedReader class \"misses\" <SIG> messages when they are preceded by error frames",
+    "title": "Overloaded <SIG> class \"misses\" <SIG> messages when they are preceded by error frames",
     "distilled": {
-     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded BufferedReader filtering error frames",
+     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded <SIG> filtering error frames",
      "behavior": "Expected: all valid <SIG> messages (e.g., UDS positive <SIG>s) received within timeout are enqueued and returned by get_message(). Observed: some valid <SIG>s are silently dropped/missed despite being present on bus (verified via CANalyzer) and within timeout window.",
      "fault_mode": "silent failure"
     },
@@ -766,7 +766,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -788,7 +788,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -829,7 +829,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -871,7 +871,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -888,7 +888,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -903,7 +903,7 @@
     "issue_id": 159,
     "title": "Connection error after Reset",
     "distilled": {
-     "trigger": "ECU reset service (UDS 0x11) execution via DoIP transport",
+     "trigger": "ECU reset service (UDS 0x11) execution via <SIG> transport",
      "behavior": "Expected: ECU resets and remains reachable for subsequent UDS session; Observed: Transport connection terminates abruptly with TCP RST or broken pipe, preventing <SIG>ion",
      "fault_mode": "protocol non-compliance"
     },
@@ -925,7 +925,7 @@
     "issue_id": 32,
     "title": "DTC cannot be read by valuecan",
     "distilled": {
-     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (reportDTCByStatusMask) over CAN using NeoViBus (ValueCAN) interface; ECU responds with valid 0x59 <SIG> frame",
+     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (<SIG>) over CAN using <SIG> (<SIG>) interface; ECU responds with valid 0x59 <SIG> frame",
      "behavior": "Expected: udsoncan should parse the ECU's positive <SIG> (0x59) and return DTC data. Observed: udsoncan times out waiting for <SIG> despite valid CAN frame being received and visible in trace.",
      "fault_mode": "timeout violation"
     },
@@ -936,7 +936,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -951,7 +951,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -964,9 +964,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1488,
-    "title": "Overloaded BufferedReader class \"misses\" <SIG> messages when they are preceded by error frames",
+    "title": "Overloaded <SIG> class \"misses\" <SIG> messages when they are preceded by error frames",
     "distilled": {
-     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded BufferedReader filtering error frames",
+     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded <SIG> filtering error frames",
      "behavior": "Expected: all valid <SIG> messages (e.g., UDS positive <SIG>s) received within timeout are enqueued and returned by get_message(). Observed: some valid <SIG>s are silently dropped/missed despite being present on bus (verified via CANalyzer) and within timeout window.",
      "fault_mode": "silent failure"
     },
@@ -977,7 +977,7 @@
     "issue_id": 129,
     "title": "Complete event not set when \"blocking_send\" set to True",
     "distilled": {
-     "trigger": "isotp.CanStack with blocking_send=True, single-frame transmission",
+     "trigger": "isotp.<SIG> with blocking_send=True, single-frame transmission",
      "behavior": "Expected: send() returns after successful transmission; Observed: send() times out because active_send_request.complete(True) is never called when tx_state is IDLE and generator is depleted",
      "fault_mode": "missing <SIG>"
     },
@@ -988,8 +988,8 @@
     "issue_id": 1652,
     "title": "send_periodic not working on RPI Linux 6.1.21-v8+",
     "distilled": {
-     "trigger": "socketcan BCM <SIG_243> operation on Linux 6.1.21-v8+ kernel with periodic message scheduling",
-     "behavior": "Expected: kernel BCM socket accepts <SIG_243> frame to initiate periodic transmission. Observed: OS returns EINVAL (22) with 'You are probably referring to a non-existing frame', indicating BCM frame ID or setup structure mismatch or kernel regression.",
+     "trigger": "socketcan BCM <SIG_244> operation on Linux 6.1.21-v8+ kernel with periodic message scheduling",
+     "behavior": "Expected: kernel BCM socket accepts <SIG_244> frame to initiate periodic transmission. Observed: OS returns EINVAL (22) with 'You are probably referring to a non-existing frame', indicating BCM frame ID or setup structure mismatch or kernel regression.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5533344959851656
@@ -997,9 +997,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1928,
-    "title": "ValueCan4 Send returns timeout exception but message make its through",
+    "title": "<SIG> Send returns timeout exception but message make its through",
     "distilled": {
-     "trigger": "neovi bus send() with timeout=0.5 on ValueCAN4 hardware, without active CAN notifier",
+     "trigger": "neovi bus send() with timeout=0.5 on <SIG> hardware, without active CAN notifier",
      "behavior": "Expected: send() returns success if message is <SIG>ted successfully within timeout. Observed: send() raises Transmit timeout exception despite message physically reaching the ECU (confirmed via DSP reception and bus trace). Presence of can.Notifier prevents the timeout — implying notifier affects internal bus state or timing behavior.",
      "fault_mode": "timing violation"
     },
@@ -1040,7 +1040,7 @@
     "issue_id": 1055,
     "title": "Error state indication for message with bitrate_switch=True",
     "distilled": {
-     "trigger": "CAN FD message transmission with bitrate_switch=True on socketCAN interface",
+     "trigger": "CAN FD message transmission with bitrate_switch=True on <SIG> interface",
      "behavior": "Expected: bitrate_switch=True sets the BRS (Bit Rate Switch) bit in the CAN FD frame, enabling higher data phase bitrate; Observed: frame shows 'EI' (Error Indication) flag set, indicating hardware or controller-level error state during transmission",
      "fault_mode": "protocol non-compliance"
     },
@@ -1051,8 +1051,8 @@
     "issue_id": 1353,
     "title": "Initialize Vector Dongle VN1610 with CAN-FD Fails",
     "distilled": {
-     "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via xlCanFdSetConfiguration API call",
-     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_261> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
+     "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via <SIG> API call",
+     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_262> (error code 101) indicating invalid or unsupported parameter values passed to <SIG>",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5190378891740207
@@ -1092,8 +1092,8 @@
     "issue_id": 214,
     "title": "<SIG> access SAPR <SIG> not correctly interpreted",
     "distilled": {
-     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
-     "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises Un<SIG>ResponseException because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (<SIG>) when target security level is already unlocked",
+     "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises <SIG> because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5634093415294615
@@ -1103,8 +1103,8 @@
     "issue_id": 51,
     "title": "<SIG>Access does not handle already-unlocked server",
     "distilled": {
-     "trigger": "UDS <SIG>Access service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
-     "behavior": "Expected: client detects all-zero seed and skips sendKey, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (requestSequenceError)",
+     "trigger": "UDS <SIG>Access service (0x27), <SIG> subfunction, when server is already unlocked for the requested security level",
+     "behavior": "Expected: client detects all-zero seed and skips <SIG>, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (<SIG>)",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5600118881734228
@@ -1114,14 +1114,14 @@
     "issue_id": 220,
     "title": "<SIG>Access mishandes a level value of 0",
     "distilled": {
-     "trigger": "UDS <SIG>Access service request with level=0 in RequestSeed mode",
+     "trigger": "UDS <SIG>Access service request with level=0 in <SIG> mode",
      "behavior": "Expected: validation error or meaningful exception indicating invalid level value per UDS spec (level 0 is reserved); Observed: unhandled struct.pack() exception due to negative subfunction value (-1) during payload serialization",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5586843191967624
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 42,
     "title": "Can ECU-BUS support 0x29 service?",
     "distilled": {
@@ -1144,7 +1144,7 @@
     "issue_id": 129,
     "title": "Complete event not set when \"blocking_send\" set to True",
     "distilled": {
-     "trigger": "isotp.CanStack with blocking_send=True, single-frame transmission",
+     "trigger": "isotp.<SIG> with blocking_send=True, single-frame transmission",
      "behavior": "Expected: send() returns after successful transmission; Observed: send() times out because active_send_request.complete(True) is never called when tx_state is IDLE and generator is depleted",
      "fault_mode": "missing <SIG>"
     },
@@ -1155,7 +1155,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -1177,7 +1177,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -1189,7 +1189,7 @@
     "title": "Question about timeout",
     "distilled": {
      "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
-     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
+     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default <SIG> stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
     "similarity": 0.5598815681677346
@@ -1205,10 +1205,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1821,
-    "title": "ValueError: non-hexadecimal number found in fromhex() arg at position 15",
+    "title": "<SIG>: non-hexadecimal number found in fromhex() arg at position 15",
     "distilled": {
      "trigger": "SLCAN interface raw serial data parsing in _recv_internal, position 15 (or 1) of hex string",
-     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise ValueError",
+     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6211576271644874
@@ -1225,7 +1225,7 @@
     "similarity": 0.5879824744118846
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -1236,12 +1236,12 @@
     "similarity": 0.5878388779941994
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 167,
-    "title": "Rx frames are not observed in the EcuBusPro which shows message error while using Vector driver VN 1611.",
+    "title": "Rx frames are not observed in the <SIG> which shows message error while using Vector driver VN 1611.",
     "distilled": {
-     "trigger": "LIN bus communication using Vector VN1611 driver with EcuBusPro v0.8.46, 19200 bps baudrate, 5 ms timebase",
-     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but EcuBusPro reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
+     "trigger": "LIN bus communication using Vector VN1611 driver with <SIG> v0.8.46, 19200 bps baudrate, 5 ms timebase",
+     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but <SIG> reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5787081361551109
@@ -1249,10 +1249,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 542,
-    "title": "When I try to set the CAN bus with CANoE Highspeed channel, the test failed with error:ValueError: negative shift count",
+    "title": "When I try to set the CAN bus with <SIG> Highspeed channel, the test failed with error:<SIG>: negative shift count",
     "distilled": {
      "trigger": "vector CAN interface initialization with channel index after prolonged test execution",
-     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing ValueError",
+     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5780440982990112
@@ -1266,7 +1266,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -1279,10 +1279,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1821,
-    "title": "ValueError: non-hexadecimal number found in fromhex() arg at position 15",
+    "title": "<SIG>: non-hexadecimal number found in fromhex() arg at position 15",
     "distilled": {
      "trigger": "SLCAN interface raw serial data parsing in _recv_internal, position 15 (or 1) of hex string",
-     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise ValueError",
+     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6360340393185947
@@ -1299,12 +1299,12 @@
     "similarity": 0.6287110762005035
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 167,
-    "title": "Rx frames are not observed in the EcuBusPro which shows message error while using Vector driver VN 1611.",
+    "title": "Rx frames are not observed in the <SIG> which shows message error while using Vector driver VN 1611.",
     "distilled": {
-     "trigger": "LIN bus communication using Vector VN1611 driver with EcuBusPro v0.8.46, 19200 bps baudrate, 5 ms timebase",
-     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but EcuBusPro reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
+     "trigger": "LIN bus communication using Vector VN1611 driver with <SIG> v0.8.46, 19200 bps baudrate, 5 ms timebase",
+     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but <SIG> reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6149575985180116
@@ -1333,7 +1333,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -1355,14 +1355,14 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5630837224840128
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -1377,7 +1377,7 @@
     "issue_id": 32,
     "title": "DTC cannot be read by valuecan",
     "distilled": {
-     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (reportDTCByStatusMask) over CAN using NeoViBus (ValueCAN) interface; ECU responds with valid 0x59 <SIG> frame",
+     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (<SIG>) over CAN using <SIG> (<SIG>) interface; ECU responds with valid 0x59 <SIG> frame",
      "behavior": "Expected: udsoncan should parse the ECU's positive <SIG> (0x59) and return DTC data. Observed: udsoncan times out waiting for <SIG> despite valid CAN frame being received and visible in trace.",
      "fault_mode": "timeout violation"
     },
@@ -1407,8 +1407,8 @@
     "issue_id": 680,
     "title": "PCAN interface is broken",
     "distilled": {
-     "trigger": "PCAN interface initialization with BusState.ACTIVE or BusState.PASSIVE",
-     "behavior": "Expected: <SIG_255> parameter (c_ubyte) should be used in a hashable context for dictionary lookup; Observed: TypeError due to unhashable c_ubyte type in 'Parameter in {...}' check",
+     "trigger": "PCAN interface initialization with <SIG>.ACTIVE or <SIG>.PASSIVE",
+     "behavior": "Expected: <SIG_256> parameter (c_ubyte) should be used in a hashable context for dictionary lookup; Observed: <SIG> due to unhashable c_ubyte type in 'Parameter in {...}' check",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5077128234120172
@@ -1440,7 +1440,7 @@
     "issue_id": 1710,
     "title": "send_periodic with non-None duration sends one extra message before stopping",
     "distilled": {
-     "trigger": "ThreadBasedCyclicSendTask.send_periodic with non-None duration parameter",
+     "trigger": "<SIG>.send_periodic with non-None duration parameter",
      "behavior": "Expected: transmissions stop at or before duration expiry; Observed: one extra transmission occurs after duration expiry, up to 'period' time beyond",
      "fault_mode": "timing violation"
     },
@@ -1470,8 +1470,8 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
-     "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_250> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "behavior": "Expected: For CAN FD <SIG> with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5912841762377071
@@ -1481,19 +1481,19 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
     "similarity": 0.5912128374913823
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 48,
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_250> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5882392598987026
@@ -1518,7 +1518,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -1542,9 +1542,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1488,
-    "title": "Overloaded BufferedReader class \"misses\" <SIG> messages when they are preceded by error frames",
+    "title": "Overloaded <SIG> class \"misses\" <SIG> messages when they are preceded by error frames",
     "distilled": {
-     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded BufferedReader filtering error frames",
+     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded <SIG> filtering error frames",
      "behavior": "Expected: all valid <SIG> messages (e.g., UDS positive <SIG>s) received within timeout are enqueued and returned by get_message(). Observed: some valid <SIG>s are silently dropped/missed despite being present on bus (verified via CANalyzer) and within timeout window.",
      "fault_mode": "silent failure"
     },
@@ -1553,9 +1553,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1743,
-    "title": "IXXAT and isCAN dongle can't handle unit not responding",
+    "title": "IXXAT and <SIG> dongle can't handle unit not responding",
     "distilled": {
-     "trigger": "CAN bus interface (IXXAT/isCAN dongle) during <SIG>ion attempt after node power loss or cable disconnection",
+     "trigger": "CAN bus interface (IXXAT/<SIG> dongle) during <SIG>ion attempt after node power loss or cable disconnection",
      "behavior": "Expected: robust <SIG>ion and continued message reception (e.g., NMT, heartbeat) after transient bus unavailability; Observed: failure to re-establish connection — dongles remain unresponsive without manual intervention",
      "fault_mode": "silent failure"
     },
@@ -1586,7 +1586,7 @@
     "title": "<SIG> is process but still produces a timeout",
     "distilled": {
      "trigger": "receiving multiple 0x7F NRC 0x78 (<SIG>) <SIG>s during a UDS service request",
-     "behavior": "<SIG>: client-side timeout timer reset upon each <SIG> reception; observed: timeout not reset, leading to premature TimeoutException",
+     "behavior": "<SIG>: client-side timeout timer reset upon each <SIG> reception; observed: timeout not reset, leading to premature <SIG>",
      "fault_mode": "timing violation"
     },
     "similarity": 0.6210000897606692
@@ -1607,7 +1607,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -1619,7 +1619,7 @@
     "title": "timed out isotp_socket.recv()",
     "distilled": {
      "trigger": "ISOTP socket receive operation with timeout=1 second in UDS diagnostic communication over CAN",
-     "behavior": "Expected: recv() should block until a complete ISOTP frame is received or return None/empty on timeout; Observed: recv() raises TimeoutError exception instead of returning None or handling timeout gracefully per ISOTP/UDS expectations",
+     "behavior": "Expected: recv() should block until a complete ISOTP frame is received or return None/empty on timeout; Observed: recv() raises <SIG> exception instead of returning None or handling timeout gracefully per ISOTP/UDS expectations",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6028887120996649
@@ -1627,9 +1627,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1488,
-    "title": "Overloaded BufferedReader class \"misses\" <SIG> messages when they are preceded by error frames",
+    "title": "Overloaded <SIG> class \"misses\" <SIG> messages when they are preceded by error frames",
     "distilled": {
-     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded BufferedReader filtering error frames",
+     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded <SIG> filtering error frames",
      "behavior": "Expected: all valid <SIG> messages (e.g., UDS positive <SIG>s) received within timeout are enqueued and returned by get_message(). Observed: some valid <SIG>s are silently dropped/missed despite being present on bus (verified via CANalyzer) and within timeout window.",
      "fault_mode": "silent failure"
     },
@@ -1646,9 +1646,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1488,
-    "title": "Overloaded BufferedReader class \"misses\" <SIG> messages when they are preceded by error frames",
+    "title": "Overloaded <SIG> class \"misses\" <SIG> messages when they are preceded by error frames",
     "distilled": {
-     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded BufferedReader filtering error frames",
+     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded <SIG> filtering error frames",
      "behavior": "Expected: all valid <SIG> messages (e.g., UDS positive <SIG>s) received within timeout are enqueued and returned by get_message(). Observed: some valid <SIG>s are silently dropped/missed despite being present on bus (verified via CANalyzer) and within timeout window.",
      "fault_mode": "silent failure"
     },
@@ -1657,10 +1657,10 @@
    {
     "repo": "pylessard/python-can-isotp",
     "issue_id": 41,
-    "title": "ConsecutiveFrameTimeoutError for first consecutive frame",
+    "title": "<SIG> for first consecutive frame",
     "distilled": {
      "trigger": "ISO-TP protocol service, First Frame transmission followed by Flow Control frame, then no Consecutive Frame received within timeout",
-     "behavior": "Expected: ConsecutiveFrameTimeoutError raised when first Consecutive Frame is entirely missing (not just delayed); Observed: Error only raised on delay of already-received Consecutive Frame, not on complete absence",
+     "behavior": "Expected: <SIG> raised when first Consecutive Frame is entirely missing (not just delayed); Observed: Error only raised on delay of already-received Consecutive Frame, not on complete absence",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5612667188629896
@@ -1692,7 +1692,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -1722,14 +1722,14 @@
     "issue_id": 172,
     "title": "Expect `suppress_positive_<SIG>` <SIG> NRC",
     "distilled": {
-     "trigger": "UDS client request with suppress_positive_<SIG> flag set for StartRoutine service (0x31)",
+     "trigger": "UDS client request with suppress_positive_<SIG> flag set for <SIG> service (0x31)",
      "behavior": "Expected: negative <SIG> with NRC 0x33 when suppression is requested but not supported; Observed: returns None without validating or forwarding the request to the ECU",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5954300299114592
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 42,
     "title": "Can ECU-BUS support 0x29 service?",
     "distilled": {
@@ -1744,8 +1744,8 @@
     "issue_id": 283,
     "title": "否定相应无法识别",
     "distilled": {
-     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction programmingSession (0x02), received negative <SIG> NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
-     "behavior": "Expected: client should detect and handle NRC 0x78 by continuing to poll for a positive <SIG> per UDS timing requirements (e.g., wait for final <SIG> before timeout); Observed: client fails to recognize NRC 0x78 as a valid pending <SIG>, raises NameError due to undefined 'NegativeResponseException', and times out without parsing or propagating the NRC",
+     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction <SIG> (0x02), received negative <SIG> NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
+     "behavior": "Expected: client should detect and handle NRC 0x78 by continuing to poll for a positive <SIG> per UDS timing requirements (e.g., wait for final <SIG> before timeout); Observed: client fails to recognize NRC 0x78 as a valid pending <SIG>, raises <SIG> due to undefined '<SIG>', and times out without parsing or propagating the NRC",
      "fault_mode": "missing <SIG> handling / protocol non-compliance"
     },
     "similarity": 0.5899160261136058
@@ -1755,8 +1755,8 @@
     "issue_id": 284,
     "title": "否定相应无法识别",
     "distilled": {
-     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction 0x02 (programmingSession), received NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
-     "behavior": "Expected: client to recognize and handle NRC 0x78 by continuing to poll for final <SIG> (per UDS ISO 14229-1 §9.2.3); Observed: client timed out after 5s without polling, and raised NameError due to undefined 'NegativeResponseException'",
+     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction 0x02 (<SIG>), received NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
+     "behavior": "Expected: client to recognize and handle NRC 0x78 by continuing to poll for final <SIG> (per UDS ISO 14229-1 §9.2.3); Observed: client timed out after 5s without polling, and raised <SIG> due to undefined '<SIG>'",
      "fault_mode": "missing <SIG> handling (NRC 0x78 polling logic absent) + exception name resolution failure"
     },
     "similarity": 0.5893004832874038
@@ -1774,7 +1774,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -1785,8 +1785,8 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
-     "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_250> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "behavior": "Expected: For CAN FD <SIG> with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.7211411377879968
@@ -1796,7 +1796,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -1814,11 +1814,11 @@
     "similarity": 0.6884832206213823
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 2,
-    "title": "DoIP UDS Send wrong Diagnostic Session Control type",
+    "title": "<SIG> UDS Send wrong Diagnostic Session Control type",
     "distilled": {
-     "trigger": "DoIP UDS Diagnostic Session Control (0x10) service with default session (0x01) request",
+     "trigger": "<SIG> UDS Diagnostic Session Control (0x10) service with default session (0x01) request",
      "behavior": "Expected UDS request payload to be 0x10 01 (SID + subfunction), but observed 0x10 81 — indicating incorrect subfunction byte (0x81 instead of 0x01)",
      "fault_mode": "protocol non-compliance"
     },
@@ -1859,7 +1859,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -1881,7 +1881,7 @@
     "issue_id": 255,
     "title": "Tester present during $7F $78 pending <SIG>",
     "distilled": {
-     "trigger": "UDS service $31 (RoutineControl) with subfunction $01 (startRoutine) for memory erase, causing ECU to respond with pending <SIG> $7F $78; ECU requires periodic tester present ($3E) during the ~20s pending state to avoid timeout ($7F $72)",
+     "trigger": "UDS service $31 (RoutineControl) with subfunction $01 (<SIG>) for memory erase, causing ECU to respond with pending <SIG> $7F $78; ECU requires periodic tester present ($3E) during the ~20s pending state to avoid timeout ($7F $72)",
      "behavior": "Expected: library should allow concurrent transmission of tester present ($3E) while waiting for final <SIG> to $31; Observed: library blocks all other diagnostic requests (including $3E) during pending <SIG> wait, preventing timely tester present transmission",
      "fault_mode": "protocol non-compliance"
     },
@@ -1900,7 +1900,7 @@
     "issue_id": 244,
     "title": "Did not received ISOTP frame",
     "distilled": {
-     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (hardReset) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (subFunctionNotSupported)",
+     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (<SIG>) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (<SIG>)",
      "behavior": "Expected: UDS client to receive and decode the ISO-TP frame (single-frame <SIG>) containing NRC 0x11 on CAN ID 0x73B within P2 timeout (1.0 s). Observed: Client timed out waiting for ISO-TP frame despite valid CAN frame being present on bus.",
      "fault_mode": "missing <SIG>"
     },
@@ -1911,7 +1911,7 @@
     "issue_id": 159,
     "title": "Connection error after Reset",
     "distilled": {
-     "trigger": "ECU reset service (UDS 0x11) execution via DoIP transport",
+     "trigger": "ECU reset service (UDS 0x11) execution via <SIG> transport",
      "behavior": "Expected: ECU resets and remains reachable for subsequent UDS session; Observed: Transport connection terminates abruptly with TCP RST or broken pipe, preventing <SIG>ion",
      "fault_mode": "protocol non-compliance"
     },
@@ -1920,10 +1920,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6807604996701059
@@ -1933,7 +1933,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -1944,7 +1944,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -1963,8 +1963,8 @@
     "issue_id": 168,
     "title": "1904 Error returned while reading DTC snapshot",
     "distilled": {
-     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x04 (reportDTCSnapshotRecordByDTCNumber), requesting DTC C25900, receiving snapshot data containing undefined DID 0xCF00",
-     "behavior": "Expected: client should parse and return the snapshot record using configured DIDs; Observed: client raises ConfigError because DID 0xCF00 is missing from local data identifier configuration, halting <SIG> processing",
+     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x04 (<SIG>), requesting DTC C25900, receiving snapshot data containing undefined DID 0xCF00",
+     "behavior": "Expected: client should parse and return the snapshot record using configured DIDs; Observed: client raises <SIG> because DID 0xCF00 is missing from local data identifier configuration, halting <SIG> processing",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5394931157547536
@@ -1975,7 +1975,7 @@
     "title": "Appropriate failure <SIG> to send on timeout?",
     "distilled": {
      "trigger": "ISO-TP consecutive frame timeout (1-2s) during multi-frame message reception",
-     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (uploadDownloadNotAccepted) or 0x73 (requestCorrectlyReceived-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
+     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (<SIG>) or 0x73 (<SIG>-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.527788108287934
@@ -1983,10 +1983,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5213260728716352
@@ -2007,7 +2007,7 @@
     "issue_id": 255,
     "title": "Tester present during $7F $78 pending <SIG>",
     "distilled": {
-     "trigger": "UDS service $31 (RoutineControl) with subfunction $01 (startRoutine) for memory erase, causing ECU to respond with pending <SIG> $7F $78; ECU requires periodic tester present ($3E) during the ~20s pending state to avoid timeout ($7F $72)",
+     "trigger": "UDS service $31 (RoutineControl) with subfunction $01 (<SIG>) for memory erase, causing ECU to respond with pending <SIG> $7F $78; ECU requires periodic tester present ($3E) during the ~20s pending state to avoid timeout ($7F $72)",
      "behavior": "Expected: library should allow concurrent transmission of tester present ($3E) while waiting for final <SIG> to $31; Observed: library blocks all other diagnostic requests (including $3E) during pending <SIG> wait, preventing timely tester present transmission",
      "fault_mode": "protocol non-compliance"
     },
@@ -2037,7 +2037,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -2046,7 +2046,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -2057,10 +2057,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 155,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired (timeout=10.000 sec)",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired (timeout=10.000 sec)",
     "distilled": {
-     "trigger": "UDS client send_request() call with P2 timeout=10.000 sec; underlying IsoTP stack configured on shared CAN bus",
-     "behavior": "Expected: UDS <SIG> received within P2 timeout (10 s) after sending DiagnosticSessionControl request. Observed: No IsoTP frame received, leading to TimeoutException before any UDS <SIG> or NRC.",
+     "trigger": "UDS client send_request() call with P2 timeout=10.000 sec; underlying <SIG> stack configured on shared CAN bus",
+     "behavior": "Expected: UDS <SIG> received within P2 timeout (10 s) after sending DiagnosticSessionControl request. Observed: No <SIG> frame received, leading to <SIG> before any UDS <SIG> or NRC.",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6575353420781302
@@ -2087,7 +2087,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 186,
-    "title": "ReadDataByIdentifier.py TimeoutException Did not receive <SIG> in time",
+    "title": "ReadDataByIdentifier.py <SIG> Did not receive <SIG> in time",
     "distilled": {
      "trigger": "UDS ReadDataByIdentifier (0x22) service request with DID 0x0001, p2_timeout=5.0s",
      "behavior": "Client <SIG> positive <SIG> (0x62 0x00 0x01 ...) within P2 timeout; server sent correct positive <SIG> (06 62 00 01 00 00 00 00), but client timed out before receiving it",
@@ -2101,7 +2101,7 @@
     "title": "P2 timer issue on client.transfer_data(block_number, data",
     "distilled": {
      "trigger": "UDS client transfer_data service (0x36) with multi-frame <SIG>; P2 timer expiration during wait for final <SIG> after flow control and consecutive frames",
-     "behavior": "Expected: UDS client to accept valid <SIG> within P2 timeout (0.200 sec) from last received frame (0x24 at 1712230262.935874 → <SIG> 0x02 76 01 at 1712230263.103335 = 0.167 sec later, well within P2). Observed: client raised TimeoutException claiming P2 expired, despite <SIG> arriving within spec.",
+     "behavior": "Expected: UDS client to accept valid <SIG> within P2 timeout (0.200 sec) from last received frame (0x24 at 1712230262.935874 → <SIG> 0x02 76 01 at 1712230263.103335 = 0.167 sec later, well within P2). Observed: client raised <SIG> claiming P2 expired, despite <SIG> arriving within spec.",
      "fault_mode": "timing violation"
     },
     "similarity": 0.6802770325291105
@@ -2152,7 +2152,7 @@
     "issue_id": 255,
     "title": "Tester present during $7F $78 pending <SIG>",
     "distilled": {
-     "trigger": "UDS service $31 (RoutineControl) with subfunction $01 (startRoutine) for memory erase, causing ECU to respond with pending <SIG> $7F $78; ECU requires periodic tester present ($3E) during the ~20s pending state to avoid timeout ($7F $72)",
+     "trigger": "UDS service $31 (RoutineControl) with subfunction $01 (<SIG>) for memory erase, causing ECU to respond with pending <SIG> $7F $78; ECU requires periodic tester present ($3E) during the ~20s pending state to avoid timeout ($7F $72)",
      "behavior": "Expected: library should allow concurrent transmission of tester present ($3E) while waiting for final <SIG> to $31; Observed: library blocks all other diagnostic requests (including $3E) during pending <SIG> wait, preventing timely tester present transmission",
      "fault_mode": "protocol non-compliance"
     },
@@ -2163,7 +2163,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -2174,8 +2174,8 @@
     "issue_id": 246,
     "title": "how to use canfd with udsoncan",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_249> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
-     "behavior": "Expected: For CAN FD SingleFrames with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 over CAN FD, where SingleFrame transmission uses <SIG_250> > 8 but payload encoding violates ISO 15765-2: byte 0 is non-zero instead of 0x00 for SF length encoding",
+     "behavior": "Expected: For CAN FD <SIG> with DL > 8, byte 0 = 0x00 and length encoded in byte 1 (per ISO 15765-2 §7.3.1.2). Observed: udsoncan attempts to send SF with invalid byte 0 (0x02), causing ECU to reject or ignore the frame; no <SIG> received.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5964551325971734
@@ -2194,10 +2194,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5810253415412342
@@ -2213,7 +2213,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -2260,7 +2260,7 @@
     "title": "Question about timeout",
     "distilled": {
      "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
-     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
+     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default <SIG> stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
     "similarity": 0.6712758585157693
@@ -2279,7 +2279,7 @@
     "title": "read_data_by_identifier exception",
     "distilled": {
      "trigger": "UDS service 0x22 (ReadDataByIdentifier) request for identifier 0x210f over CAN, with server <SIG> containing payload bytes interpreted as an additional data identifier",
-     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_258>> <<SIG_259>> <data...>' — no embedded DIDs in payload).",
+     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_259>> <<SIG_260>> <data...>' — no embedded DIDs in payload).",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.7225946116000563
@@ -2296,7 +2296,7 @@
     "similarity": 0.7122389101965612
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 19,
     "title": "UDS 0x2E 服务无法使用",
     "distilled": {
@@ -2311,8 +2311,8 @@
     "issue_id": 168,
     "title": "1904 Error returned while reading DTC snapshot",
     "distilled": {
-     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x04 (reportDTCSnapshotRecordByDTCNumber), requesting DTC C25900, receiving snapshot data containing undefined DID 0xCF00",
-     "behavior": "Expected: client should parse and return the snapshot record using configured DIDs; Observed: client raises ConfigError because DID 0xCF00 is missing from local data identifier configuration, halting <SIG> processing",
+     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x04 (<SIG>), requesting DTC C25900, receiving snapshot data containing undefined DID 0xCF00",
+     "behavior": "Expected: client should parse and return the snapshot record using configured DIDs; Observed: client raises <SIG> because DID 0xCF00 is missing from local data identifier configuration, halting <SIG> processing",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.7085287160078949
@@ -2320,7 +2320,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 186,
-    "title": "ReadDataByIdentifier.py TimeoutException Did not receive <SIG> in time",
+    "title": "ReadDataByIdentifier.py <SIG> Did not receive <SIG> in time",
     "distilled": {
      "trigger": "UDS ReadDataByIdentifier (0x22) service request with DID 0x0001, p2_timeout=5.0s",
      "behavior": "Client <SIG> positive <SIG> (0x62 0x00 0x01 ...) within P2 timeout; server sent correct positive <SIG> (06 62 00 01 00 00 00 00), but client timed out before receiving it",
@@ -2341,14 +2341,14 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
     "similarity": 0.6323355533001838
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 139,
     "title": "[求助] ZLG 配置UDS问题",
     "distilled": {
@@ -2383,10 +2383,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 155,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired (timeout=10.000 sec)",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired (timeout=10.000 sec)",
     "distilled": {
-     "trigger": "UDS client send_request() call with P2 timeout=10.000 sec; underlying IsoTP stack configured on shared CAN bus",
-     "behavior": "Expected: UDS <SIG> received within P2 timeout (10 s) after sending DiagnosticSessionControl request. Observed: No IsoTP frame received, leading to TimeoutException before any UDS <SIG> or NRC.",
+     "trigger": "UDS client send_request() call with P2 timeout=10.000 sec; underlying <SIG> stack configured on shared CAN bus",
+     "behavior": "Expected: UDS <SIG> received within P2 timeout (10 s) after sending DiagnosticSessionControl request. Observed: No <SIG> frame received, leading to <SIG> before any UDS <SIG> or NRC.",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6007186128455263
@@ -2415,7 +2415,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -2449,7 +2449,7 @@
     "title": "Appropriate failure <SIG> to send on timeout?",
     "distilled": {
      "trigger": "ISO-TP consecutive frame timeout (1-2s) during multi-frame message reception",
-     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (uploadDownloadNotAccepted) or 0x73 (requestCorrectlyReceived-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
+     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (<SIG>) or 0x73 (<SIG>-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6377531967894761
@@ -2467,14 +2467,14 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
     "similarity": 0.6103965619437025
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 139,
     "title": "[求助] ZLG 配置UDS问题",
     "distilled": {
@@ -2509,7 +2509,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -2530,14 +2530,14 @@
     "issue_id": 1664,
     "title": "Exception: Timeout in waiting for message",
     "distilled": {
-     "trigger": "UDS client initialization and request transmission via Vector CAN interface (reqId=0x7D0, resId=0x7D8) using CAN TP with NORMAL addressing; service 0x22 (ReadDataByIdentifier) for identifier 0xF18C (ECU serial number)",
+     "trigger": "UDS client initialization and request transmission via Vector CAN interface (<SIG>=0x7D0, <SIG>=0x7D8) using CAN TP with NORMAL addressing; service 0x22 (ReadDataByIdentifier) for identifier 0xF18C (ECU serial number)",
      "behavior": "Expected: timely UDS <SIG> containing ECU serial number data (positive <SIG> 0x62 F1 8C + data) within configured timeout. Observed: no CAN message received before timeout, raising 'Timeout in waiting for message' exception.",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6288767964233836
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -2548,23 +2548,23 @@
     "similarity": 0.576404790985854
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 215,
     "title": "[BUG]上层读取超时错误",
     "distilled": {
-     "trigger": "PLIN firmware update sequence initiated via Diagnostics->Sequence in EcuBus-Pro v0.8.56",
+     "trigger": "PLIN firmware update sequence initiated via Diagnostics->Sequence in <SIG>-Pro v0.8.56",
      "behavior": "Expected: timely UDS <SIG> (e.g., positive <SIG> or appropriate NRC) to PLIN read requests during flash programming; Observed: upper-layer timeout without valid protocol <SIG>",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5704053043941684
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 167,
-    "title": "Rx frames are not observed in the EcuBusPro which shows message error while using Vector driver VN 1611.",
+    "title": "Rx frames are not observed in the <SIG> which shows message error while using Vector driver VN 1611.",
     "distilled": {
-     "trigger": "LIN bus communication using Vector VN1611 driver with EcuBusPro v0.8.46, 19200 bps baudrate, 5 ms timebase",
-     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but EcuBusPro reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
+     "trigger": "LIN bus communication using Vector VN1611 driver with <SIG> v0.8.46, 19200 bps baudrate, 5 ms timebase",
+     "behavior": "ECU <SIG>s correct LIN <SIG> (confirmed via oscilloscope), but <SIG> reports 'message error' and fails to capture/decode the RX frame — <SIG> successful reception and parsing of LIN <SIG> frame",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5703073372303528
@@ -2574,7 +2574,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -2593,7 +2593,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -2667,7 +2667,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -2689,7 +2689,7 @@
     "issue_id": 126,
     "title": "timeout,  Did not received ISOTP frame in time",
     "distilled": {
-     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (requestCorrectlyReceived-<SIG>) NRCs",
+     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (<SIG>-<SIG>) NRCs",
      "behavior": "Expected: timeout should be reset/reapplied for each frame reception attempt (e.g., per 0x78 or final <SIG>), enabling multi-second wait for slow ECUs. Observed: timeout value decays cumulatively across successive `specific_wait_frame()` calls, causing premature timeout on subsequent waits.",
      "fault_mode": "timing violation"
     },
@@ -2730,7 +2730,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -2742,7 +2742,7 @@
     "title": "Question about timeout",
     "distilled": {
      "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
-     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
+     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default <SIG> stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
     "similarity": 0.6015979148286036
@@ -2761,7 +2761,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -2778,7 +2778,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 19,
     "title": "UDS 0x2E 服务无法使用",
     "distilled": {
@@ -2816,7 +2816,7 @@
     "title": "Request/Response.from_payload(...) doesn't find IDs any more",
     "distilled": {
      "trigger": "UDS Request/Response.from_payload() with raw CAN payload containing service ID (e.g., 0x10, 0x50)",
-     "behavior": "Expected: BaseService.__get_all_subclasses() returns non-empty list of UDS service classes to enable service ID lookup and instantiation; Observed: returns empty list, causing AttributeError when accessing uds.service.__name__",
+     "behavior": "Expected: <SIG>.__get_all_subclasses() returns non-empty list of UDS service classes to enable service ID lookup and instantiation; Observed: returns empty list, causing <SIG> when accessing uds.service.__name__",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6195340046139288
@@ -2827,7 +2827,7 @@
     "title": "read_data_by_identifier exception",
     "distilled": {
      "trigger": "UDS service 0x22 (ReadDataByIdentifier) request for identifier 0x210f over CAN, with server <SIG> containing payload bytes interpreted as an additional data identifier",
-     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_258>> <<SIG_259>> <data...>' — no embedded DIDs in payload).",
+     "behavior": "Expected: <SIG> payload '00400000' to be parsed as raw data for requested DID 0x210f. Observed: client incorrectly parsed the first two bytes '0040' as a second, un<SIG> DID 0x0040 due to misinterpretation of UDS <SIG> structure (ISO 14229-1 §11.3.1: <SIG> is '62 <<SIG_259>> <<SIG_260>> <data...>' — no embedded DIDs in payload).",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6168897948366302
@@ -2852,7 +2852,7 @@
     "similarity": 0.6447899471475823
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 42,
     "title": "Can ECU-BUS support 0x29 service?",
     "distilled": {
@@ -2868,7 +2868,7 @@
     "title": "Socketcan uses incorrect flag for direction",
     "distilled": {
      "trigger": "socketcan driver message flag configuration during CAN frame reception/transmission",
-     "behavior": "<SIG>: `is_rx` field correctly indicates direction (RX vs TX) using `<SIG_245>` to distinguish local-originating RX frames on virtual CAN interfaces; observed: `<SIG_246>` used instead, causing `is_rx` to always be false for virtual CAN due to lack of routing decision context",
+     "behavior": "<SIG>: `is_rx` field correctly indicates direction (RX vs TX) using `<SIG_246>` to distinguish local-originating RX frames on virtual CAN interfaces; observed: `<SIG_247>` used instead, causing `is_rx` to always be false for virtual CAN due to lack of routing decision context",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6234846714209279
@@ -2879,7 +2879,7 @@
     "title": "CommunicationControl issue with 0x80 control_type",
     "distilled": {
      "trigger": "UDS CommunicationControl service (0x28) with control_type=0x80 (128) in request",
-     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for 'enableRxAndTx'; Observed: client library rejects 0x80 with ValueError, enforcing incorrect 0x0–0x7F range",
+     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for '<SIG>'; Observed: client library rejects 0x80 with <SIG>, enforcing incorrect 0x0–0x7F range",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6163679799229449
@@ -2887,10 +2887,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1821,
-    "title": "ValueError: non-hexadecimal number found in fromhex() arg at position 15",
+    "title": "<SIG>: non-hexadecimal number found in fromhex() arg at position 15",
     "distilled": {
      "trigger": "SLCAN interface raw serial data parsing in _recv_internal, position 15 (or 1) of hex string",
-     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise ValueError",
+     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6109958622292281
@@ -2917,10 +2917,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1821,
-    "title": "ValueError: non-hexadecimal number found in fromhex() arg at position 15",
+    "title": "<SIG>: non-hexadecimal number found in fromhex() arg at position 15",
     "distilled": {
      "trigger": "SLCAN interface raw serial data parsing in _recv_internal, position 15 (or 1) of hex string",
-     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise ValueError",
+     "behavior": "Expected: valid hex-encoded CAN frame string from SLCAN device; Observed: malformed input string containing non-hex characters causing fromhex() to raise <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6138404101339289
@@ -2937,7 +2937,7 @@
     "similarity": 0.6052886214466856
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 42,
     "title": "Can ECU-BUS support 0x29 service?",
     "distilled": {
@@ -2972,7 +2972,7 @@
     "title": "During the 34 service, sending 34 00 44 can <SIG> and receive normally, but when sending 34 10 44, NRC [7f3470]",
     "distilled": {
      "trigger": "UDS service 0x34 (RequestDownload) with subfunction 0x10 and data [0x44], during extended diagnostic session",
-     "behavior": "Expected positive <SIG> or appropriate NRC for valid request; observed NRC 0x70 (uploadDownloadNotAccepted) instead of <SIG> behavior for subfunction 0x10 (which should be valid for initiating download with memory address/length format)",
+     "behavior": "Expected positive <SIG> or appropriate NRC for valid request; observed NRC 0x70 (<SIG>) instead of <SIG> behavior for subfunction 0x10 (which should be valid for initiating download with memory address/length format)",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6314069274024667
@@ -2982,8 +2982,8 @@
     "issue_id": 284,
     "title": "否定相应无法识别",
     "distilled": {
-     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction 0x02 (programmingSession), received NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
-     "behavior": "Expected: client to recognize and handle NRC 0x78 by continuing to poll for final <SIG> (per UDS ISO 14229-1 §9.2.3); Observed: client timed out after 5s without polling, and raised NameError due to undefined 'NegativeResponseException'",
+     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction 0x02 (<SIG>), received NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
+     "behavior": "Expected: client to recognize and handle NRC 0x78 by continuing to poll for final <SIG> (per UDS ISO 14229-1 §9.2.3); Observed: client timed out after 5s without polling, and raised <SIG> due to undefined '<SIG>'",
      "fault_mode": "missing <SIG> handling (NRC 0x78 polling logic absent) + exception name resolution failure"
     },
     "similarity": 0.6311385402328308
@@ -2993,8 +2993,8 @@
     "issue_id": 283,
     "title": "否定相应无法识别",
     "distilled": {
-     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction programmingSession (0x02), received negative <SIG> NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
-     "behavior": "Expected: client should detect and handle NRC 0x78 by continuing to poll for a positive <SIG> per UDS timing requirements (e.g., wait for final <SIG> before timeout); Observed: client fails to recognize NRC 0x78 as a valid pending <SIG>, raises NameError due to undefined 'NegativeResponseException', and times out without parsing or propagating the NRC",
+     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction <SIG> (0x02), received negative <SIG> NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
+     "behavior": "Expected: client should detect and handle NRC 0x78 by continuing to poll for a positive <SIG> per UDS timing requirements (e.g., wait for final <SIG> before timeout); Observed: client fails to recognize NRC 0x78 as a valid pending <SIG>, raises <SIG> due to undefined '<SIG>', and times out without parsing or propagating the NRC",
      "fault_mode": "missing <SIG> handling / protocol non-compliance"
     },
     "similarity": 0.6296915096788178
@@ -3004,7 +3004,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -3015,7 +3015,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -3034,7 +3034,7 @@
     "issue_id": 50,
     "title": "send flow control frame timeout",
     "distilled": {
-     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector CANcaseXL hardware",
+     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector <SIG> hardware",
      "behavior": "Expected: ISO-TP stack to <SIG> flow control (FC) frames within timing constraints (<SIG_1> ≤ 1000 ms per ISO 15765-2) after receiving first frame (FF); Observed: timeout waiting for FC frame, causing ISO-TP layer to abort transmission",
      "fault_mode": "timing violation"
     },
@@ -3045,7 +3045,7 @@
     "issue_id": 36,
     "title": "can not enable data bitrate in CANFD mode",
     "distilled": {
-     "trigger": "CAN FD mode enabled (TransportLayer['can_fd'] = true) with expectation to set BRS bit for bitrate switching",
+     "trigger": "CAN FD mode enabled (<SIG>['can_fd'] = true) with expectation to set BRS bit for bitrate switching",
      "behavior": "Expected: can.Message() call includes bitrate_switch=True to assert BRS bit in CAN FD frames. Observed: bitrate_switch parameter omitted in _tx_canbus_3plus/_tx_canbus_3minus, so BRS bit remains unset despite FDF being set.",
      "fault_mode": "protocol non-compliance"
     },
@@ -3108,7 +3108,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -3142,7 +3142,7 @@
     "title": "Appropriate failure <SIG> to send on timeout?",
     "distilled": {
      "trigger": "ISO-TP consecutive frame timeout (1-2s) during multi-frame message reception",
-     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (uploadDownloadNotAccepted) or 0x73 (requestCorrectlyReceived-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
+     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (<SIG>) or 0x73 (<SIG>-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.63369917850886
@@ -3169,7 +3169,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 186,
-    "title": "ReadDataByIdentifier.py TimeoutException Did not receive <SIG> in time",
+    "title": "ReadDataByIdentifier.py <SIG> Did not receive <SIG> in time",
     "distilled": {
      "trigger": "UDS ReadDataByIdentifier (0x22) service request with DID 0x0001, p2_timeout=5.0s",
      "behavior": "Client <SIG> positive <SIG> (0x62 0x00 0x01 ...) within P2 timeout; server sent correct positive <SIG> (06 62 00 01 00 00 00 00), but client timed out before receiving it",
@@ -3193,7 +3193,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -3202,7 +3202,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 52,
-    "title": "TimeoutException from client.read_data_by_id() and client.clear_dtc()",
+    "title": "<SIG> from client.read_data_by_id() and client.clear_dtc()",
     "distilled": {
      "trigger": "UDS client invoking read_data_by_id (0x22) and clear_dtc (0x14) services over ISO-TP; P2 timeout (1.0 s) expired",
      "behavior": "Expected: UDS server to respond within P2 server <SIG> time (per ISO 14229-1); Observed: No ISO-TP frame received before timeout, despite server being functional per external validation",
@@ -3219,7 +3219,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -3267,7 +3267,7 @@
     "issue_id": 50,
     "title": "send flow control frame timeout",
     "distilled": {
-     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector CANcaseXL hardware",
+     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector <SIG> hardware",
      "behavior": "Expected: ISO-TP stack to <SIG> flow control (FC) frames within timing constraints (<SIG_1> ≤ 1000 ms per ISO 15765-2) after receiving first frame (FF); Observed: timeout waiting for FC frame, causing ISO-TP layer to abort transmission",
      "fault_mode": "timing violation"
     },
@@ -3295,7 +3295,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -3304,7 +3304,7 @@
     "similarity": 0.5342554063390715
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -3319,7 +3319,7 @@
     "issue_id": 32,
     "title": "DTC cannot be read by valuecan",
     "distilled": {
-     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (reportDTCByStatusMask) over CAN using NeoViBus (ValueCAN) interface; ECU responds with valid 0x59 <SIG> frame",
+     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (<SIG>) over CAN using <SIG> (<SIG>) interface; ECU responds with valid 0x59 <SIG> frame",
      "behavior": "Expected: udsoncan should parse the ECU's positive <SIG> (0x59) and return DTC data. Observed: udsoncan times out waiting for <SIG> despite valid CAN frame being received and visible in trace.",
      "fault_mode": "timeout violation"
     },
@@ -3330,7 +3330,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -3361,7 +3361,7 @@
     "title": "CommunicationControl issue with 0x80 control_type",
     "distilled": {
      "trigger": "UDS CommunicationControl service (0x28) with control_type=0x80 (128) in request",
-     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for 'enableRxAndTx'; Observed: client library rejects 0x80 with ValueError, enforcing incorrect 0x0–0x7F range",
+     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for '<SIG>'; Observed: client library rejects 0x80 with <SIG>, enforcing incorrect 0x0–0x7F range",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6112285212570487
@@ -3382,7 +3382,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -3412,7 +3412,7 @@
     "issue_id": 244,
     "title": "Did not received ISOTP frame",
     "distilled": {
-     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (hardReset) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (subFunctionNotSupported)",
+     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (<SIG>) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (<SIG>)",
      "behavior": "Expected: UDS client to receive and decode the ISO-TP frame (single-frame <SIG>) containing NRC 0x11 on CAN ID 0x73B within P2 timeout (1.0 s). Observed: Client timed out waiting for ISO-TP frame despite valid CAN frame being present on bus.",
      "fault_mode": "missing <SIG>"
     },
@@ -3434,7 +3434,7 @@
     "issue_id": 1664,
     "title": "Exception: Timeout in waiting for message",
     "distilled": {
-     "trigger": "UDS client initialization and request transmission via Vector CAN interface (reqId=0x7D0, resId=0x7D8) using CAN TP with NORMAL addressing; service 0x22 (ReadDataByIdentifier) for identifier 0xF18C (ECU serial number)",
+     "trigger": "UDS client initialization and request transmission via Vector CAN interface (<SIG>=0x7D0, <SIG>=0x7D8) using CAN TP with NORMAL addressing; service 0x22 (ReadDataByIdentifier) for identifier 0xF18C (ECU serial number)",
      "behavior": "Expected: timely UDS <SIG> containing ECU serial number data (positive <SIG> 0x62 F1 8C + data) within configured timeout. Observed: no CAN message received before timeout, raising 'Timeout in waiting for message' exception.",
      "fault_mode": "missing <SIG>"
     },
@@ -3445,7 +3445,7 @@
     "issue_id": 159,
     "title": "Connection error after Reset",
     "distilled": {
-     "trigger": "ECU reset service (UDS 0x11) execution via DoIP transport",
+     "trigger": "ECU reset service (UDS 0x11) execution via <SIG> transport",
      "behavior": "Expected: ECU resets and remains reachable for subsequent UDS session; Observed: Transport connection terminates abruptly with TCP RST or broken pipe, preventing <SIG>ion",
      "fault_mode": "protocol non-compliance"
     },
@@ -3454,10 +3454,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6899974564531305
@@ -3475,7 +3475,7 @@
     "issue_id": 159,
     "title": "Connection error after Reset",
     "distilled": {
-     "trigger": "ECU reset service (UDS 0x11) execution via DoIP transport",
+     "trigger": "ECU reset service (UDS 0x11) execution via <SIG> transport",
      "behavior": "Expected: ECU resets and remains reachable for subsequent UDS session; Observed: Transport connection terminates abruptly with TCP RST or broken pipe, preventing <SIG>ion",
      "fault_mode": "protocol non-compliance"
     },
@@ -3486,14 +3486,14 @@
     "issue_id": 244,
     "title": "Did not received ISOTP frame",
     "distilled": {
-     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (hardReset) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (subFunctionNotSupported)",
+     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (<SIG>) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (<SIG>)",
      "behavior": "Expected: UDS client to receive and decode the ISO-TP frame (single-frame <SIG>) containing NRC 0x11 on CAN ID 0x73B within P2 timeout (1.0 s). Observed: Client timed out waiting for ISO-TP frame despite valid CAN frame being present on bus.",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6959919339636935
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 25,
     "title": "There is no $36 service in the diagnostic service",
     "distilled": {
@@ -3506,10 +3506,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6534694656123998
@@ -3538,7 +3538,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -3547,7 +3547,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -3560,7 +3560,7 @@
     "issue_id": 244,
     "title": "Did not received ISOTP frame",
     "distilled": {
-     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (hardReset) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (subFunctionNotSupported)",
+     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (<SIG>) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (<SIG>)",
      "behavior": "Expected: UDS client to receive and decode the ISO-TP frame (single-frame <SIG>) containing NRC 0x11 on CAN ID 0x73B within P2 timeout (1.0 s). Observed: Client timed out waiting for ISO-TP frame despite valid CAN frame being present on bus.",
      "fault_mode": "missing <SIG>"
     },
@@ -3580,10 +3580,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6566623746640508
@@ -3610,7 +3610,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 108,
-    "title": "Issue in reading the data using ReadDatabyIdentifier ",
+    "title": "Issue in reading the data using <SIG> ",
     "distilled": {
      "trigger": "ReadDataByIdentifier service (0x22) with DID 0x2A18, using udsoncan library with custom codec configuration",
      "behavior": "Expected full <SIG> (0x05 0x62 0x2A 0x18 0x01 0x10) including SID, DID, and data; observed only 2 bytes of data extracted due to incorrect or missing DID codec handling",
@@ -3621,7 +3621,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 186,
-    "title": "ReadDataByIdentifier.py TimeoutException Did not receive <SIG> in time",
+    "title": "ReadDataByIdentifier.py <SIG> Did not receive <SIG> in time",
     "distilled": {
      "trigger": "UDS ReadDataByIdentifier (0x22) service request with DID 0x0001, p2_timeout=5.0s",
      "behavior": "Client <SIG> positive <SIG> (0x62 0x00 0x01 ...) within P2 timeout; server sent correct positive <SIG> (06 62 00 01 00 00 00 00), but client timed out before receiving it",
@@ -3632,10 +3632,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 215,
-    "title": "WriteDataByIdentifier service execution returned a negative <SIG> IncorrectMessageLengthOrInvalidFormat (0x13) when data length is correct",
+    "title": "WriteDataByIdentifier service execution returned a negative <SIG> <SIG> (0x13) when data length is correct",
     "distilled": {
      "trigger": "WriteDataByIdentifier (0x2E) service request with correct data length in bytes format",
-     "behavior": "Expected: positive <SIG> or appropriate NRC for actual validation failure; Observed: NRC 0x13 (IncorrectMessageLengthOrInvalidFormat) despite correct data length",
+     "behavior": "Expected: positive <SIG> or appropriate NRC for actual validation failure; Observed: NRC 0x13 (<SIG>) despite correct data length",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6740455520582568
@@ -3643,10 +3643,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 57,
-    "title": "InputOutputControlByIdentifier does not handle udsoncan.DidCodec.ReadAllRemainingData",
+    "title": "InputOutputControlByIdentifier does not handle udsoncan.<SIG>.<SIG>",
     "distilled": {
-     "trigger": "InputOutputControlByIdentifier service processing a DID with udsoncan.DidCodec.ReadAllRemainingData codec during <SIG> decoding",
-     "behavior": "Expected: gracefully handle ReadAllRemainingData exception by reading remaining <SIG> data (as done in ReadDataByIdentifier). Observed: unhandled exception causes failure instead of dynamic length decoding.",
+     "trigger": "InputOutputControlByIdentifier service processing a DID with udsoncan.<SIG>.<SIG> codec during <SIG> decoding",
+     "behavior": "Expected: gracefully handle <SIG> exception by reading remaining <SIG> data (as done in ReadDataByIdentifier). Observed: unhandled exception causes failure instead of dynamic length decoding.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6690499253778545
@@ -3664,7 +3664,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -3709,7 +3709,7 @@
     "title": "Appropriate failure <SIG> to send on timeout?",
     "distilled": {
      "trigger": "ISO-TP consecutive frame timeout (1-2s) during multi-frame message reception",
-     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (uploadDownloadNotAccepted) or 0x73 (requestCorrectlyReceived-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
+     "behavior": "Expected: send negative <SIG> (0x7F) with NRC 0x72 (<SIG>) or 0x73 (<SIG>-<SIG>) per UDS/ISO 14229; Observed: ambiguity in whether to send NRC or remain silent",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5913420378987098
@@ -3725,10 +3725,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6424845158783626
@@ -3749,7 +3749,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -3760,7 +3760,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -3769,10 +3769,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 155,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired (timeout=10.000 sec)",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired (timeout=10.000 sec)",
     "distilled": {
-     "trigger": "UDS client send_request() call with P2 timeout=10.000 sec; underlying IsoTP stack configured on shared CAN bus",
-     "behavior": "Expected: UDS <SIG> received within P2 timeout (10 s) after sending DiagnosticSessionControl request. Observed: No IsoTP frame received, leading to TimeoutException before any UDS <SIG> or NRC.",
+     "trigger": "UDS client send_request() call with P2 timeout=10.000 sec; underlying <SIG> stack configured on shared CAN bus",
+     "behavior": "Expected: UDS <SIG> received within P2 timeout (10 s) after sending DiagnosticSessionControl request. Observed: No <SIG> frame received, leading to <SIG> before any UDS <SIG> or NRC.",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6031255319087354
@@ -3790,7 +3790,7 @@
     "issue_id": 32,
     "title": "DTC cannot be read by valuecan",
     "distilled": {
-     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (reportDTCByStatusMask) over CAN using NeoViBus (ValueCAN) interface; ECU responds with valid 0x59 <SIG> frame",
+     "trigger": "UDS service 0x19 (ReadDTCInformation) with subfunction 0x02 (<SIG>) over CAN using <SIG> (<SIG>) interface; ECU responds with valid 0x59 <SIG> frame",
      "behavior": "Expected: udsoncan should parse the ECU's positive <SIG> (0x59) and return DTC data. Observed: udsoncan times out waiting for <SIG> despite valid CAN frame being received and visible in trace.",
      "fault_mode": "timeout violation"
     },
@@ -3810,7 +3810,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -3821,10 +3821,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 185,
-    "title": "DID codec behavior for DIDs not in DidConfig",
+    "title": "DID codec behavior for DIDs not in <SIG>",
     "distilled": {
-     "trigger": "UDS ReadDTCInformation service (0x19) with subfunction reportDTCSnapshotRecordByDTCNumber, processing DID data not present in DidConfig",
-     "behavior": "Expected: fallback to raw byte representation in <SIG>.service_data() when no DID codec is configured; Observed: unhandled exception (likely KeyError or CodecError) during DID decoding attempt",
+     "trigger": "UDS ReadDTCInformation service (0x19) with subfunction <SIG>, processing DID data not present in <SIG>",
+     "behavior": "Expected: fallback to raw byte representation in <SIG>.service_data() when no DID codec is configured; Observed: unhandled exception (likely <SIG> or <SIG>) during DID decoding attempt",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.7027668556186332
@@ -3834,8 +3834,8 @@
     "issue_id": 276,
     "title": "Subfunction 0x42 and 0x55 for ReadDTCInformation should accept 0xFF for functional group",
     "distilled": {
-     "trigger": "UDS service ReadDTCInformation (0x19) with subfunctions 0x42 (reportDTCByFunctionalUnit) and 0x55 (reportDTCExtDataRecordByFunctionalUnit), when Functional Group ID = 0xFF is provided",
-     "behavior": "Expected: 0xFF should be accepted as a valid Functional Group ID per UDS specification (ISO 14229-1) for functional addressing; Observed: ValueError raised rejecting 0xFF, enforcing incorrect range [0x0, 0xFE]",
+     "trigger": "UDS service ReadDTCInformation (0x19) with subfunctions 0x42 (<SIG>) and 0x55 (<SIG>), when Functional Group ID = 0xFF is provided",
+     "behavior": "Expected: 0xFF should be accepted as a valid Functional Group ID per UDS specification (ISO 14229-1) for functional addressing; Observed: <SIG> raised rejecting 0xFF, enforcing incorrect range [0x0, 0xFE]",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6996854790244336
@@ -3853,7 +3853,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -3916,7 +3916,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -3945,11 +3945,11 @@
     "similarity": 0.6201504689891126
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 2,
-    "title": "DoIP UDS Send wrong Diagnostic Session Control type",
+    "title": "<SIG> UDS Send wrong Diagnostic Session Control type",
     "distilled": {
-     "trigger": "DoIP UDS Diagnostic Session Control (0x10) service with default session (0x01) request",
+     "trigger": "<SIG> UDS Diagnostic Session Control (0x10) service with default session (0x01) request",
      "behavior": "Expected UDS request payload to be 0x10 01 (SID + subfunction), but observed 0x10 81 — indicating incorrect subfunction byte (0x81 instead of 0x01)",
      "fault_mode": "protocol non-compliance"
     },
@@ -3960,7 +3960,7 @@
     "issue_id": 145,
     "title": "Issue with <SIG>Access",
     "distilled": {
-     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x05 (requestSeed), executed after session change to extended diagnostic mode (0x03)",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x05 (<SIG>), executed after session change to extended diagnostic mode (0x03)",
      "behavior": "Expected: positive <SIG> (0x67) containing a 2+ byte seed in <SIG>.data. Observed: <SIG> appears malformed or missing seed data — user explicitly asks 'Where is seed in <SIG>?' and shows screenshots suggesting un<SIG> payload content or parsing failure.",
      "fault_mode": "protocol non-compliance"
     },
@@ -3990,7 +3990,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -4012,7 +4012,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4023,7 +4023,7 @@
     "issue_id": 126,
     "title": "timeout,  Did not received ISOTP frame in time",
     "distilled": {
-     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (requestCorrectlyReceived-<SIG>) NRCs",
+     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (<SIG>-<SIG>) NRCs",
      "behavior": "Expected: timeout should be reset/reapplied for each frame reception attempt (e.g., per 0x78 or final <SIG>), enabling multi-second wait for slow ECUs. Observed: timeout value decays cumulatively across successive `specific_wait_frame()` calls, causing premature timeout on subsequent waits.",
      "fault_mode": "timing violation"
     },
@@ -4042,7 +4042,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -4060,11 +4060,11 @@
     "similarity": 0.641885131569882
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 2,
-    "title": "DoIP UDS Send wrong Diagnostic Session Control type",
+    "title": "<SIG> UDS Send wrong Diagnostic Session Control type",
     "distilled": {
-     "trigger": "DoIP UDS Diagnostic Session Control (0x10) service with default session (0x01) request",
+     "trigger": "<SIG> UDS Diagnostic Session Control (0x10) service with default session (0x01) request",
      "behavior": "Expected UDS request payload to be 0x10 01 (SID + subfunction), but observed 0x10 81 — indicating incorrect subfunction byte (0x81 instead of 0x01)",
      "fault_mode": "protocol non-compliance"
     },
@@ -4075,7 +4075,7 @@
     "issue_id": 159,
     "title": "Connection error after Reset",
     "distilled": {
-     "trigger": "ECU reset service (UDS 0x11) execution via DoIP transport",
+     "trigger": "ECU reset service (UDS 0x11) execution via <SIG> transport",
      "behavior": "Expected: ECU resets and remains reachable for subsequent UDS session; Observed: Transport connection terminates abruptly with TCP RST or broken pipe, preventing <SIG>ion",
      "fault_mode": "protocol non-compliance"
     },
@@ -4086,7 +4086,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4106,7 +4106,7 @@
     "title": "Question about timeout",
     "distilled": {
      "trigger": "UDS <SIG>Access service (service ID 0x27, subfunction 0x01) during programming session with custom security algorithm",
-     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default IsoTP stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
+     "behavior": "Expected: client sends 0x30 <SIG> (security access request seed) within ~900ms as per first device; Observed: second device requires 0x30 <SIG> within 10–20ms, but udsoncan client's default <SIG> stack timing (e.g., stmin, <SIG_1>, <SIG_21>) and UDS request_timeout=10s do not control the critical 0x30 <SIG> timing — it is generated by the ECU, not the client, and the client must respond to the seed within the ECU's strict timeout window",
      "fault_mode": "timing violation"
     },
     "similarity": 0.7108306762183141
@@ -4127,8 +4127,8 @@
     "issue_id": 51,
     "title": "<SIG>Access does not handle already-unlocked server",
     "distilled": {
-     "trigger": "UDS <SIG>Access service (0x27), requestSeed subfunction, when server is already unlocked for the requested security level",
-     "behavior": "Expected: client detects all-zero seed and skips sendKey, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (requestSequenceError)",
+     "trigger": "UDS <SIG>Access service (0x27), <SIG> subfunction, when server is already unlocked for the requested security level",
+     "behavior": "Expected: client detects all-zero seed and skips <SIG>, returning success; Observed: client computes and sends key derived from zero seed, causing server to respond with NRC 0x24 (<SIG>)",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6904439028353814
@@ -4138,8 +4138,8 @@
     "issue_id": 214,
     "title": "<SIG> access SAPR <SIG> not correctly interpreted",
     "distilled": {
-     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (requestSeed) when target security level is already unlocked",
-     "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises Un<SIG>ResponseException because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
+     "trigger": "UDS <SIG>Access service (0x27) with subfunction 0x01 (<SIG>) when target security level is already unlocked",
+     "behavior": "Expected: client should accept positive <SIG> 0x67 0x00 ... with zero seed and return seed=0; Observed: client raises <SIG> because it incorrectly validates that <SIG> subfunction (0x00) must match request subfunction (0x01), violating UDS standard which permits subfunction=0x00 in this case",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.6700597781047575
@@ -4149,7 +4149,7 @@
     "issue_id": 126,
     "title": "timeout,  Did not received ISOTP frame in time",
     "distilled": {
-     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (requestCorrectlyReceived-<SIG>) NRCs",
+     "trigger": "UDS service 0x34 (Request Download) with ECU <SIG> flow: positive <SIG> delayed, preceded by multiple 0x78 (<SIG>-<SIG>) NRCs",
      "behavior": "Expected: timeout should be reset/reapplied for each frame reception attempt (e.g., per 0x78 or final <SIG>), enabling multi-second wait for slow ECUs. Observed: timeout value decays cumulatively across successive `specific_wait_frame()` calls, causing premature timeout on subsequent waits.",
      "fault_mode": "timing violation"
     },
@@ -4168,7 +4168,7 @@
     "issue_id": 14,
     "title": "Client throws an exception for <SIG> pending <SIG>s",
     "distilled": {
-     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.programmingSession, under conditions where ECU responds with positive <SIG> pending (0x78)",
+     "trigger": "UDS service DiagnosticSessionControl (0x10) with Session.<SIG>, under conditions where ECU responds with positive <SIG> pending (0x78)",
      "behavior": "Client should transparently handle multiple 0x78 <SIG>s and retry the original request until a final positive or negative <SIG> is received, but instead throws an unhandled exception",
      "fault_mode": "missing <SIG>"
     },
@@ -4177,7 +4177,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 115,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired (timeout=1.000 sec)",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired (timeout=1.000 sec)",
     "distilled": {
      "trigger": "UDS service RoutineControl (0x31) with control type 0x01 and routine ID 0x0203, following DiagnosticSessionControl (0x10) session switch and TesterPresent (0x3e) in extended diagnostic session",
      "behavior": "Expected: positive <SIG> (0x71) or negative <SIG> (0x7F + NRC) within P2 timeout (1.000 sec) after sending RoutineControl request. Observed: no UDS <SIG> frame received — only a prior TesterPresent positive <SIG> (0x7e00) was seen, then timeout occurred.",
@@ -4188,10 +4188,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6262026960253888
@@ -4201,7 +4201,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4242,7 +4242,7 @@
     "issue_id": 232,
     "title": "Problem with waiting time to <SIG> longer than 1,658 seconds",
     "distilled": {
-     "trigger": "UDS RoutineControl service (0x31) with ControlType=0x01 (start routine) for EraseMemory (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
+     "trigger": "UDS RoutineControl service (0x31) with <SIG>=0x01 (start routine) for <SIG> (0xff00), under server-side long-running execution requiring NRC 0x78 (<SIG_27>) <SIG>s",
      "behavior": "Expected: client should continue accepting NRC 0x78 <SIG>s until either a positive <SIG> or final NRC is received, respecting P2* (P2 extended) timeout logic per ISO 14229-1; Observed: client stops accepting NRC 0x78 after ~1.658 seconds regardless of P2* value (e.g., P2*=1.0s), timing out with ISOTP frame timeout (0.266s) despite ongoing valid NRC 0x78 transmissions",
      "fault_mode": "timing violation"
     },
@@ -4253,8 +4253,8 @@
     "issue_id": 283,
     "title": "否定相应无法识别",
     "distilled": {
-     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction programmingSession (0x02), received negative <SIG> NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
-     "behavior": "Expected: client should detect and handle NRC 0x78 by continuing to poll for a positive <SIG> per UDS timing requirements (e.g., wait for final <SIG> before timeout); Observed: client fails to recognize NRC 0x78 as a valid pending <SIG>, raises NameError due to undefined 'NegativeResponseException', and times out without parsing or propagating the NRC",
+     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction <SIG> (0x02), received negative <SIG> NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
+     "behavior": "Expected: client should detect and handle NRC 0x78 by continuing to poll for a positive <SIG> per UDS timing requirements (e.g., wait for final <SIG> before timeout); Observed: client fails to recognize NRC 0x78 as a valid pending <SIG>, raises <SIG> due to undefined '<SIG>', and times out without parsing or propagating the NRC",
      "fault_mode": "missing <SIG> handling / protocol non-compliance"
     },
     "similarity": 0.6834703330759485
@@ -4264,7 +4264,7 @@
     "issue_id": 244,
     "title": "Did not received ISOTP frame",
     "distilled": {
-     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (hardReset) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (subFunctionNotSupported)",
+     "trigger": "UDS service 0x11 (ECUReset) with subfunction 0x01 (<SIG>) over ISO-TP on CAN ID 0x733 request; <SIG> sent on CAN ID 0x73B with negative <SIG> code 0x11 (<SIG>)",
      "behavior": "Expected: UDS client to receive and decode the ISO-TP frame (single-frame <SIG>) containing NRC 0x11 on CAN ID 0x73B within P2 timeout (1.0 s). Observed: Client timed out waiting for ISO-TP frame despite valid CAN frame being present on bus.",
      "fault_mode": "missing <SIG>"
     },
@@ -4275,8 +4275,8 @@
     "issue_id": 284,
     "title": "否定相应无法识别",
     "distilled": {
-     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction 0x02 (programmingSession), received NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
-     "behavior": "Expected: client to recognize and handle NRC 0x78 by continuing to poll for final <SIG> (per UDS ISO 14229-1 §9.2.3); Observed: client timed out after 5s without polling, and raised NameError due to undefined 'NegativeResponseException'",
+     "trigger": "UDS DiagnosticSessionControl service (0x10) with subfunction 0x02 (<SIG>), received NRC 0x78 (requestCorrectlyReceived_<SIG>) on CAN ID 0x7A1",
+     "behavior": "Expected: client to recognize and handle NRC 0x78 by continuing to poll for final <SIG> (per UDS ISO 14229-1 §9.2.3); Observed: client timed out after 5s without polling, and raised <SIG> due to undefined '<SIG>'",
      "fault_mode": "missing <SIG> handling (NRC 0x78 polling logic absent) + exception name resolution failure"
     },
     "similarity": 0.6761210671513466
@@ -4294,7 +4294,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4328,7 +4328,7 @@
     "title": "Using J2534Connection: No data received",
     "distilled": {
      "trigger": "J2534Connection send/receive with DiagnosticSessionControl (0x10) service, rxid=0x18DA_F1B0, txid=0x18DA_B0F1, P2 timeout=1.0s",
-     "behavior": "Expected: J2534 driver to receive and forward ECU <SIG> (e.g., positive <SIG> 0x50 0x03 or NRC) within P2 timeout; Observed: No data received from J2534 RxQueue despite successful transmission and valid firmware/driver initialization",
+     "behavior": "Expected: J2534 driver to receive and forward ECU <SIG> (e.g., positive <SIG> 0x50 0x03 or NRC) within P2 timeout; Observed: No data received from J2534 <SIG> despite successful transmission and valid firmware/driver initialization",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.6541232386752335
@@ -4336,7 +4336,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -4358,7 +4358,7 @@
     "title": "The error message \"7f 36 71\" occurs when flashing the application using Service 36",
     "distilled": {
      "trigger": "UDS Service 36 (TransferData) over classical CAN (not CAN FD), with chunked application data transfer",
-     "behavior": "Expected: positive <SIG> to TransferData request (0x36 + data); Observed: negative <SIG> '7F 36 71' (NRC 0x71 = 'transferDataSuspended')",
+     "behavior": "Expected: positive <SIG> to TransferData request (0x36 + data); Observed: negative <SIG> '7F 36 71' (NRC 0x71 = '<SIG>')",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6454024508363514
@@ -4377,10 +4377,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5891534373626063
@@ -4421,13 +4421,13 @@
     "title": "gs_usb does not support set_bitrate() for some Candlelight devices",
     "distilled": {
      "trigger": "gs_usb interface set_bitrate() service call on Candlelight-based MKS CANable V2.0 Pro device",
-     "behavior": "Expected: set_bitrate() returns True and configures CAN bitrate successfully; Observed: returns False, indicating failure to configure bitrate despite hardware support in Linux/SocketCAN",
+     "behavior": "Expected: set_bitrate() returns True and configures CAN bitrate successfully; Observed: returns False, indicating failure to configure bitrate despite hardware support in Linux/<SIG>",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5592349690330044
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 133,
     "title": "[BUG]配置ZLG时显示 “Set abit baud rate failed”",
     "distilled": {
@@ -4442,7 +4442,7 @@
     "issue_id": 1798,
     "title": "can not send the can FD message",
     "distilled": {
-     "trigger": "EtasBus initialization with fd=True and bitrate=500000 on ETAS 582.1 hardware interface",
+     "trigger": "<SIG> initialization with fd=True and bitrate=500000 on ETAS 582.1 hardware interface",
      "behavior": "Expected CAN FD frame transmission (with extended data length and optional bit rate switching) but observed classical CAN (CAN 2.0) frames only — no FD arbitration or data phase, confirmed visually in trace",
      "fault_mode": "protocol non-compliance"
     },
@@ -4453,7 +4453,7 @@
     "issue_id": 1055,
     "title": "Error state indication for message with bitrate_switch=True",
     "distilled": {
-     "trigger": "CAN FD message transmission with bitrate_switch=True on socketCAN interface",
+     "trigger": "CAN FD message transmission with bitrate_switch=True on <SIG> interface",
      "behavior": "Expected: bitrate_switch=True sets the BRS (Bit Rate Switch) bit in the CAN FD frame, enabling higher data phase bitrate; Observed: frame shows 'EI' (Error Indication) flag set, indicating hardware or controller-level error state during transmission",
      "fault_mode": "protocol non-compliance"
     },
@@ -4464,7 +4464,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4479,7 +4479,7 @@
   "golden_vc": "<REDACTED: proprietary SYRS text>",
   "top_issues": [
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -4523,7 +4523,7 @@
     "similarity": 0.5255275226694139
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 102,
     "title": "Periodic sending of tester present",
     "distilled": {
@@ -4564,12 +4564,12 @@
     "similarity": 0.5386673018870566
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 48,
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_250> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5384346571928493
@@ -4620,7 +4620,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4683,7 +4683,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4735,7 +4735,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4799,7 +4799,7 @@
     "title": "PCAN API Not updatable",
     "distilled": {
      "trigger": "PCAN BASIC API version mismatch (required 4.2.0, installed 4.1.0.96) during interface initialization",
-     "behavior": "Expected: successful CAN channel initialization and communication when minimum API version requirement is met; Observed: initialization fails with 'invalid parameter' apiError due to outdated PCAN BASIC DLL",
+     "behavior": "Expected: successful CAN channel initialization and communication when minimum API version requirement is met; Observed: initialization fails with 'invalid parameter' <SIG> due to outdated PCAN BASIC DLL",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5180906019271714
@@ -4807,10 +4807,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 542,
-    "title": "When I try to set the CAN bus with CANoE Highspeed channel, the test failed with error:ValueError: negative shift count",
+    "title": "When I try to set the CAN bus with <SIG> Highspeed channel, the test failed with error:<SIG>: negative shift count",
     "distilled": {
      "trigger": "vector CAN interface initialization with channel index after prolonged test execution",
-     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing ValueError",
+     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5100432988925687
@@ -4829,10 +4829,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1453,
-    "title": "CanInitializationError due to reported can_op_mode = 0",
+    "title": "<SIG> due to reported can_op_mode = 0",
     "distilled": {
-     "trigger": "Vector CANcaseXL driver reporting can_op_mode = 0 during CAN bus initialization (VectorBus constructor, <SIG_247>)",
-     "behavior": "Expected: can_op_mode should be interpreted as valid CAN 2.0 mode (<SIG_248>) or allow zero as default/legacy valid state; Observed: strict bitwise check fails when _can.can_op_mode == 0, causing CanInitializationError",
+     "trigger": "Vector <SIG> driver reporting can_op_mode = 0 during CAN bus initialization (<SIG> constructor, <SIG_248>)",
+     "behavior": "Expected: can_op_mode should be interpreted as valid CAN 2.0 mode (<SIG_249>) or allow zero as default/legacy valid state; Observed: strict bitwise check fails when _can.can_op_mode == 0, causing <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5056462774445477
@@ -4842,8 +4842,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
-     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_263> parameter on <SIG_264> channel",
+     "behavior": "Expected: <SIG_265> API <SIG>() call with <SIG_263> = <SIG_266> should succeed (return <SIG_267>); Observed: returns error code 0x4000 (<SIG_268>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5010264729129509
@@ -4881,9 +4881,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1743,
-    "title": "IXXAT and isCAN dongle can't handle unit not responding",
+    "title": "IXXAT and <SIG> dongle can't handle unit not responding",
     "distilled": {
-     "trigger": "CAN bus interface (IXXAT/isCAN dongle) during <SIG>ion attempt after node power loss or cable disconnection",
+     "trigger": "CAN bus interface (IXXAT/<SIG> dongle) during <SIG>ion attempt after node power loss or cable disconnection",
      "behavior": "Expected: robust <SIG>ion and continued message reception (e.g., NMT, heartbeat) after transient bus unavailability; Observed: failure to re-establish connection — dongles remain unresponsive without manual intervention",
      "fault_mode": "silent failure"
     },
@@ -4894,7 +4894,7 @@
     "issue_id": 237,
     "title": "Slow <SIG> on Windows for transfer data",
     "distilled": {
-     "trigger": "ISO-TP transfer data service (0x36) with NotifierBasedCanStack on Windows",
+     "trigger": "ISO-TP transfer data service (0x36) with <SIG> on Windows",
      "behavior": "Expected: minimal delay (~0–10ms) between positive <SIG> to TransferData request and transmission of next consecutive frame, per ISO-TP timing requirements (STmin=0, blocksize=32); Observed: ~150ms fixed inter-frame delay despite STmin=0 and custom busy-wait function",
      "fault_mode": "timing violation"
     },
@@ -4922,9 +4922,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1743,
-    "title": "IXXAT and isCAN dongle can't handle unit not responding",
+    "title": "IXXAT and <SIG> dongle can't handle unit not responding",
     "distilled": {
-     "trigger": "CAN bus interface (IXXAT/isCAN dongle) during <SIG>ion attempt after node power loss or cable disconnection",
+     "trigger": "CAN bus interface (IXXAT/<SIG> dongle) during <SIG>ion attempt after node power loss or cable disconnection",
      "behavior": "Expected: robust <SIG>ion and continued message reception (e.g., NMT, heartbeat) after transient bus unavailability; Observed: failure to re-establish connection — dongles remain unresponsive without manual intervention",
      "fault_mode": "silent failure"
     },
@@ -4935,7 +4935,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -4944,10 +4944,10 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 542,
-    "title": "When I try to set the CAN bus with CANoE Highspeed channel, the test failed with error:ValueError: negative shift count",
+    "title": "When I try to set the CAN bus with <SIG> Highspeed channel, the test failed with error:<SIG>: negative shift count",
     "distilled": {
      "trigger": "vector CAN interface initialization with channel index after prolonged test execution",
-     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing ValueError",
+     "behavior": "<SIG> valid non-negative channel index for bit shift operation (mask = 1 << idx), but observed negative or invalid idx value causing <SIG>",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5314988086687504
@@ -4987,7 +4987,7 @@
     "issue_id": 129,
     "title": "Complete event not set when \"blocking_send\" set to True",
     "distilled": {
-     "trigger": "isotp.CanStack with blocking_send=True, single-frame transmission",
+     "trigger": "isotp.<SIG> with blocking_send=True, single-frame transmission",
      "behavior": "Expected: send() returns after successful transmission; Observed: send() times out because active_send_request.complete(True) is never called when tx_state is IDLE and generator is depleted",
      "fault_mode": "missing <SIG>"
     },
@@ -5020,7 +5020,7 @@
     "issue_id": 237,
     "title": "Slow <SIG> on Windows for transfer data",
     "distilled": {
-     "trigger": "ISO-TP transfer data service (0x36) with NotifierBasedCanStack on Windows",
+     "trigger": "ISO-TP transfer data service (0x36) with <SIG> on Windows",
      "behavior": "Expected: minimal delay (~0–10ms) between positive <SIG> to TransferData request and transmission of next consecutive frame, per ISO-TP timing requirements (STmin=0, blocksize=32); Observed: ~150ms fixed inter-frame delay despite STmin=0 and custom busy-wait function",
      "fault_mode": "timing violation"
     },
@@ -5061,7 +5061,7 @@
     "issue_id": 1055,
     "title": "Error state indication for message with bitrate_switch=True",
     "distilled": {
-     "trigger": "CAN FD message transmission with bitrate_switch=True on socketCAN interface",
+     "trigger": "CAN FD message transmission with bitrate_switch=True on <SIG> interface",
      "behavior": "Expected: bitrate_switch=True sets the BRS (Bit Rate Switch) bit in the CAN FD frame, enabling higher data phase bitrate; Observed: frame shows 'EI' (Error Indication) flag set, indicating hardware or controller-level error state during transmission",
      "fault_mode": "protocol non-compliance"
     },
@@ -5079,12 +5079,12 @@
     "similarity": 0.5507274015954352
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 48,
     "title": "CANFD模式，勾选TLC=16的时候，多了一个字节0x00？",
     "distilled": {
      "trigger": "CAN FD mode with TLC=16, UDS single-frame (SF) transmission of service 0x10 subfunction 0x03",
-     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_249> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
+     "behavior": "Expected: SF <SIG_25> byte + payload (02 10 03) per ISO 15765-2:2016 for <SIG_250> ≤ 8; Observed: spurious leading 0x00 byte (00 02 10 03), violating <SIG_25> placement and CAN FD TP framing rules",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5432461245081666
@@ -5094,7 +5094,7 @@
     "issue_id": 50,
     "title": "send flow control frame timeout",
     "distilled": {
-     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector CANcaseXL hardware",
+     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector <SIG> hardware",
      "behavior": "Expected: ISO-TP stack to <SIG> flow control (FC) frames within timing constraints (<SIG_1> ≤ 1000 ms per ISO 15765-2) after receiving first frame (FF); Observed: timeout waiting for FC frame, causing ISO-TP layer to abort transmission",
      "fault_mode": "timing violation"
     },
@@ -5113,7 +5113,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -5124,14 +5124,14 @@
     "issue_id": 237,
     "title": "Slow <SIG> on Windows for transfer data",
     "distilled": {
-     "trigger": "ISO-TP transfer data service (0x36) with NotifierBasedCanStack on Windows",
+     "trigger": "ISO-TP transfer data service (0x36) with <SIG> on Windows",
      "behavior": "Expected: minimal delay (~0–10ms) between positive <SIG> to TransferData request and transmission of next consecutive frame, per ISO-TP timing requirements (STmin=0, blocksize=32); Observed: ~150ms fixed inter-frame delay despite STmin=0 and custom busy-wait function",
      "fault_mode": "timing violation"
     },
     "similarity": 0.5600833703929275
    },
    {
-    "repo": "ecubus/EcuBus-Pro",
+    "repo": "ecubus/<SIG>-Pro",
     "issue_id": 218,
     "title": "[BUG] LIN刷写过程中，3C报文发送完成后，出现不发3D的情况",
     "distilled": {
@@ -5157,7 +5157,7 @@
     "issue_id": 50,
     "title": "send flow control frame timeout",
     "distilled": {
-     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector CANcaseXL hardware",
+     "trigger": "ISO-TP flow control frame transmission during UDS service 2E (WriteDataByIdentifier) with Vector <SIG> hardware",
      "behavior": "Expected: ISO-TP stack to <SIG> flow control (FC) frames within timing constraints (<SIG_1> ≤ 1000 ms per ISO 15765-2) after receiving first frame (FF); Observed: timeout waiting for FC frame, causing ISO-TP layer to abort transmission",
      "fault_mode": "timing violation"
     },
@@ -5174,7 +5174,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 52,
-    "title": "TimeoutException from client.read_data_by_id() and client.clear_dtc()",
+    "title": "<SIG> from client.read_data_by_id() and client.clear_dtc()",
     "distilled": {
      "trigger": "UDS client invoking read_data_by_id (0x22) and clear_dtc (0x14) services over ISO-TP; P2 timeout (1.0 s) expired",
      "behavior": "Expected: UDS server to respond within P2 server <SIG> time (per ISO 14229-1); Observed: No ISO-TP frame received before timeout, despite server being functional per external validation",
@@ -5187,7 +5187,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },
@@ -5207,7 +5207,7 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 238,
-    "title": "udsoncan.exceptions.TimeoutException: Did not receive <SIG> in time. P2 timeout time has expired ",
+    "title": "udsoncan.exceptions.<SIG>: Did not receive <SIG> in time. P2 timeout time has expired ",
     "distilled": {
      "trigger": "UDS service 0x19 (ReadDTCInformation) over ISO-TP on ETAS ES582.1 hardware, P2 timeout parameter exceeded (1.000 sec)",
      "behavior": "Expected: ECU to respond within P2 server <SIG> time (ISO 14229-1 mandated timeout for positive <SIG>s). Observed: No UDS <SIG> received before P2 timer expired.",
@@ -5218,10 +5218,10 @@
    {
     "repo": "pylessard/python-udsoncan",
     "issue_id": 212,
-    "title": "No data received: [TimeoutException] Problem ",
+    "title": "No data received: [<SIG>] Problem ",
     "distilled": {
      "trigger": "UDS routine_control(0xFF01, 1) followed by request_download and transfer_data on real ECU with timeout=100s",
-     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: TimeoutException — no <SIG> received within configured timeout",
+     "behavior": "Expected: timely positive or negative <SIG> (e.g., 0x71/0x7F) for each UDS service; Observed: <SIG> — no <SIG> received within configured timeout",
      "fault_mode": "missing <SIG>"
     },
     "similarity": 0.5852232369353284
@@ -5240,7 +5240,7 @@
     "title": "During the 34 service, sending 34 00 44 can <SIG> and receive normally, but when sending 34 10 44, NRC [7f3470]",
     "distilled": {
      "trigger": "UDS service 0x34 (RequestDownload) with subfunction 0x10 and data [0x44], during extended diagnostic session",
-     "behavior": "Expected positive <SIG> or appropriate NRC for valid request; observed NRC 0x70 (uploadDownloadNotAccepted) instead of <SIG> behavior for subfunction 0x10 (which should be valid for initiating download with memory address/length format)",
+     "behavior": "Expected positive <SIG> or appropriate NRC for valid request; observed NRC 0x70 (<SIG>) instead of <SIG> behavior for subfunction 0x10 (which should be valid for initiating download with memory address/length format)",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6247511956555186
@@ -5250,8 +5250,8 @@
     "issue_id": 1353,
     "title": "Initialize Vector Dongle VN1610 with CAN-FD Fails",
     "distilled": {
-     "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via xlCanFdSetConfiguration API call",
-     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_261> (error code 101) indicating invalid or unsupported parameter values passed to xlCanFdSetConfiguration",
+     "trigger": "Vector VN1610 dongle initialization with CAN-FD parameters (fd=True, data_bitrate, sjw_abr) via <SIG> API call",
+     "behavior": "Expected successful CAN-FD bus configuration; observed <SIG_262> (error code 101) indicating invalid or unsupported parameter values passed to <SIG>",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.6157288319618639
@@ -5261,8 +5261,8 @@
     "issue_id": 1065,
     "title": "pyhton-can 4.0 cannot initialize PCAN-USB",
     "distilled": {
-     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_262> parameter on <SIG_263> channel",
-     "behavior": "Expected: <SIG_264> API SetValue() call with <SIG_262> = <SIG_265> should succeed (return <SIG_266>); Observed: returns error code 0x4000 (<SIG_267>), indicating invalid parameter usage for this handle or device state",
+     "trigger": "PCAN-USB hardware initialization via python-can 4.0, specifically setting <SIG_263> parameter on <SIG_264> channel",
+     "behavior": "Expected: <SIG_265> API <SIG>() call with <SIG_263> = <SIG_266> should succeed (return <SIG_267>); Observed: returns error code 0x4000 (<SIG_268>), indicating invalid parameter usage for this handle or device state",
      "fault_mode": "wrong NRC"
     },
     "similarity": 0.5970476128048805
@@ -5273,7 +5273,7 @@
     "title": "Crash in ASCReader",
     "distilled": {
      "trigger": "ASC file parsing with non-standard header line '0.000000 CANFD   Start of measurement'",
-     "behavior": "Expected: ASCReader should skip unrecognized or malformed lines and continue parsing valid CAN FD frames. Observed: ASCReader attempts to parse the 'Start of measurement' line as a CAN FD frame, causing a ValueError during int() conversion of non-numeric 'channel' token.",
+     "behavior": "Expected: ASCReader should skip unrecognized or malformed lines and continue parsing valid CAN FD frames. Observed: ASCReader attempts to parse the 'Start of measurement' line as a CAN FD frame, causing a <SIG> during int() conversion of non-numeric 'channel' token.",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5963322364622561
@@ -5284,7 +5284,7 @@
     "title": "CommunicationControl issue with 0x80 control_type",
     "distilled": {
      "trigger": "UDS CommunicationControl service (0x28) with control_type=0x80 (128) in request",
-     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for 'enableRxAndTx'; Observed: client library rejects 0x80 with ValueError, enforcing incorrect 0x0–0x7F range",
+     "behavior": "Expected: UDS ISO 14229-1 allows control_type values up to 0xFF, including 0x80 for '<SIG>'; Observed: client library rejects 0x80 with <SIG>, enforcing incorrect 0x0–0x7F range",
      "fault_mode": "protocol non-compliance"
     },
     "similarity": 0.5935468417612406
@@ -5311,9 +5311,9 @@
    {
     "repo": "hardbyte/python-can",
     "issue_id": 1488,
-    "title": "Overloaded BufferedReader class \"misses\" <SIG> messages when they are preceded by error frames",
+    "title": "Overloaded <SIG> class \"misses\" <SIG> messages when they are preceded by error frames",
     "distilled": {
-     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded BufferedReader filtering error frames",
+     "trigger": "CAN bus error frames preceding UDS <SIG> messages during ECU wake-up transition, with overloaded <SIG> filtering error frames",
      "behavior": "Expected: all valid <SIG> messages (e.g., UDS positive <SIG>s) received within timeout are enqueued and returned by get_message(). Observed: some valid <SIG>s are silently dropped/missed despite being present on bus (verified via CANalyzer) and within timeout window.",
      "fault_mode": "silent failure"
     },
@@ -5346,7 +5346,7 @@
     "issue_id": 171,
     "title": "the logging module and can data are inconsistent",
     "distilled": {
-     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (extendedDiagnosticSession), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
+     "trigger": "UDS service 0x10 (DiagnosticSessionControl) with subfunction 0x03 (<SIG>), under ISO-TP transport, after successful ECUReset and ReadDataByIdentifier",
      "behavior": "Expected positive <SIG> (0x50 0x03) or negative <SIG> (e.g., 0x7F 0x10 NRC) within P2 server timeout (15 s); instead, no ISO-TP frame received — silent absence of <SIG>",
      "fault_mode": "timeout violation"
     },

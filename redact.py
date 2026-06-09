@@ -51,12 +51,21 @@ def _placeholder(tok):
     if tok in _sigmap: return _sigmap[tok]
     _ctr[0]+=1; _sigmap[tok]=f"<SIG_{_ctr[0]}>"; return _sigmap[tok]
 
+SYRSREF_RE = re.compile(r"\bSYRS[\s_]*\d{4,}\b")          # proprietary internal req. numbers
+CAMEL_RE   = re.compile(r"\b[A-Za-z]*[a-z][A-Z][A-Za-z0-9]*\b")  # bare camelCase signal/feature names
+# standard ISO-14229 (UDS) / ISO-15765-2 service names are public, not proprietary -> keep
+STD_TERMS = {"ReadDataByIdentifier","WriteDataByIdentifier","ClearDiagnosticInformation",
+ "ReadDTCInformation","TransferData","RequestDownload","RequestUpload","RoutineControl",
+ "SecurityAccess","TesterPresent","DiagnosticSessionControl","CommunicationControl",
+ "ControlDTCSetting","InputOutputControlByIdentifier","RequestTransferExit","ResponsePending",
+ "SingleFrame","FirstFrame","ConsecutiveFrame","FlowControl","BoundaryValue","FaultInjection"}
+
 def redact_text(s):
     if not isinstance(s,str): return s
-    def repl(m):
-        t=m.group(0)
-        return t if t in WHITELIST else _placeholder(t)
-    return SIG_RE.sub(repl, s)
+    s = SYRSREF_RE.sub("<SYRS_REF>", s)
+    s = SIG_RE.sub(lambda m: m.group(0) if m.group(0) in WHITELIST else _placeholder(m.group(0)), s)
+    s = CAMEL_RE.sub(lambda m: m.group(0) if m.group(0) in STD_TERMS else "<SIG>", s)
+    return s
 
 def _chanC_key(k):
     k=k.lower(); return "chc" in k or "cve" in k or k in ("c","channel_c","channelc")
