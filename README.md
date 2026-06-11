@@ -48,14 +48,20 @@ tables under `stats/tables/`.
 
 ## NOTE on de-identification
 
-The 347 SYRS items are drawn from a **proprietary automotive ECU specification**.
+The SYRS items are drawn from a **proprietary automotive ECU specification**.
 To protect that IP while supporting replication, this package is **de-identified**
-by `redact.py`: proprietary SYRS requirement text and golden-VC text are blanked
-(`<REDACTED: proprietary SYRS text>`), and component signal names are replaced by
-stable placeholders (`<SIG_n>`). Public protocol/standard names (ISO 15765-2,
-LIN, UDS, CAN), test structure, public `Issue_Source` references, and all numeric
-scores/labels are preserved, so the statistical analysis is **fully reproducible**
-without the proprietary corpus.
+by `redact.py` (run with `--spec-readable`): the SYRS requirement text and
+golden-VC text are released in readable form with proprietary component/signal
+names replaced by stable placeholders (`<SIG_n>`); the placeholder-to-original
+mapping is never distributed. Public protocol/standard vocabulary (ISO 15765-2,
+LIN, UDS, CAN, ISO 14229 service and NRC names), test structure, public
+`Issue_Source` references, and all numeric scores/labels are preserved verbatim.
+
+`syrs_corpus/syrs_with_golden_vcs.json` contains the de-identified corpus
+actually attempted by the pipeline (350 SYRS items: 208 Channel-A,
+142 Channel-B), each with its channel, category, quality tier, requirement
+text, and golden (ground-truth) VCs — sufficient to independently re-run
+matching, generation, and the novelty assessment.
 
 ## License
 
