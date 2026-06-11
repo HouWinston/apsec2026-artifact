@@ -1,4 +1,4 @@
-# IssueDriven-VC — Replication Package
+# Field2VC — Replication Package
 
 Replication artifact for a double-blind conference submission on
 failure-grounded verification-criteria (VC) completion for automotive ECU
@@ -9,10 +9,11 @@ requirements.
 
 ## What this package supports
 
-`IssueDriven-VC` is a five-stage pipeline (Fetch → Filter → Match → Generate →
+`Field2VC` is a five-stage pipeline (Fetch → Filter → Match → Generate →
 Review) that completes ASPICE SYS.2 verification criteria (VCs) by grounding LLM
 generation in empirical field-failure evidence from two external channels:
-open-source GitHub issues (**Channel A**) and NHTSA recall notices (**Channel B**).
+open-source GitHub issues (**Channel A**) and NHTSA ODI consumer complaints
+(**Channel B**).
 
 This package lets an independent reviewer **re-run the pipeline**, **inspect the
 prompts and configuration**, and **reproduce the statistical analysis** behind
@@ -58,15 +59,27 @@ LIN, UDS, CAN, ISO 14229 service and NRC names), test structure, public
 `Issue_Source` references, and all numeric scores/labels are preserved verbatim.
 
 `syrs_corpus/syrs_with_golden_vcs.json` contains the de-identified corpus
-actually attempted by the pipeline (350 SYRS items: 208 Channel-A,
-142 Channel-B), each with its channel, category, quality tier, requirement
-text, and golden (ground-truth) VCs — sufficient to independently re-run
-matching, generation, and the novelty assessment.
+covering **every SYRS item that appears in the released evaluation data**
+(307 items: 165 Channel-A, 142 Channel-B), each with its channel, category,
+quality tier, requirement text, and golden (ground-truth) VCs — sufficient
+to independently re-run matching, generation, and the novelty assessment
+for all released labels. Items on which every pipeline condition abstained
+(no VC entered evaluation) are withheld to minimise proprietary exposure;
+they back no released label or reported statistic.
 
 ## License
 
 - **Code** (`pipeline/`, `stats/`): MIT.
 - **Data and documentation**: CC-BY-4.0.
 
-External failure evidence (GitHub issues, NHTSA recalls) is public data retrieved
-via the respective public APIs and cited by source ID where used.
+External failure evidence (GitHub issues, NHTSA ODI complaints) is public data
+retrieved via the respective public APIs and cited by source ID where used.
+
+## Known data limitation
+
+In the merged rating sheet, the free-text `E2_Notes` column is misaligned for
+some Channel-B rows (an artifact of parsing E2's free-form review output).
+The numeric/categorical score columns (`Correctness`, `Novelty`, `Usefulness`,
+`Scope`) were cross-checked against E2's original task sheet and are correct;
+all reported statistics derive from the score columns only. Treat Channel-B
+`E2_Notes` text as unreliable.

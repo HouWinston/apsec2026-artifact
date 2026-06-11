@@ -8,14 +8,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: VC_SYS.0001_D.1\n      Title: Verify current sampling mechanism measurement range\n      Method:\n        Type: Dynamic\n        Technique: Boundary Value Analysis\n      Pass_Fail_Criteria:\n        Pass: |\n          1. Apply input current signals at the following values: -300.0A, -299.9A, 0.0A, +299.9A, +300.0A.\n          2. Confirm that the system successfully samples and reports each value without error or saturation.\n        Fail: |\n          - The system fails to sample or report any of the boundary or near-boundary test points.\n          - The system reports an out-of-range error for any input within [-300.0A, +300.0A].\n    - VC_Item:\n      VC_ID: VC_SYS.0001_D.2\n      Title: Verify current sampling mechanism precision\n      Method:\n        Type: Dynamic\n        Technique: Positive Testing\n      Pass_Fail_Criteria:\n        Pass: |\n          1. Apply a stable input current of 150.0A.\n          2. Record 10 consecutive sampled values.\n          3. Confirm that all reported values are increments of 0.1A (e.g., 149.9A, 150.0A, 150.1A) and that the resolution is not coarser than 0.1A.\n        Fail: |\n          - Any sampled value is reported with a resolution worse than 0.1A (e.g., 150A, 150.5A).\n          - The system rounds or truncates values in a manner inconsistent with 0.1A precision.\n    - VC_Item:\n      VC_ID: VC_SYS.0001_D.3\n      Title: Verify current sampling mechanism accuracy\n      Method:\n        Type: Dynamic\n        Technique: Equivalence Class Testing\n      Pass_Fail_Criteria:\n        Pass: |\n          1. Apply calibrated input currents at -250.0A, -100.0A, 0.0A, +100.0A, +250.0A.\n          2. For each input, record the system’s reported value.\n          3. Confirm that the absolute difference between the applied current and the reported value is ≤ 3.5A for all test points.\n        Fail: |\n          - Any reported value deviates from the applied current by more than ±3.5A."
  },
  {
-  "syrs_id": "SYRS.0006_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DCM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ECU shall enable or disable the transmission and/or reception of non-diagnostic application messages based on the '<SIG>' and '<SIG>' parameters received via UDS Service 0x28 (Communication Control)",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0006_D_A",
   "channel": "A-GitHub",
   "category": "Diagnostics_DCM",
@@ -104,22 +96,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0031_B_A.1\"\n      Title: \"Verify Bit 0 Reset Logic (Heal Strategy)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"State Transition Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Pre-condition: Set CRC DTC Status Bit 0 = 1 (<SIG>).\n          2. Inject 2 valid CRC frames. Verify Bit 0 remains 1.\n          3. Inject 3rd valid CRC frame.\n          4. Verify Bit 0 transitions to 0.\n          5. Verify Bit 3 (<SIG>) remains 1 (History).\n        Fail: |\n          - Bit 0 resets before 3rd frame.\n          - Bit 0 remains 1 after 3rd frame."
  },
  {
-  "syrs_id": "SYRS.0031_C",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall clear the CRC Error DTC from memory if and only if 40 consecutive Operation Cycles are completed without any recurrence of the CRC error. The recurrence of the error shall reset the error-free counter, restarting the 40-cycle healing process",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.0034_C_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"If a single channel fault is detected (e.g., on KL30a1), the system shall record a 'Voltage Warning DTC' (e.g., U123A)",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0034_C_C",
   "channel": "B-NHTSA",
   "category": "Functional_Safety",
@@ -142,14 +118,6 @@
   "quality_tier": "excellent",
   "requirement": "\"Upon confirmation of the System Fault (SYRS.0035_E_A), the System shall execute the Safe State transition within 20ms: 1. <SIG> Action: Command all relevant MOSFETs to the OFF State (High Impedance/Non-conducting). 2. <SIG>: Prevent any re-activation of MOSFETs until a Power-On-Reset (POR) occurs",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0035_E_B.1\"\n      Title: \"Verify Safe State Transition (MOSFET OFF)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject Offset Faults on 3 channels > 50ms.\n          2. Monitor Gate-Source Voltage (Vgs) of MOSFETs.\n          3. Verify Vgs drops to 0V (OFF state) within 20ms of fault confirmation.\n          4. Verify Current = 0A.\n        Fail: |\n          - MOSFET remains ON or enters undefined state."
- },
- {
-  "syrs_id": "SYRS.0039_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall implement diagnostic voltage zones to detect 'Short to Vbat' (Voltage > <SIG_338>) and 'Short to GND' (Voltage < <SIG_339>), utilizing a <SIG_340> voltage band for fault clearing",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0058_C_A",
@@ -624,14 +592,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0195.2\"\n      Title: \"Verify First Signal Validity Post-Wakeup\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Trigger WUP; Wait 100 ms.\n          2. Master sends Request for Light Sensor data.\n          3. Verify response signals are NOT '<SIG_37>' (0xFF/0x00) and match physical light conditions.\n        Fail: |\n          - Response contains uninitialized data or fails to meet Signal Quality requirements."
  },
  {
-  "syrs_id": "SYRS.0196_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the LIN light sensor value to 255 (Signal Not Available / Error state) upon detection of an error or disturbance in the global light sensor",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0199_A",
   "channel": "B-NHTSA",
   "category": "Body_Control",
@@ -768,36 +728,12 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0242_B.1\"\n      Title: \"Verify Signal Substitution on ASIC Hardware Error\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject a hardware fault into the ASIC (e.g., via debugger or hardware pins) to trigger the '<SIG_238>' internal flag.\n          2. Monitor the '<SIG_90>' signal on the vehicle communication bus.\n          3. Verify that '<SIG_90>' transitions to exactly 15 within 100 ms of fault detection.\n          4. Maintain the fault and verify the value remains constant at 15.\n        Fail: |\n          - '<SIG_90>' does not transition to 15 within 100 ms.\n          - The signal value remains at its pre-fault state or transitions to an undefined/incorrect value.\n          - The system fails to register the ASIC error in the internal diagnostic buffer.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0242_B.2\"\n      Title: \"Verify Signal Integrity (No False Positive)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Operate the system under nominal conditions (no ASIC hardware errors present).\n          2. Monitor '<SIG_90>' for 5 seconds during standard functional operations.\n          3. Verify '<SIG_90>' follows its functional logic and never defaults to 15 unless the functional input specifically requires it.\n        Fail: |\n          - '<SIG_90>' defaults to 15 without a corresponding ASIC hardware error."
  },
  {
-  "syrs_id": "SYRS.0243_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the internal 'Light Plausibility Status' to 'Invalid' (0x02) if the raw light signal value exceeds the calibrated Plausibility Threshold (e.g., <SIG_344>)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.0245",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "good",
-  "requirement": "The system shall set the 'Light Sensor <SIG> Fault' to Active if the signal from any light receiver is detected as 'Out of Range' for a continuous duration of more than 100 ms",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0246",
   "channel": "B-NHTSA",
   "category": "Functional_Safety",
   "quality_tier": "excellent",
   "requirement": "\"The system design shall ensure Freedom From Interference (FFI) such that single-point electrical faults (Short-to-Ground, Short-to-Battery, Open Circuit) within the Light Sensor interface do not propagate to or degrade the performance of the Rain, Solar, or Humidity sensors",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0246.1\"\n      Title: \"Verify FFI against Electrical Shorts (Hardware Isolation)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Establish nominal operation for all sensors (Rain, Light, Solar, Humidity).\n          2. Inject a hard Short-to-Ground on the Light Sensor signal line (or power pin).\n          3. Monitor the outputs of Rain, Solar, and Humidity sensors.\n          4. Verify these sensors continue to update with valid data within specified tolerance (proving electrical isolation/buffering prevents shared rail collapse).\n          5. Repeat with Short-to-Battery (e.g., $12\\text{V}/5\\text{V}$).\n        Fail: |\n          - Shared power rail collapses, causing all sensors to fail.\n          - Shared ADC saturates, affecting measurements of other sensors.\n    - VC_Item:\n      VC_ID: \"VC_SYS.0246.2\"\n      Title: \"Verify FFI against Data/Logic <SIG> (Software Isolation)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject an Open Circuit or \"Stuck-at\" fault on the Light Sensor data line.\n          2. Verify that the software driver handles the timeout/error for the Light Sensor *without* blocking the processing loop for Rain/Solar/Humidity sensors.\n          3. Confirm update rates for other sensors remain unaffected.\n        Fail: |\n          - Software hangs or cycle time increases due to waiting for the faulty Light Sensor, delaying other sensor updates."
- },
- {
-  "syrs_id": "SYRS.0247_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The 'Light Sensor <SIG> Fault' shall be cleared (set to inactive) if both light receivers are diagnosed as OK for a continuous healing duration of at least <SIG_337> (e.g., 200 ms)",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0249_B_A",
@@ -816,28 +752,12 @@
   "golden_vc": " - VC_Item:\n      VC_ID: VC_SYS.0250_A.1\n      Title: Verification of <SIG_284> setting upon Light Sensor ASIC\n        error\n      Method:\n        Type: Dynamic\n        Technique: Fault Injection Testing\n      Pass_Fail_Criteria:\n        Pass: '1.  Simulate a defined Light Sensor ASIC error (e.g., <SIG_283>)\n          \t on the input interface of the system under test.\n\n          2.  Monitor the LIN signal ''<SIG_284>'' within 100 ms after\n          \t error injection.\n\n          3.  Confirm that the value of ''<SIG_284>'' is set to 0 (logical\n          \t low).\n\n          '\n        Fail: '-    The ''<SIG_284>'' remains at 1 or an undefined state\n          \t after error injection.\n\n          -    The response time exceeds 100 ms.\n\n          '"
  },
  {
-  "syrs_id": "SYRS.0251_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall detect a 'Climate Sensor Data Fault' if a CRC8 checksum error occurs when reading measurement results from the Climate ASIC",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0251_C_C",
   "channel": "A-GitHub",
   "category": "Diagnostics_DEM",
   "quality_tier": "excellent",
   "requirement": "\"Upon validation of the failure condition (SYRS.0251_C_A OR SYRS.0251_C_B), the System shall set the '<SIG>' bit (Bit 0) of the '<SIG_224>' DTC",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0251_C_C.1\"\n      Title: \"Verify DTC Status Update\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Integration Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Trigger '<SIG_225>' via SYRS.0251_C_A.\n          2. Verify DTC Status Bit 0 changes to 1 immediately.\n          3. Verify DTC Status Bit 3 (Confirmed) behavior follows ISO 14229 trip counter rules (usually immediate or after N cycles).\n        Fail: |\n          - DTC Bit 0 does not update."
- },
- {
-  "syrs_id": "SYRS.0253",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The System shall set the '<SIG_360>' to 'Active' (<SIG> bit = 1) within 200 ms upon detecting either a '<SIG_361>' or an '<SIG_362>' condition on any connected solar receiver channel",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0254",
@@ -894,14 +814,6 @@
   "quality_tier": "excellent",
   "requirement": "\"The ECU shall construct the Negative Response frame for Service 0x22 (Read Data By Identifier) with the following exact 5-byte structure: Byte 0=NAD, Byte 1=PCI, Byte 2=0x7F (Negative Response SID), Byte 3=0x22 (Request SID), Byte 4=NRC",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0270_A.1\"\n      Title: \"Verify Structure with NRC 0x31 (Request Out Of Range)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Simulate a request that triggers NRC 0x31 (Invalid DID).\n          2. Capture the response frame.\n          3. Verify the 5-byte sequence is exactly [NAD, PCI, 0x7F, 0x22, 0x31].\n        Fail: |\n          - Response does not match the exact 5-byte sequence/content.\n    - VC_Item:\n      VC_ID: \"VC_SYS.0270_A.2\"\n      Title: \"Verify Structure with NRC 0x12 (<SIG> Not Supported) Boundary\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Simulate a request that triggers NRC 0x12 (e.g., using an invalid UDS sub-function on 0x22, if supported).\n          2. Verify the 5-byte sequence is exactly [NAD, PCI, 0x7F, 0x22, 0x12].\n        Fail: |\n          - Response does not match the expected 5-byte sequence/content.\n    - VC_Item:\n      VC_ID: \"VC_SYS.0270_A.3\"\n      Title: \"Verify Absence of Negative Response during Positive Operation (Negative)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Send a UDS 0x22 request with a valid, supported DID.\n          2. Verify the ECU responds with a positive response (SID 0x62).\n          3. Confirm that the 0x7F negative response structure is NOT transmitted when a positive response is expected.\n        Fail: |\n          - System incorrectly sends the 0x7F negative response structure (false positive)."
- },
- {
-  "syrs_id": "SYRS.0270_B",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DCM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ECU shall send Negative Response Code (NRC) 0x31 (Request Out of Range) if the requested Data Identifier (DID) is not supported in the current active diagnostic session or security state",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0270_C",
@@ -1088,14 +1000,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0372_A_B.1\"\n      Title: \"Verify Status Update Latency\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Performance Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Configure inputs: INT = Not_Active.\n          2. Inject the <SIG_179>-th 'CRC Failure' sample (Time $<SIG_59>$).\n          3. Monitor '<SIG_180>.Info'.\n          4. Record the time ($<SIG_60>$) when the value changes to 'SNA'.\n          5. Verify Delta ($<SIG_60> - <SIG_59>$) $\\le 100\\text{ ms}$.\n        Fail: |\n          - Latency exceeds $100\\text{ ms}$.\n    - VC_Item:\n      VC_ID: \"VC_SYS.0372_A_A.3\"\n      Title: \"Verify MC/DC Negative Logic (Condition 2 Fail: INT Active)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing (MC/DC)\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Set 'INT.Info' to 'Active'.\n          2. Inject 'CRC Failure' for $N\\_CRCFail$ (or more) consecutive cycles.\n          3. Verify '<SIG_180>.Info' remains NOT 'SNA'.\n        Fail: |\n          - System sets 'SNA' even when 'INT.Info' is Active."
  },
  {
-  "syrs_id": "SYRS.0373_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set '<SIG_229>.Info' to 'Fail_Present' if ALL the following conditions are simultaneously met: 1) '<SIG_126>' message is missing for a duration ≥ <SIG_8>, 2) 'INT.Info' is Active, AND 3) '<SIG>' is OFF",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0373_C_A",
   "channel": "B-NHTSA",
   "category": "Functional_Safety",
@@ -1134,14 +1038,6 @@
   "quality_tier": "excellent",
   "requirement": "\"The System shall set '<SIG_229>.Info' to 'Fail_Present' within 100 ms when all the following conditions are met: 1. '<SIG_126>' CRC failure counter reaches the [<SIG_179>] threshold; 2. 'INT.Info' is 'Active'; 3. '<SIG>' is 'OFF",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0376_B.1\"\n      Title: \"Verify 'Fail_Present' Transition (Threshold & Condition Match)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Initialize 'INT.Info' to 'Active' and '<SIG>' to 'OFF'.\n          2. Inject CRC failures on '<SIG_126>' for exactly [<SIG_179>] consecutive cycles.\n          3. Monitor '<SIG_229>.Info' on the communication bus.\n          4. Verify signal transitions to 'Fail_Present' within 100 ms of the [<SIG_179>]-th failure.\n        Fail: |\n          - '<SIG_229>.Info' does not transition to 'Fail_Present'.\n          - Transition occurs before reaching the [<SIG_179>] threshold.\n          - Latency from the threshold hit to signal update exceeds 100 ms.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0376_B.2\"\n      Title: \"Verify Logical <SIG> (Condition Mismatch)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Perform the following sub-tests for at least 500 ms each:\n              a. Inject [<SIG_179>] CRC failures with 'INT.Info' = Inactive.\n              b. Inject [<SIG_179>] CRC failures with '<SIG>' = ON.\n          2. Verify '<SIG_229>.Info' remains in its previous state (not 'Fail_Present') in both cases.\n        Fail: |\n          - '<SIG_229>.Info' is set to 'Fail_Present' despite inhibited preconditions.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0376_B.3\"\n      Title: \"Verify Counter Boundary Logic (N-1, N, N+1)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Apply conditions: 'INT.Info' = Active, '<SIG>' = OFF.\n          2. Inject [<SIG_179> - 1] CRC failures; Verify status is NOT 'Fail_Present'.\n          3. Inject the [<SIG_179>]-th CRC failure; Verify status transitions to 'Fail_Present'.\n          4. Inject the [<SIG_179> + 1]-th CRC failure; Verify status remains 'Fail_Present'.\n        Fail: |\n          - Early trigger at [N-1].\n          - Missed trigger at exactly [N].\n          - Signal toggle or instability at [N+1]."
- },
- {
-  "syrs_id": "SYRS.0377_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set '<SIG_229>.Info' to 'Fail_Present' if ALL the following conditions are simultaneously met: 1) '<SIG_126>' message timeout occurs (<SIG_349>), 2) 'ENGINE1' message timeout occurs (<SIG_350>), AND 3) 'INT.Info' is Active",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0378_C_A",
@@ -1192,14 +1088,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0421_D.1\"\n      Title: \"Verify Short to Ground Fault Detection and Reporting\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Configure the electrical test interface to simulate a '<SIG_232>' condition on '<SIG_68>'.\n          2. Maintain the fault condition for > 100 ms to ensure diagnostic cycle completion.\n          3. Verify that the '<SIG_231>' signal transitions to 'Failed'.\n          4. Verify the transition occurs within 100 ms of the fault injection.\n        Fail: |\n          - '<SIG_231>' does not transition to 'Failed'.\n          - Latency of fault reporting exceeds 100 ms.\n          - System reports an incorrect fault status (e.g., '<SIG_162>' instead of '<SIG_232>').\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0421_D.2\"\n      Title: \"Verify False Positive Robustness (Nominal Signal)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Apply a nominal (valid voltage/frequency) signal to '<SIG_68>'.\n          2. Monitor '<SIG_231>' for a duration of 500 ms.\n          3. Verify that '<SIG_231>' remains in 'Passed' or '<SIG_353>' state.\n          4. Confirm '<SIG_231>' is NOT set to 'Failed'.\n        Fail: |\n          - '<SIG_231>' transitions to 'Failed' while input signal is nominal."
  },
  {
-  "syrs_id": "SYRS.0440_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ESCL shall reject any Lock Request with a NACK response (Data=0x00) if the absolute difference between '<SIG_68>' and 'BRAKE1.<SIG>' exceeds '<SIG_347>' for a continuous duration of at least '<SIG_348>",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0444_A_A",
   "channel": "A-GitHub",
   "category": "Communication_Stack",
@@ -1230,14 +1118,6 @@
   "quality_tier": "excellent",
   "requirement": "\"Upon detection of '<SIG_145>' (SYRS.0444_C_A), the System shall set '<SIG_86>.<SIG>' to 'Active' within [<SIG_149>] (100 ms)",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0444_C_B.1\"\n      Title: \"Verify Safe State Transition Latency\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Performance Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Trigger '<SIG_145>' (Fault + Lock Req).\n          2. Monitor '<SIG_86>.<SIG>'.\n          3. Verify signal transitions to 'Active' within 100 ms.\n        Fail: |\n          - Signal does not set to 'Active'.\n          - Latency > 100 ms."
- },
- {
-  "syrs_id": "SYRS.0446_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ESCL shall set the signal '<SIG_86>.<SIG>' to 'Active' if the ESCL receives a Valid Lock Request (<SIG_84>) AND no valid BRAKE1 message is received for a continuous duration of at least 2.5 seconds",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0448",
@@ -1376,14 +1256,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0482.1\"\n      Title: \"Verify Confirmed Bit Suppression on Event Memory Overflow\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Pre-condition: Identify the maximum DTC storage capacity [N] for the current configuration.\n          2. Trigger [N] distinct DTCs to fill the Event Memory.\n          3. Trigger the [N+1]th distinct DTC (overflow candidate).\n          4. Query the status of the [N+1]th DTC via UDS Service 0x19 0x02.\n          5. Verify that 'Bit 3: <SIG>' of the [N+1]th DTC is 0.\n          6. Verify that 'Bit 0: <SIG>' for the [N+1]th DTC is 1 (indicating detection occurred but storage/confirmation was suppressed).\n        Fail: |\n          - 'Bit 3: <SIG>' is set to 1 for the [N+1]th DTC despite memory being full.\n          - The system overwrites an existing confirmed DTC without a defined displacement strategy.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0482.2\"\n      Title: \"Verify Normal Confirmation Logic within Storage Limits\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Ensure Event Memory is clear.\n          2. Trigger [N] distinct DTCs one by one.\n          3. After each trigger, verify via UDS Service 0x19 0x02 that 'Bit 3: <SIG>' is set to 1 for all [N] entries.\n        Fail: |\n          - Any of the first [N] DTCs fail to set 'Bit 3: <SIG>' once confirmation criteria are met."
  },
  {
-  "syrs_id": "SYRS.0483_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The Monitoring Cycle shall initiate (transition to 'Active') upon detection of '<SIG_125>', and shall terminate (transition to 'Terminated') when the system enters '<SIG_186>' OR when a new Monitoring Cycle is subsequently initiated",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0484_B",
   "channel": "A-GitHub",
   "category": "Diagnostics_DEM",
@@ -1406,22 +1278,6 @@
   "quality_tier": "excellent",
   "requirement": "\"The System shall set the Diagnostic Trouble Code '<SIG_234>' (U0123) within 1000 ms upon detecting the '<SIG_235>' condition (Internal Fault ID: 0x901486) from the Braking System Module (BSM)",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0490.1\"\n      Title: \"Verify DTC U0123 Triggering (Signal Invalid)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Establish nominal communication between BSM and ESCL.\n          2. Force BSM to transmit '<SIG_41>' with '<SIG_236>' status (or data outside defined validity range).\n          3. Maintain this condition for > 1000 ms.\n          4. Access ESCL Diagnostic Memory via UDS.\n          5. Verify '<SIG_234>' (U0123) is status 'Confirmed' (Bit 3 set).\n          6. Verify status bits comply with ISO 14229-1 (e.g., <SIG> = 1).\n        Fail: |\n          - DTC U0123 is not set after 1000 ms of invalid signal.\n          - Wrong DTC is recorded.\n          - Status bits indicate 'Passed' or 'Not Tested'.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0490.2\"\n      Title: \"Verify DTC Quiescence (Valid Signal)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Transmit valid '<SIG_41>' data (valid range and '<SIG_354>' status) from BSM.\n          2. Monitor ESCL Diagnostic Memory for 10 seconds.\n          3. Verify '<SIG_234>' (U0123) is NOT set (<SIG> bit = 0).\n        Fail: |\n          - DTC U0123 is logged while signal is valid."
- },
- {
-  "syrs_id": "SYRS.0493",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ESCL shall detect the CAN 'Bus Off' condition and set the DTC 0xC00188 (Bus Off) to 'Active' within 100 ms of detection",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.0494",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ESCL shall detect the '<SIG_359>' condition for the '<SIG_74>' signal and set the Diagnostic Trouble Code (DTC) '0xC42631' in the Event Memory within the timing constraints defined in the [P965 ESL Diagnosis Specification]",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0498_C",
@@ -1472,28 +1328,12 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0515_A.1\"\n      Title: \"Verify Positive Protocol Response and Reset Action\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Send UDS request '11 01' (<SIG>).\n          2. Verify ESCL responds with '51 01'.\n          3. Verify the ECU immediately initiates a hard reset sequence.\n        Fail: |\n          - ECU responds with Negative Response or incorrect SID (not 0x51).\n          - ECU fails to initiate hard reset after sending 0x51.\n    - VC_Item:\n      VC_ID: \"VC_SYS.0515_A.2\"\n      Title: \"Verify Negative Response for Unsupported Sub-function\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Send UDS request '11 FF' (unsupported sub-function).\n          2. Verify ESCL responds with Negative Response Code (NRC) 0x12 (<SIG>).\n        Fail: |\n          - ECU returns a positive response (0x51) or incorrect NRC."
  },
  {
-  "syrs_id": "SYRS.0518_C",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"Each Snapshot Record shall contain the following RDIs in the specified sequence: 1) $1008 (<SIG>), 2) $1009 (<SIG> Ign On), 3) $200A (Ignition Counter), 4) $1004 (Battery Voltage), and 5) $1002 (Vehicle Speed)",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0519_B",
   "channel": "A-GitHub",
   "category": "Diagnostics_DCM",
   "quality_tier": "excellent",
   "requirement": "\"The system shall respond to $19 06 requests within <SIG_40> (50 ms). If the requested DTC is not stored or the <SIG> is not supported, the system shall return NRC $31 (RequestOutOfRange)",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0519_B.1\"\n      Title: \"Verify <SIG> Data Record Structure and <SIG> Logic\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Trigger a specific Diagnostic Event (DTC) to generate an <SIG> Data Record.\n          2. Request <SIG> Data via UDS Service 0x19 0x06 (<SIG>).\n          3. Verify that the response contains RDI $6080.\n          4. Increment the event occurrence (e.g., re-trigger fault) and verify RDI $6080 increments accordingly as a non-negative integer.\n        Fail: |\n          - RDI $6080 is missing from the record payload.\n          - The value of RDI $6080 does not increment or contains invalid data types.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0519_B.2\"\n      Title: \"Verify Fixed Value for Warning Lamp Cycles (RDI $6081)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Trigger a Diagnostic Event and retrieve the <SIG> Data Record via UDS 0x19 0x06.\n          2. Locate the data bytes corresponding to RDI $6081.\n          3. Confirm the value is exactly 0x00.\n        Fail: |\n          - RDI $6081 is missing from the <SIG> Data Record.\n          - The value of RDI $6081 is non-zero (indicating failed hardcoding of the fixed value)."
- },
- {
-  "syrs_id": "SYRS.0522",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The ESCL shall respond to the UDS request '19 09 XX XX XX' with a positive response '59 09' followed by the specified data stream, in the following order and content: [<SIG> (0x0F)], [DTC Severity], [<SIG> (0xC4)], [3-byte DTC Code], and [DTC Status Mask]",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0524_A",
@@ -1696,14 +1536,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0571_B.1\"\n      Title: \"Verify Write Rejection at Low Voltage (NRC 0x93)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis (BVA)\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Adjust DC power supply to 8.40V (±0.05V).\n          2. Send UDS Write Request: `2E F1 B0 [Data]Construct`.\n          3. Verify the ECU returns NRC 0x93 (`7F 2E 93`) within 50 ms.\n          4. Read DID $F1B0 via Service 0x22 and confirm data remains at the original value.\n        Fail: |\n          - ECU returns a Positive Response (0x6E).\n          - ECU returns an incorrect NRC (e.g., 0x22 or 0x31).\n          - <SIG> NVM write occurs despite low voltage.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0571_B.2\"\n      Title: \"Verify Successful Write at or Above Voltage Threshold\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Adjust DC power supply to 8.60V (±0.05V).\n          2. Send a valid UDS Write Request: `2E F1 B0 [<SIG_372>]`.\n          3. Verify the ECU returns Positive Response `6E F1 B0` within 50 ms.\n          4. Confirm NVM write is successful and data is persisted after a power cycle.\n        Fail: |\n          - ECU erroneously triggers NRC 0x93 or other negative responses.\n          - Response latency exceeds the 50 ms constraint."
  },
  {
-  "syrs_id": "SYRS.0579_C",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The 'Check EOL Configuration' data structure shall be set to all 0x00 (Nominal/No Fault) if and only if the system is in the default state (no PROXI file processed) or if the processed PROXI file contains zero error entries",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0581_A",
   "channel": "A-GitHub",
   "category": "Diagnostics_DCM",
@@ -1784,22 +1616,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0647.1\"\n      Title: \"Verify Synchronization Logic and Timer <SIG> (Positive/BVA)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Set Displayed Layer = A, <SIG_177> = B.\n          2. Start Timer (500 ms).\n          3. Verify at T=499 ms, Layer remains A.\n          4. Verify after T=500 ms, Layer transitions to B.\n        Fail: |\n          - Layer transitions before 500 ms or fails to transition after expiry."
  },
  {
-  "syrs_id": "SYRS.0647_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The FES shall record an event memory entry (per <<SIG_72>>) if and only if the '<SIG_176>' timer (Threshold = <SIG_336>) expires AND the displayed layer was inconsistent",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.0649_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The FES shall record an entry in the event memory upon the 5th consecutive rejection of a view change request by the master, and only this specific rejection shall trigger the event",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0651_B",
   "channel": "A-GitHub",
   "category": "Diagnostics_DCM",
@@ -1846,14 +1662,6 @@
   "quality_tier": "excellent",
   "requirement": "\"The FES shall detect a '<SIG_249>' fault on any of the 9 '<SIG_250>' pins/traces. Upon detection, the system shall set the corresponding Diagnostic Event Status to 'FAILED' within 100 ms",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0660_B.1\"\n      Title: \"Verify Short to Vcc Detection for all Touch Foil Channels\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Sequentially apply a '<SIG_249>' condition to each of the 9 touch foil pins (<SIG_251> through <SIG_252>).\n          2. For each pin, verify via UDS Service 0x19 0x02 that the specific <SIG> transitions to 'FAILED'.\n          3. Verify the detection and reporting latency is ≤ 100 ms from the moment of fault injection.\n          4. Repeat for 3 cycles per pin to ensure consistency.\n        Fail: |\n          - Any of the 9 pins fail to trigger a 'FAILED' status when shorted.\n          - The reported Event ID does not match the physical pin/trace under test.\n          - Latency for fault reporting exceeds 100 ms.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0660_B.2\"\n      Title: \"Verify Signal <SIG> (Fault De-bounce/Healing)\"\n      Method: \n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Remove the '<SIG_249>' condition from the pin under test.\n          2. Verify that the '<SIG>' bit (Bit 0) for the corresponding DTC transitions to 0 after the defined healing cycle or debouncing time.\n        Fail: |\n          - The fault status remains 'FAILED' indefinitely after the physical short circuit is removed."
- },
- {
-  "syrs_id": "SYRS.0663_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the '<SIG>' DTC to 'Active' (value = 1) if the display temperature is strictly less than the calibrated threshold '<SIG_346>",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0665_B",
@@ -2120,36 +1928,12 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0847_A.1\"\n      Title: \"Verify Timer Start/Restart Logic (Rising Edge)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Monitor internal variable '<SIG_241>' via calibration tool (e.g., CANape).\n          2. Inject '<SIG_80>' transition from 0 to 1.\n          3. Verify timer begins incrementing from 0 (if stopped) or resets to 0 and increments (if running).\n          4. Confirm the state change occurs within 10 ms of the CAN message reception.\n        Fail: |\n          - '<SIG_81>' does not reset or start after the 0 to 1 transition.\n          - Latency between CAN message and timer update exceeds 10 ms.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0847_A.2\"\n      Title: \"Verify Edge Sensitivity (Falling Edge Immunity)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Ensure '<SIG_81>' timer is currently running (value > 0).\n          2. Inject '<SIG_80>' transition from 1 to 0.\n          3. Verify '<SIG_81>' continues its current progression without being reset to 0 or stopped.\n        Fail: |\n          - '<SIG_81>' is reset, stopped, or corrupted upon the falling edge of KL15.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.0847_A.3\"\n      Title: \"Verify Timer Robustness (Back-to-Back Transitions)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject a sequence of transitions: 0 -> 1, then wait 50ms, then 0 -> 1 again.\n          2. Verify timer starts on the first edge.\n          3. Verify timer restarts (resets to 0) exactly on the second rising edge.\n        Fail: |\n          - Timer fails to restart on the subsequent rising edge.\n          - Timer ignores the second edge if it is already running."
  },
  {
-  "syrs_id": "SYRS.0847_D_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The FES shall fully restart the '<SIG_81>' timer (resetting elapsed time to zero) upon receiving a command or signal indicating the 'BUS-OFF DTC' (0xD40100) has been successfully reset",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.0852_B",
   "channel": "A-GitHub",
   "category": "Diagnostics_DEM",
   "quality_tier": "excellent",
   "requirement": "\"All network DTCs SHALL follow a 400ms 'Time-based Debouncing' strategy for Maturation and a 1000ms strategy for Healing (recovery to '<SIG>')",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.0852.1\"\n      Title: \"Verify Root Cause Prioritization (<SIG>)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject a hard BUS-OFF condition.\n          2. Confirm DTC 0xD40100 is ACTIVE.\n          3. Verify that all 8 Timeout-DTCs (e.g., 0xD12100) remain in '<SIG_222>' or 'PASSED' state, demonstrating successful inhibition.\n        Fail: |\n          - Timeout-DTCs are reported simultaneously with BUS-OFF DTC."
- },
- {
-  "syrs_id": "SYRS.0853",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The FES shall detect the timeout of message '<SIG_79>' (0x585) if the message is absent for a duration exceeding 60 ms, and shall set a corresponding Diagnostic Trouble Code (DTC)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.0856_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"When a '<SIG_79>' timeout occurs, the Network Diagnostics (NWD) shall be deactivated if ANY of the following three conditions is met: 1) <SIG_80> (Ignition) is OFF, OR 2) Power supply voltage is outside the nominal range [9 V, 17 V], OR 3) Timer <SIG_81> has not completed its full duration (duration < <SIG_334>)",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.0858",
@@ -2504,14 +2288,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1097.1\"\n      Title: \"Verify Thermal Maturation and <SIG> <SIG>\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Simulate Temp = 101°C for 200ms. Verify Status = ACTIVE and Current Limited.\n          2. Reduce Temp to 98°C for 2000ms. Verify Status remains ACTIVE (<SIG> Test).\n          3. Reduce Temp to 94°C for 1000ms. Verify Status = INACTIVE.\n        Fail: |\n          - Status toggles at 100°C without hysteresis, or healing occurs above 95°C."
  },
  {
-  "syrs_id": "SYRS.1098_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the signal '<SIG_351>' (Matrix Index 0x0) to 'Failed' upon detecting a periodic ADC Self-Test failure, and shall latch this status for the remainder of the current Operation Cycle (clearing only upon Ignition Reset)",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.1101_A_B",
   "channel": "A-GitHub",
   "category": "Diagnostics_DEM",
@@ -2520,28 +2296,12 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1101.1\"\n      Title: \"Verify Maturation and <SIG> <SIG>\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject 3000 deg/s for 10ms. Verify Status=ERROR and Signal=0x3FFF.\n          2. Reduce speed to 2600 deg/s for 500ms. Verify Status remains ERROR.\n          3. Reduce speed to 2400 deg/s for 100ms. Verify Status=OK and Signal resumes valid data.\n        Fail: |\n          - Failure to set ERROR at 10ms or premature recovery at 2600 deg/s."
  },
  {
-  "syrs_id": "SYRS.1102_C_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set '<SIG_121>' to 'OK' if and only if the two stored zero-point calibration values pass the consistency check for a continuous duration of at least 10 ms",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.1103_B_A",
   "channel": "B-NHTSA",
   "category": "Functional_Safety",
   "quality_tier": "excellent",
   "requirement": "\"The system shall invalidate the steering data by setting '<SIG_119>' and '<SIG_120>' to the SNA value (0x3FFF) whenever the '<SIG_121>' indicates 'ERROR",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1103_B_A.1\"\n      Title: \"Verify Safe State Values on Error (Positive)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject a fault causing '<SIG_121>' to become 'ERROR'.\n          2. Monitor the output signals '<SIG_119>' and '<SIG_120>'.\n          3. Verify both signals are set to $0\\text{x}3\\text{FFF}$ (SNA).\n        Fail: |\n          - Signals transmit valid data or incorrect error codes while Status is ERROR.\n    - VC_Item:\n      VC_ID: \"VC_SYS.1103_B_A.2\"\n      Title: \"Verify Normal Operation (Negative)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Negative Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Ensure '<SIG_121>' is 'VALID' (No Fault).\n          2. Monitor the output signals.\n          3. Verify signals reflect valid angle/speed data (NOT $0\\text{x}3\\text{FFF}$).\n        Fail: |\n          - Signals are stuck at $0\\text{x}3\\text{FFF}$ despite Valid status."
- },
- {
-  "syrs_id": "SYRS.1103_C_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall heal (recover) the '<SIG_121>' to 'OK' if the difference between the raw sensor velocity signals is less than or equal to 2.83 degrees/sample for a continuous duration of at least 10 ms",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.1104_A",
@@ -2560,14 +2320,6 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1104.1\"\n      Title: \"Verify <SIG> <SIG> and Healing Time\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Set Voltage to 8.1V (above original threshold but below hysteresis).\n          2. Maintain for 2000 ms. Verify Status remains ERROR.\n          3. Increase Voltage to 8.25V for 1000 ms. \n          4. Verify Status transitions to OK and DTC Bit 0 resets to 0.\n        Fail: |\n          - Status transitions to OK below 8.2V or healing time < 1000ms."
  },
  {
-  "syrs_id": "SYRS.1105_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"[Variant: 3] The system shall heal (clear) the 'Over Voltage Fault' only if the local supply voltage remains continuously less than or equal to 17.5 V for a <SIG> duration of at least 1000 ms",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.1105_E_A",
   "channel": "B-NHTSA",
   "category": "Functional_Safety",
@@ -2582,14 +2334,6 @@
   "quality_tier": "excellent",
   "requirement": "\"The System shall latch the '<SIG_75>' status (<SIG> bit = 1) upon detection. The fault status shall remain latched for the entire duration of the current '<SIG_76>' and shall only be reset (<SIG> bit = 0) upon the completion of a valid '<SIG_244>' transition",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1106_C.1\"\n      Title: \"Verify Fault Latching throughout Operation Cycle\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Trigger a '<SIG_77>' (e.g., via hardware watchdog timeout or software trap).\n          2. Verify via UDS Service 0x19 0x02 that the DTC status '<SIG>' (Bit 0) is 1.\n          3. Maintain the system in the '<SIG_356>' state for 10 minutes.\n          4. Periodically poll the DTC status and verify Bit 0 remains 1.\n          5. Simulate various vehicle signals (e.g., Speed > 0, Engine Run) and verify the fault does not clear.\n        Fail: |\n          - The '<SIG_75>' status clears (Bit 0 transitions to 0) while Ignition remains ON.\n          - The system fails to record the fault in the Event Memory after the reset occurs.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.1106_C.2\"\n      Title: \"Verify Deactivation Logic (Ignition Cycle Reset)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Pre-condition: '<SIG_75>' is latched (Bit 0 = 1).\n          2. Execute an '<SIG_357>' (UDS 0x11 0x01) and '<SIG_358>' transitions; verify fault remains latched.\n          3. Perform Ignition OFF.\n          4. Wait for the defined power-down/soak time (e.g., 5 seconds).\n          5. Perform Ignition ON.\n          6. Verify via UDS Service 0x19 0x02 that the '<SIG>' bit (Bit 0) for the <SIG> Reset DTC is now 0.\n        Fail: |\n          - Fault is cleared by a soft reset (0x11) or session change without an ignition transition.\n          - Fault remains latched (Bit 0 = 1) after a full Ignition OFF/ON cycle."
- },
- {
-  "syrs_id": "SYRS.1107_C_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the '<SIG_121>' to 'OK' if and only if both Hall Sensor 1 and Hall Sensor 2 report error-free signals for a continuous duration of at least 10 ms",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.1121",
@@ -2672,92 +2416,12 @@
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1136.1\"\n      Title: \"Verify Safe State Transition on Fault Injection (Positive)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Power on the system in normal operation.\n          2. Inject a physical fault into the Left Stalk signal path (e.g., disconnect Pin/Open Circuit).\n          3. Monitor the system output (CAN Signal/Status).\n          4. Verify the system transitions to the 'Safe State' (e.g., Signal Value = 'Invalid/SNA' or Default Value).\n        Fail: |\n          - System continues to output the last valid value (frozen) or erratic values.\n          - System does not enter Safe State.\n    - VC_Item:\n      VC_ID: \"VC_SYS.1136.2\"\n      Title: \"Verify Fault Reaction Time Interval (Performance)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Performance Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Setup high-speed logger.\n          2. Inject a fault (e.g., Short to Ground) at Time $T0$.\n          3. Measure Time $T1$ when the system output reflects the 'Safe State'.\n          4. Verify $\\Delta (T1 - T0) \\le \\text{FRTI}$ (e.g., $100\\text{ ms}$ or as defined in Safety Manual).\n        Fail: |\n          - Reaction time exceeds the required FRTI."
  },
  {
-  "syrs_id": "SYRS.1138_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The 'Angle Mismatch' fault shall be cleared (set to Inactive) if the absolute difference between the Hall sensor angle and the X/Y vector angle is less than or equal to the calibrated tolerance <SIG_335> (e.g., 2.0°)",
-  "golden_vc": ""
- },
- {
   "syrs_id": "SYRS.1140_A",
   "channel": "A-GitHub",
   "category": "Diagnostics_DEM",
   "quality_tier": "excellent",
   "requirement": "\"The System shall set the '<SIG>' (<SIG_256>) fault to 'Active' (<SIG> bit = 1) within 100 ms if the '<SIG_257>' exceeds the threshold of [<SIG_258>] (3.0 degrees/ms)",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1140_A.1\"\n      Title: \"Verify Fault Activation at Upper Boundary (Positive Logic)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject a '<SIG_257>' input of 3.1 degrees/ms (Threshold + 0.1).\n          2. Monitor the '<SIG>' (<SIG_256>) status via UDS Service 0x19 0x02.\n          3. Verify the '<SIG>' bit (Bit 0) transitions to 1 within 100 ms.\n        Fail: |\n          - Fault status remains 'Inactive' (Bit 0 = 0) despite speed > 3.0 degrees/ms.\n          - Reporting latency exceeds 100 ms.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.1140_A.2\"\n      Title: \"Verify Fault Inactivity at Boundary (Negative Logic)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Boundary Value Analysis\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Inject a '<SIG_257>' input of exactly 3.0 degrees/ms.\n          2. Maintain this input for 500 ms.\n          3. Verify the '<SIG>' (<SIG_256>) status remains 'Inactive' (Bit 0 = 0).\n        Fail: |\n          - Fault is erroneously triggered (False Positive) when speed is exactly on the limit.\n\n    - VC_Item:\n      VC_ID: \"VC_SYS.1140_A.3\"\n      Title: \"Verify Signal <SIG> (Self-Healing Logic)\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Positive Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Pre-condition: Fault is active (Speed > 3.0).\n          2. Reduce '<SIG_257>' to 2.0 degrees/ms (Nominal).\n          3. Verify the '<SIG>' bit transitions to 0 after the defined debouncing/healing time.\n        Fail: |\n          - Fault remains latched as 'Active' after signal returns to nominal range."
- },
- {
-  "syrs_id": "SYRS.1141_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The '<SIG>' fault shall be healed (cleared) if the left stalk angle remains within the valid range for a continuous duration of at least 50 ms",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1146_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the '<SIG>' fault to Active if the magnitude of the resultant vector (OR any of X, Y, or Z components) is continuously outside the range [0.5 <SIG>, 10 <SIG>] for a <SIG> duration of at least 50 ms (<SIG_131>)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1152_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set '<SIG_170>' to 'IDLE' if the absolute difference between the Hall sensor angle and the X/Y vector angle strictly exceeds 5.0 degrees for a continuous <SIG> duration of at least 50 ms",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1152_B_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall clear the 'IDLE' state and resume normal operation if the absolute difference between the Hall sensor angle and the X/Y vector angle is continuously within 5.0 degrees for a duration of at least 100 ms (<SIG_70>)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1153_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the '<SIG_170>' signal to 'IDLE' if the left stalk remains in an 'Active' position for a continuous duration of 60.0 seconds or longer",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1153_B",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall clear the active 'IDLE' fault status within 20 ms after the left stalk returns to the 'Idle' position and remains stable for a continuous debouncing time of at least <SIG_345> (e.g., 5 ms)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1154_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the '<SIG_170>' signal to 'IDLE' if the left stalk angle speed strictly exceeds 3000 °/s (indicating an implausible sensor value)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1155_A_A",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall set the CAN signal '<SIG_170>' to 'IDLE' if the left stalk angle position is detected as strictly outside the inclusive range [<SIG_342>, <SIG_343>] for a continuous duration of at least 50 ms (Plausibility <SIG> Time)",
-  "golden_vc": ""
- },
- {
-  "syrs_id": "SYRS.1155_A_B",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"The system shall execute the signal transition to 'IDLE' (defined in SYRS.1155_A_A) within 100 ms of the 50 ms plausibility condition being met",
-  "golden_vc": ""
  },
  {
   "syrs_id": "SYRS.1157_A",
@@ -2790,13 +2454,5 @@
   "quality_tier": "excellent",
   "requirement": "\"If the '<SIG_216>' calibration parameter in NVM is blank (0xFFFF) or invalid, the system shall treat the ASAS angle as 'invalid' and reject the $04 request with NRC $31 (RequestOutOfRange) to distinguish it from a situational range violation",
   "golden_vc": " - VC_Item:\n      VC_ID: \"VC_SYS.1157.1\"\n      Title: \"Verify Standard NRC Response for Range/Calibration <SIG>\"\n      Method:\n        Type: \"Dynamic\"\n        Technique: \"Fault Injection Testing\"\n      Pass_Fail_Criteria: \n        Pass: |\n          1. Scenario A: Set ASAS = 600°. Send $04 FF FF FF. Verify Response: $7F 04 22.\n          2. Scenario B: Corrupt NVM '<SIG_216>'. Send $04 FF FF FF. Verify Response: $7F 04 31.\n        Fail: |\n          - System returns a positive response, a 1-byte custom code, or an incorrect NRC."
- },
- {
-  "syrs_id": "SYRS.1159",
-  "channel": "A-GitHub",
-  "category": "Diagnostics_DEM",
-  "quality_tier": "excellent",
-  "requirement": "\"When the system wakes up from a reset or power cycle, all alert signals shall initially be transmitted as cleared (0) until the maturation criteria are met within the current power cycle",
-  "golden_vc": ""
  }
 ]

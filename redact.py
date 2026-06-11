@@ -183,7 +183,15 @@ if MODE == "readable":
     golden = json.load(open(data_dir/"golden_vc_text_20260429_091653.json",encoding="utf-8"))
     chA = {x["syrs_id"] for x in json.load(open(SRC/"output/matches.json",encoding="utf-8"))}
     chB = {x["syrs_id"] for x in json.load(open(SRC/"output_nhtsa/nhtsa_matches.json",encoding="utf-8"))}
-    used, seen, items = chA|chB, set(), []
+    # Release exactly what the paper evaluates: the SYRS items that appear in
+    # the released rating sheet (channel or baseline rows). Items on which
+    # every condition abstained are withheld (less proprietary exposure; they
+    # back no released label or statistic).
+    import csv as _csv
+    _sheet = SRC/"evaluation_template"/"evaluation_sheet_merged.csv"
+    evaluated = {r["SYRS_ID"] for r in _csv.DictReader(open(_sheet,encoding="utf-8-sig"))
+                 if r["Channel"] in ("A-GitHub","B-NHTSA","Baseline")}
+    used, seen, items = (chA|chB) & evaluated, set(), []
     TIER_EN = {"优秀":"excellent","良好":"good"}
     for tier, cats in corpus.items():
         for cat, lst in cats.items():
