@@ -26,8 +26,9 @@ Gwet's AC1, ablation, cross-LLM sensitivity).
 |---|---|
 | `pipeline/` | Stage 1–5 scripts: corpus fetch + filter + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`), routing + traceability + E1 packet generation |
 | `prompts/` | `prompt_registry.md` (all Stage-2 filtering and Stage-4 generation prompts) and `model_config_manifest.md` (model/version configuration; API keys are read from environment variables, never stored) |
-| `evaluation/` | Framework-B evaluation protocol, E1 adjudicator guide, annotation guide, and rater instructions |
-| `ablation/` | 50-item ablation evaluation instructions and rater brief |
+| `evaluation/` | Framework-B evaluation protocol, E1 adjudicator guide, annotation guide, rater instructions, and `matching_precision_sample.csv` (200-pair annotated retrieval-precision study, seed=42, 73.5 % overall precision) |
+| `ablation/` | 50-item ablation evaluation instructions, rater brief, per-rater rating CSVs, and RQ3 replication table (`eval_2x2_FL_adjudicated.csv`, `eval_2x2_FL_RQ3_replication.csv`) |
+| `syrs_corpus/` | `syrs_with_golden_vcs.json` — de-identified SYRS corpus covering all 307 evaluated items with expert-annotated golden VCs |
 | `stats/` | Analysis scripts (`stats_optionC_AB.py`, `stats_optionC_iaa.py`, `stats_evaluator.py`, ablation/routing analysis, token-cost extraction) |
 | `stats/tables/` | Aggregate result tables: channel-vs-baseline, A+B combined, raw-vs-Holm-corrected p-values, traceability metrics |
 | `evaluation_data/` | **De-identified** per-VC ratings (E2/E3/E4), majority labels, and E1 adjudication for all 489 VCs |
