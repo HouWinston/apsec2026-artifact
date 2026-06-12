@@ -1,0 +1,51 @@
+﻿Row,SYRS_ID,E1_C,E1_N,E1_U,E1_Accept,E2_C,E2_N,E2_U,E2_Accept,E3_C,E3_N,E3_U,E3_Accept,E4_C,E4_N,E4_U,E4_Accept,MV_Votes_of_3,Final_Label,E1_Dispute_with_MV,Reject_Category,Arbitration_Note
+001,SYRS.0217_A_3,1,N,N,R,1,N,N,R,1,N,N,R,1,N,N,R,0,Reject,N,Gen_Failure,LLM generation timeout; NO_NOVEL_VC_FOUND-equivalent empty output
+002,SYRS.0470_B_A,4,Y,Y,A,3,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+003,SYRS.0693_A,3,Y,N,R,1,Y,N,R,4,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,"FD>1023 and log-level are python-can host properties, not ECU observable behaviors"
+004,SYRS.0067_A_B,4,Y,Y,A,2,Y,N,R,4,Y,Y,A,3,Y,Y,A,2,Accept,N,,
+005,SYRS.0693_B,3,Y,N,R,1,Y,N,R,4,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,"FD>1023 and log-level are python-can host properties, not ECU observable behaviors"
+006,SYRS.0353,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,Y,Y,R,1,Reject,N,Tool_Contamination,"log-level and SeeedBus are host-side adapter properties, not ECU behaviors"
+007,SYRS.0022_H_A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+008,SYRS.0346_C,4,Y,Y,A,1,Y,N,R,3,Y,Y,A,3,Y,Y,A,2,Accept,N,,
+009,SYRS.0346_B,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,N,Y,R,1,Reject,N,Tool_Contamination,"Log-level and extended-ID co-existence are python-can config, not ECU timing"
+010,SYRS.0076_B,4,Y,Y,A,3,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+011,SYRS.0458_B_A,4,Y,Y,A,3,Y,Y,A,3,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+012,SYRS.0453_B_B,1,N,N,R,1,N,N,R,1,N,N,R,1,N,N,R,0,Reject,N,Gen_Failure,LLM generation timeout; NO_NOVEL_VC_FOUND-equivalent empty output
+013,SYRS.0458_B_B,3,Y,N,R,2,Y,N,R,4,Y,Y,A,3,Y,Y,A,2,Accept,Y,,E1=Reject(U=N); MV=Accept(E3+E4); BufferedReader overload is an ECU wake-up transition observable behavior; MV prevails
+014,SYRS.0444_A_A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+015,SYRS.0068_A,5,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+016,SYRS.0503,4,Y,Y,A,3,Y,Y,A,3,Y,Y,A,3,Y,N,R,2,Accept,N,,
+017,SYRS.0217_A_2,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+018,SYRS.0346_A,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,"log-level and Windows SeeedBus ID test: host toolchain concern, not ECU"
+019,SYRS.1125_B_B,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,N,Y,R,1,Reject,N,Tool_Contamination,Log-level modulo-wrap timing: hardbyte/python-can#888 is host periodic sender bug
+020,SYRS.0070_B,4,Y,Y,A,2,Y,N,R,4,Y,Y,A,3,Y,Y,A,2,Accept,N,,
+021,SYRS.0586_B,4,Y,Y,A,3,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+022,SYRS.0444_A_B,4,Y,Y,A,3,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+023,SYRS.0459_B_B,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,"log-level and periodic-interval > 0.5s: IXXAT sender issue, not ECU"
+024,SYRS.0460_B_A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+025,SYRS.0067_A_A,4,Y,Y,A,2,Y,N,R,4,Y,Y,A,2,N,Y,R,1,Reject,Y,Semantic_Drift,E1=Accept; MV=Reject(E2+E4); N_Br log-level test is host-side; MV prevails; E1 dissent logged
+026,SYRS.0226,4,Y,Y,A,3,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+027,SYRS.0058_C_B,3,Y,N,R,1,Y,N,R,4,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,"FD>1023: python-can SocketCAN host constraint, not ECU firmware"
+028,SYRS.0349_B,3,Y,N,R,2,Y,N,R,4,Y,Y,A,2,N,Y,R,1,Reject,N,Tool_Contamination,"log-level and extended-ID: host logging config, not ECU behavior"
+029,SYRS.0470_B_B,4,Y,Y,A,3,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+030,SYRS.0337,5,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,N,R,2,Accept,N,,
+031,SYRS.0022_H_B,4,Y,Y,A,1,Y,N,R,3,Y,Y,A,3,Y,N,R,1,Reject,Y,Semantic_Drift,E1=Accept; MV=Reject(E2+E4); Extended-ID addressing scope mismatch; MV prevails; E1 dissent logged
+032,SYRS.0072_A,5,Y,Y,A,3,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+033,SYRS.0585_A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+034,SYRS.1130_B_A,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,N,N,R,1,Reject,N,Tool_Contamination,log-level and buffer space: host-side eventfd/socket concern
+035,SYRS.0366_B,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+036,SYRS.0217_A_1,4,Y,Y,A,1,Y,N,R,2,Y,N,R,2,N,N,R,0,Reject,Y,Semantic_Drift,E1=Accept; MV=Reject(all 3); LIN extended-addressing concept does not exist; MV prevails; E1 dissent logged
+037,SYRS.1130_B_B,3,Y,N,R,1,Y,N,R,4,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,FD limits and logging: python-can host configuration
+038,SYRS.0064,4,Y,Y,A,2,Y,N,R,3,Y,Y,A,2,N,Y,R,1,Reject,Y,Semantic_Drift,E1=Accept; MV=Reject(E2+E4); P2+Extended-ID not in scope of multi-frame reassembly req; MV prevails
+039,SYRS.0205,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+040,SYRS.0349_A,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,log-level and 0.5s wrap: hardbyte/python-can#888 host periodic sender
+041,SYRS.0077,5,Y,Y,A,3,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+042,SYRS.0585_B,4,Y,Y,A,2,Y,Y,R,4,Y,Y,A,3,Y,Y,A,2,Accept,N,,
+043,SYRS.1085_C_B,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,Y,N,R,1,Reject,N,Tool_Contamination,"log-level and Windows extended-ID: host toolchain, not ECU watchdog"
+044,SYRS.0355_B_A,3,Y,N,R,1,Y,N,R,3,Y,Y,A,2,N,N,R,1,Reject,N,Tool_Contamination,"log-level and NM period > 0.5s: host sender config, not ECU NM timing"
+045,SYRS.0072_B,5,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+046,SYRS.0460_B_B,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
+047,SYRS.0586_A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+048,SYRS.0070_A,4,Y,Y,A,1,Y,N,R,4,Y,Y,A,2,N,Y,R,1,Reject,Y,Semantic_Drift,E1=Accept; MV=Reject(E2+E4); log-level + FS=2 is tool-layer path not covered by STmin req; MV prevails
+049,SYRS.0068_B,4,Y,Y,A,5,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Accept,N,,
+050,SYRS.0076_A,4,Y,Y,A,4,Y,Y,A,4,Y,Y,A,3,Y,Y,A,3,Accept,N,,
