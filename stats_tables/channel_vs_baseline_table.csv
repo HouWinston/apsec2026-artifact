@@ -1,0 +1,5 @@
+Channel,Accepted,Total,Acceptance_Rate,Wilson_CI_lo,Wilson_CI_hi,Fisher_OR,Fisher_p_raw,Fisher_p_holm,Cohen_h,Significance
+Baseline,75,158,0.4747,0.3983,0.5522,—,—,—,—,—
+Full Pipeline,143,215,0.6651,0.5996,0.7248,2.198,0.0002,0.0006,0.3872,***
+A-<SIG>,57,87,0.6552,0.5506,0.7466,2.103,0.0048,0.0048,0.3662,**
+B-NHTSA,86,128,0.6719,0.5866,0.7472,2.266,0.0006,0.0012,0.4016,**
