@@ -177,6 +177,33 @@ def main():
         print(f"  {name:5s} OR={odds:5.3f}  h={h:+.4f}  raw-p={p:.4f}  Holm-p={hp:.4f}"
               f"   (paper {paper_ref[name]})")
 
+    # --- Adjudication sensitivity (for the no-E1 / agreed-subset discussion) ---
+    print("\n[SENS] Adjudication sensitivity (E1 footprint, no-E1 floor, agreed subset)")
+    e1 = {c: {"disp": 0, "agree_acc": 0, "agree_rej": 0} for c in ("A", "B", "Baseline")}
+    for r in rows:
+        present = [ev for ev in EXT if has(r, ev)]
+        if len(present) < 2:
+            continue
+        c = channel(r.get("Channel"))
+        if c not in e1:
+            continue
+        p, s = present[0], present[1]
+        cp, cs = cscore(r, p), cscore(r, s)
+        if (abs(cp - cs) >= 2) or (acc(r, p) != acc(r, s)):
+            e1[c]["disp"] += 1
+        elif acc(r, p) and acc(r, s):
+            e1[c]["agree_acc"] += 1
+        else:
+            e1[c]["agree_rej"] += 1
+    for c in ("A", "B", "Baseline"):
+        d = e1[c]
+        n = tot_cnt[c]
+        agreed = d["agree_acc"] + d["agree_rej"]
+        floor = d["agree_acc"]  # no-E1: disputes->reject, accept only both-agree-accept
+        ar = f"{d['agree_acc']}/{agreed}={100*d['agree_acc']/agreed:.1f}%" if agreed else "n/a"
+        print(f"  {c:9s} disputes(E1-adjudicated)={d['disp']:3d}/{n} ({100*d['disp']/n:.0f}%)"
+              f"   no-E1 floor={floor}/{n}={100*floor/n:.1f}%   agreed-subset accept={ar}")
+
     print("\n[RQ2] Scope-stratified acceptance by category (pipeline vs baseline)")
     cats = {}
     for r in rows:
