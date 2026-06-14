@@ -92,7 +92,6 @@ def _cost_usd(model: str, prompt_tok: int, completion_tok: int) -> float:
 CHANNEL_SOURCES = {
     "A": WORKSPACE / "output" / "matches.json",
     "B": WORKSPACE / "output_nhtsa" / "nhtsa_matches.json",
-    "C": WORKSPACE / "output_cve" / "cve_matches.json",
 }
 
 # ── Model registry (all use OpenAI-compatible interface) ─────────────────────
@@ -291,40 +290,6 @@ Only generate VCs that are:
 If no useful missing VC is identifiable, output: NO_NOVEL_VC_FOUND
 """
 
-PROMPT_C = """You are an automotive ECU cybersecurity test engineer (ISO/SAE 21434, ASPICE SYS.5).
-
-Generate MISSING security verification conditions for this automotive SYRS.
-Insight source: real CVE vulnerability reports from automotive systems.
-
-SYRS:
-{syrs_text}
-
-Existing golden VCs (do not repeat):
-{golden_vcs}
-
-Related CVEs (attack patterns to test against):
-{cve_context}
-
-Generate 1-2 security VCs in YAML format:
-- VC_Item:
-    VC_ID: {vc_id}.CVE.1
-    Title: <security test title>
-    Method:
-      Type: Dynamic
-      Technique: Penetration Test / Fault Injection / Boundary Value Analysis
-    Pass_Fail_Criteria:
-      Pass: |
-        1. <attack setup>
-        2. <attack execution>
-        3. Verify: <ECU SHALL reject/respond correctly>
-      Fail: |
-        - <security violation condition>
-    CVE_Reference: {cve_ref}
-
-Only generate VCs testable at ECU software integration level (not network infrastructure).
-If no useful security VC, output: NO_NOVEL_VC_FOUND
-"""
-
 
 def _build_context(match: dict, channel: str) -> tuple[str, str, float, float, int]:
     """Build (prompt_text, issues_context, top1_sim, mean_top5_sim, issues_ctx_chars)."""
@@ -365,23 +330,6 @@ def _build_context(match: dict, channel: str) -> tuple[str, str, float, float, i
             odi=top.get("odi", "N/A"),
             make=top.get("make", ""),
             model=top.get("model", ""),
-        )
-
-    elif channel == "C":
-        items = match.get("top_cves", [])
-        ctx = "\n".join([
-            f"{c['cve_id']}: {c['description'][:150]}\n"
-            f"  Attack: {c['distilled'].get('attack_vector', '')}\n"
-            f"  Impact: {c['distilled'].get('security_impact', '')}"
-            for c in items[:3]
-        ])
-        cve_ref = items[0]["cve_id"] if items else "N/A"
-        prompt = PROMPT_C.format(
-            syrs_text=match["requirement"],
-            golden_vcs=(match.get("golden_vc") or "")[:600] or "(none)",
-            cve_context=ctx,
-            vc_id=f"VC_{syrs_id}",
-            cve_ref=cve_ref,
         )
 
     else:
@@ -686,8 +634,8 @@ def write_summary(run_id: str, progressors: list[ChannelProgress]) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="LLM sensitivity analysis for VC generation")
-    parser.add_argument("--channels", nargs="+", default=["A", "B", "C"],
-                        choices=["A", "B", "C"], help="Channels to process")
+    parser.add_argument("--channels", nargs="+", default=["A", "B"],
+                        choices=["A", "B"], help="Channels to process")
     parser.add_argument("--models",   nargs="+", default=DEFAULT_MODELS,
                         choices=list(MODEL_REGISTRY.keys()), help="Models to compare")
     parser.add_argument("--workers",  type=int, default=3,

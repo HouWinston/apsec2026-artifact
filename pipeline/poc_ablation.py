@@ -12,9 +12,9 @@ Two ablation conditions, three channels each:
     to select top-K issues.  Shows the value of our embedding approach.
 
 Usage:
-  python poc_ablation.py --condition no-distill --channels A B C
-  python poc_ablation.py --condition llm-match  --channels A B C
-  python poc_ablation.py --condition all         --channels A B C   # run both
+  python poc_ablation.py --condition no-distill --channels A B
+  python poc_ablation.py --condition llm-match  --channels A B
+  python poc_ablation.py --condition all         --channels A B   # run both
 """
 
 import os, json, time, argparse
@@ -60,7 +60,6 @@ TOP_K = 5
 TARGET_CATEGORIES_A = {"Diagnostics_DCM", "Communication_Stack",
                         "Diagnostics_DEM", "Diagnostic_Services"}
 TARGET_CATEGORIES_B = {"Body_Control", "IO_HMI", "Functional_Safety", "System_State"}
-TARGET_CATEGORIES_C = {"Cybersecurity", "Diagnostic_Services", "Diagnostics_DCM"}
 
 
 # ── LLM client ────────────────────────────────────────────────────────────────
@@ -126,23 +125,6 @@ def load_raw_issues_B() -> list[dict]:
             "title": summary[:200] or f"NHTSA complaint {c.get('odi','')}",
             "body": " | ".join(body_parts)[:2000],
             "source": "NHTSA",
-        })
-    return result
-
-
-def load_raw_issues_C() -> list[dict]:
-    path = WORKSPACE / "cache_cve" / "cve_raw.json"
-    if not path.exists():
-        raise FileNotFoundError(f"CVE cache not found: {path}. Run poc_cve.py --step fetch first.")
-    data = json.loads(path.read_text(encoding="utf-8"))
-    result = []
-    for c in data:
-        desc = c.get("description", c.get("body", ""))
-        result.append({
-            "id": c.get("cve_id", c.get("id", "")),
-            "title": desc[:120] if desc else "CVE",
-            "body": desc[:2000],
-            "source": "CVE",
         })
     return result
 
@@ -501,8 +483,8 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--condition", choices=["no-distill", "llm-match", "all"],
                    default="all")
-    p.add_argument("--channels", nargs="+", choices=["A", "B", "C"],
-                   default=["A", "B", "C"])
+    p.add_argument("--channels", nargs="+", choices=["A", "B"],
+                   default=["A", "B"])
     p.add_argument("--max-issues", type=int, default=50,
                    help="[Abl-LM] Max issues to classify per SYRS (0=all, default=50). "
                         "Larger pools can take hours; 50 gives a fair sample.")
@@ -516,7 +498,6 @@ def main():
     channel_configs = {
         "A": (load_syrs(TARGET_CATEGORIES_A), load_raw_issues_A),
         "B": (load_syrs(TARGET_CATEGORIES_B), load_raw_issues_B),
-        "C": (load_syrs(TARGET_CATEGORIES_C), load_raw_issues_C),
     }
 
     summary = {}
