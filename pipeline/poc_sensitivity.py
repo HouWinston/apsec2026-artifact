@@ -1,5 +1,5 @@
 """
-LLM Sensitivity Analysis — IssueDriven-VC
+LLM Sensitivity Analysis — Field2VC
 ==========================================
 Re-runs VC generation on the same matches with alternative models.
 

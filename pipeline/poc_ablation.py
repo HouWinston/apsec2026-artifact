@@ -1,5 +1,5 @@
 """
-Ablation experiments for IssueDriven-VC (paper §Ablation / RQ3).
+Ablation experiments for Field2VC (paper §Ablation / RQ3).
 
 Two ablation conditions, three channels each:
 

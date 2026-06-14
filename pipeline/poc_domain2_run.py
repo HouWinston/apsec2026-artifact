@@ -1,5 +1,5 @@
 """
-Domain 2 (Diagnostics SYRS) — IssueDriven-VC Pipeline Run
+Domain 2 (Diagnostics SYRS) — Field2VC Pipeline Run
 ==========================================================
 Runs Channel A (GitHub issues → Diagnostics SYRS) for Domain 2.
 
@@ -539,7 +539,7 @@ def print_summary(records: list[dict]) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Run IssueDriven-VC pipeline on Domain 2 (Diagnostics SYRS)"
+        description="Run Field2VC pipeline on Domain 2 (Diagnostics SYRS)"
     )
     parser.add_argument("--step", choices=["match", "generate", "all"], default="all",
                         help="Pipeline step to run (default: all)")

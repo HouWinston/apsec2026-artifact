@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Auditable de-identification for the IssueDriven-VC replication package (release
+Auditable de-identification for the Field2VC replication package (release
 option A: "de-identified full"). Conservative / over-redacting by design.
 
 What it does
