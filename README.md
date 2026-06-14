@@ -26,11 +26,10 @@ Gwet's AC1, ablation, cross-LLM sensitivity).
 |---|---|
 | `pipeline/` | Stage 1–5 scripts: corpus fetch + filter + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`), routing + traceability + E1 packet generation |
 | `prompts/` | `prompt_registry.md` (all Stage-2 filtering and Stage-4 generation prompts) and `model_config_manifest.md` (model/version configuration; API keys are read from environment variables, never stored) |
-| `evaluation/` | Framework-B evaluation protocol, E1 adjudicator guide, annotation guide, rater instructions, and `matching_precision_sample.csv` (200-pair annotated retrieval-precision study, seed=42, 73.5 % overall precision) |
-| `ablation/` | 50-item ablation evaluation instructions, rater brief, per-rater rating CSVs, and RQ3 replication table (`eval_2x2_FL_adjudicated.csv`, `eval_2x2_FL_RQ3_replication.csv`) |
+| `evaluation/` | `EVALUATION_PROTOCOL.md` (Framework B criteria, rater roles, two-rater + E1-adjudication procedure, adjudicator-transparency note) and `matching_precision_sample.csv` (200-pair annotated retrieval-precision study, seed=42, 73.5 % overall precision) |
+| `ablation/` | 50-item ablation per-rater rating CSVs (E1–E4) and RQ3 replication tables (`eval_2x2_FL_adjudicated.csv`, `eval_2x2_FL_RQ3_replication.csv`); ablation methodology is described in the paper (§IV, RQ3) |
 | `syrs_corpus/` | `syrs_with_golden_vcs.json` — de-identified SYRS corpus covering all 307 evaluated items with expert-annotated golden VCs |
 | `stats/` | Three self-contained canonical reproducers (stdlib only): `reproduce_main.py` (RQ1 accept rates + OR/Fisher/Holm/Cohen's *h*, RQ2 scope-stratified, Gwet's AC1 IAA, and adjudication-sensitivity floors), `reproduce_ablation.py` (RQ3 ablation: FL/Abl-LM/Abl-NF + reject attribution), and `reproduce_sensitivity.py` (RQ4 cross-LLM generation rates, 7 models). Each prints every number next to its paper value. |
-| `stats/tables/` | Aggregate result tables: channel-vs-baseline, A+B combined, raw-vs-Holm-corrected p-values, traceability metrics |
 | `evaluation_data/` | **De-identified** per-VC ratings (E2/E3/E4), majority labels, and E1 adjudication for all 489 VCs |
 | `generated_vcs/` | **De-identified** generated VC corpus: Ch-A (GitHub), Ch-B (NHTSA), baseline, ablations, Domain-2 |
 | `sensitivity/` | Cross-LLM novel-rate runs (7 LLMs × Ch-A/Ch-B), de-identified |
