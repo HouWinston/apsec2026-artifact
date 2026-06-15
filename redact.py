@@ -75,8 +75,16 @@ STD_TERMS = {"ReadDataByIdentifier","WriteDataByIdentifier","ClearDiagnosticInfo
  "ServiceNotSupportedInActiveSession","ConditionsNotCorrect","ResponseTooLong",
  "IncorrectMessageLengthOrInvalidFormat","BusyRepeatRequest"}
 
+# Project-specific proprietary identifiers the pattern rules miss (all-caps message
+# names, dictionary-word config names). NDA-reviewed 2026-06-15. Longest-first so
+# 'INT.Info' is masked before bare 'INT'.
+FORCE_REDACT = sorted({"ENGINE1","BRAKE1","CLUSTER1","SS8","PROXI","INT.Info","INT"},
+                      key=len, reverse=True)
+
 def redact_text(s):
     if not isinstance(s,str): return s
+    for term in FORCE_REDACT:
+        s = re.sub(r'\b'+re.escape(term)+r'\b', lambda m,t=term: _placeholder(t), s)
     s = SYRSREF_RE.sub("<SYRS_REF>", s)
     s = SIG_RE.sub(lambda m: m.group(0) if m.group(0) in WHITELIST else _placeholder(m.group(0)), s)
     s = CAMEL_RE.sub(lambda m: m.group(0) if m.group(0) in STD_TERMS else "<SIG>", s)
@@ -181,17 +189,18 @@ if MODE == "readable":
     data_dir = SRC.parent / "data"
     corpus = json.load(open(data_dir/"SYRS_Classified_20260429_085505.json",encoding="utf-8"))
     golden = json.load(open(data_dir/"golden_vc_text_20260429_091653.json",encoding="utf-8"))
+    # 45 author-supplied goldens for the previously-ungoldened SYRS variants
+    # (43 withheld Ch-A Diagnostics + 2 evaluated-empty), enabling the full-350 release.
+    _supp = data_dir/"golden_vc_supplement_350.json"
+    if _supp.exists():
+        golden.update(json.load(open(_supp,encoding="utf-8")))
     chA = {x["syrs_id"] for x in json.load(open(SRC/"output/matches.json",encoding="utf-8"))}
     chB = {x["syrs_id"] for x in json.load(open(SRC/"output_nhtsa/nhtsa_matches.json",encoding="utf-8"))}
-    # Release exactly what the paper evaluates: the SYRS items that appear in
-    # the released rating sheet (channel or baseline rows). Items on which
-    # every condition abstained are withheld (less proprietary exposure; they
-    # back no released label or statistic).
-    import csv as _csv
-    _sheet = SRC/"evaluation_template"/"evaluation_sheet_merged.csv"
-    evaluated = {r["SYRS_ID"] for r in _csv.DictReader(open(_sheet,encoding="utf-8-sig"))
-                 if r["Channel"] in ("A-GitHub","B-NHTSA","Baseline")}
-    used, seen, items = (chA|chB) & evaluated, set(), []
+    # Release the full pipeline-attempted set (all 350 channel-mapped SYRS), each
+    # with its author-written golden VCs. The 43 items on which every condition
+    # abstained were never evaluated (no generated VCs/labels) but carry golden
+    # references and are included for benchmark completeness.
+    used, seen, items = (chA|chB), set(), []
     TIER_EN = {"优秀":"excellent","良好":"good"}
     for tier, cats in corpus.items():
         for cat, lst in cats.items():
