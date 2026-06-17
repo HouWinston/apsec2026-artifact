@@ -226,7 +226,7 @@ def main():
     print("   Comm_Stack(A) 19/31=61.3 vs 31/55; Func_Safety 23/32=71.9; <SIG_43>=DCM(A) 29/44=65.9)")
 
     print("\n[IAA] Gwet AC1 on Completeness (C>=3), pairwise, 2-channel scope")
-    print("      (paper reports 0.84 / 0.65 / 0.43 mean 0.64  <- 0.43/0.64 were 3-channel incl Channel-C)")
+    print("      (paper reports 0.84 / 0.65 / 0.69 mean 0.73 on the A+B+Baseline scope)")
     def c_label(r, ev):
         c = cscore(r, ev)
         return None if c is None else ("Y" if c >= 3 else "N")
