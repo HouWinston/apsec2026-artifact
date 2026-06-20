@@ -26,11 +26,11 @@ Gwet's AC1, ablation, cross-LLM sensitivity).
 |---|---|
 | `pipeline/` | Stage 1–5 scripts: corpus fetch + filter + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`) |
 | `prompts/` | `prompt_registry.md` (all Stage-2 filtering and Stage-4 generation prompts) and `model_config_manifest.md` (model/version configuration; API keys are read from environment variables, never stored) |
-| `evaluation/` | `EVALUATION_PROTOCOL.md` (Framework B criteria, rater roles, two-rater + E1-adjudication procedure, adjudicator-transparency note) and `matching_precision_sample.csv` (200-pair annotated retrieval-precision study, seed=42, 73.5 % overall precision) |
+| `evaluation/` | `EVALUATION_PROTOCOL.md` (three-criterion (C/N/U) acceptance criteria, rater roles, two-rater + E1-adjudication procedure, adjudicator-transparency note) and `matching_precision_sample.csv` (200-pair annotated retrieval-precision study, seed=42, 73.5 % overall precision) |
 | `ablation/` | 50-item ablation per-rater rating CSVs (E1–E4) and the RQ3 replication table (`eval_2x2_FL_RQ3_replication.csv`); ablation methodology is described in the paper (§IV, RQ3) |
 | `syrs_corpus/` | `syrs_with_golden_vcs.json` — de-identified SYRS corpus covering all 350 benchmark items (307 of which entered evaluation) with expert-annotated golden VCs |
 | `stats/` | Three self-contained canonical reproducers (stdlib only): `reproduce_main.py` (RQ1 accept rates + OR/Fisher/Holm/Cohen's *h*, RQ2 scope-stratified, Gwet's AC1 IAA, and adjudication-sensitivity floors), `reproduce_ablation.py` (RQ3 ablation: FL/Abl-LM/Abl-NF + reject attribution), and `reproduce_sensitivity.py` (RQ4 cross-LLM generation rates, 7 models). Each prints every number next to its paper value. |
-| `evaluation_data/` | **De-identified** per-VC ratings (E2/E3/E4), majority labels, and E1 adjudication for all 489 VCs |
+| `evaluation_data/` | **De-identified** per-VC ratings (E2/E3/E4), majority labels, and E1 adjudication for all 489 VCs; `recompute_iaa_perdim.py` + `derived/` reproduce the per-dimension and final-acceptance agreement analysis (see below) |
 | `generated_vcs/` | **De-identified** generated VC corpus: Ch-A (GitHub), Ch-B (NHTSA), baseline, ablations, Domain-2 |
 | `sensitivity/` | Cross-LLM novel-rate runs (7 LLMs × Ch-A/Ch-B), de-identified |
 | `redact.py` | The auditable de-identification script used to produce this package |
@@ -49,8 +49,40 @@ python stats/reproduce_sensitivity.py # RQ4 cross-LLM generation-rate proxy (7 m
 Each script prints every value next to its paper number for direct comparison.
 The acceptance/adjudication model is documented in each script's header
 (each VC scored by exactly two external raters; E1 adjudicates split decisions
-under Framework~B). Cross-LLM sensitivity (RQ4) generation rates are derived
+under the three-criterion (C/N/U) protocol). Cross-LLM sensitivity (RQ4) generation rates are derived
 from the per-call logs under `sensitivity/`.
+
+## Inter-rater agreement recomputation
+
+`evaluation_data/recompute_iaa_perdim.py` reproduces the per-dimension and
+conjunctive final-acceptance agreement analysis from the released per-rater
+labels. Agreement is computed only on commonly rated items for each actual rater
+pair; missing ratings are excluded, and E1 is excluded from the external-rater
+analysis. The final Accept label is independently derived per rater as
+`C >= 3 AND N = Y AND U = Y` before agreement is calculated, and is asserted to
+match the stored per-rater accept labels.
+
+```bash
+# Python 3.9+ standard library only; outputs are bit-for-bit deterministic.
+python evaluation_data/recompute_iaa_perdim.py          # main evaluation (E1 excluded)
+python evaluation_data/recompute_iaa_perdim.py --rq3    # + RQ3 50-item ablation
+                                                        #   (4-rater incl. E1 and external-only)
+```
+
+Outputs are written to `evaluation_data/derived/`:
+`iaa_per_dimension_by_rater_pair.csv` (effective n, raw agreement, and Gwet's
+AC1 for Completeness, Novelty, Usefulness, and derived Accept, per scope and
+rater pair), `iaa_summary.csv` (mean AC1 per scope and dimension), and
+`iaa_condition_rater_pair_counts.csv` (joint-rating counts by condition and
+rater pair).
+
+The outputs report effective sample sizes and raw agreement by rater pair
+because they matter for interpretation: rater-pair assignment is strongly
+associated with experimental condition (e.g. the E2–E3 pair rated essentially
+all channel VCs while the E2–E4 pair rated all baseline VCs), and one
+channel-spanning pair contains only 14 jointly rated channel items. Pooled or
+condition-level AC1 values should therefore **not** be interpreted as clean
+estimates of a condition effect; the per-pair `n` columns make this explicit.
 
 ## NOTE on de-identification
 

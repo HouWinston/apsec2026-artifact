@@ -1,0 +1,10 @@
+outer_scope,condition,rater_pair,n_jointly_rated
+MainEval,A-<SIG>,E2-E3,87
+MainEval,B-NHTSA,E2-E3,114
+MainEval,Baseline,E2-E3,0
+MainEval,A-<SIG>,E2-E4,0
+MainEval,B-NHTSA,E2-E4,0
+MainEval,Baseline,E2-E4,202
+MainEval,A-<SIG>,E3-E4,0
+MainEval,B-NHTSA,E3-E4,14
+MainEval,Baseline,E3-E4,72
