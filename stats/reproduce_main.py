@@ -4,7 +4,7 @@ Single canonical reproducer for the main evaluation (RQ1 + IAA).
 Run:  python reproduce_main.py
 Input: ../evaluation_data/evaluation_sheet_merged.csv  (489 rows, 2 channels)
 
-Acceptance model (Framework B, matches the paper headline):
+Acceptance model (three-criterion C/N/U, matches the paper headline):
   Each row is rated by exactly two external raters (E2/E3/E4).
   A row is a *dispute* if |C_p - C_s| >= 2 OR the two accept-labels differ.
     - dispute      -> final label = E1 adjudication (accept iff E1 accepts; reject if E1 absent)
@@ -251,7 +251,7 @@ def main():
         mean = round(sum(acs) / len(acs), 4) if acs else None
         print(f"  [{scope_name:13s}] " + "  ".join(line) + f"   mean={mean}")
 
-    print("\n[IAA] Gwet AC1 on the ACCEPT label (Framework B), 2-channel — transparency")
+    print("\n[IAA] Gwet AC1 on the ACCEPT label (three-criterion C/N/U), 2-channel — transparency")
     for e1, e2 in pairs:
         a, b = [], []
         for r in rows:

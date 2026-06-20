@@ -1,4 +1,4 @@
-# Evaluation Protocol (Framework B)
+# Evaluation Protocol (Three-Criterion C/N/U)
 
 Human evaluation protocol for the generated Verification Criteria (VCs). This
 single document supersedes the earlier per-rater stub files.
@@ -29,14 +29,14 @@ Four raters spanning the three ASPICE V&V stakeholder roles:
 1. Each VC receives **exactly two independent external ratings** from E2/E3/E4.
 2. The per-VC label is the **majority** of the present raters where they agree.
 3. A VC is a **split** when the two raters disagree on the accept label or
-   differ by ≥2 on C; **E1 adjudicates** splits under this Framework.
+   differ by ≥2 on C; **E1 adjudicates** splits under this protocol.
 4. E1 adjudicated **285 of 489** VCs (the splits): 50/87 Channel-A,
    89/128 Channel-B, 146/274 baseline.
 
 ## Adjudicator transparency (see paper §VI)
 
 E1 is an author of the paper and was **not blind** to the generation channel.
-To constrain adjudicator influence, E1's rulings were bound to this Framework
+To constrain adjudicator influence, E1's rulings were bound to this protocol
 rather than free judgement, and on disputed Channel-B acceptances they
 **followed the rulings of E2** (an independent ASPICE assessor). The headline
 rates are therefore **adjudication-dependent**; a no-E1 floor and an
