@@ -13,7 +13,7 @@ Pipeline:
 
 Usage:
   set GITHUB_TOKEN=ghp_xxxxx   (optional, increases rate limit 60→5000/hr)
-  set OPENAI_API_KEY=sk-xxx
+  set DASHSCOPE_API_KEY=sk-xxx   (DashScope OpenAI-compatible API; optional DASHSCOPE_BASE_URL)
   python poc_pipeline.py --step fetch     # step 1: crawl issues to disk
   python poc_pipeline.py --step distill   # step 2: LLM distillation
   python poc_pipeline.py --step match     # step 3: embed + match

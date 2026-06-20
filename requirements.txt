@@ -1,0 +1,8 @@
+# Dependencies for the pipeline/ scripts (poc_*.py), which call the DashScope
+# OpenAI-compatible API and fetch GitHub issue / NHTSA ODI evidence.
+# The stats/ reproducers and evaluation_data/recompute_iaa_perdim.py are
+# Python 3.9+ standard-library only and require none of these.
+openai==2.29.0
+python-dotenv==1.2.2
+requests==2.32.5
+numpy==2.4.3

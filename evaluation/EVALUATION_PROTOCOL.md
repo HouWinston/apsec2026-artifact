@@ -35,7 +35,8 @@ Four raters spanning the three ASPICE V&V stakeholder roles:
 
 ## Adjudicator transparency (see paper §VI)
 
-E1 is an author of the paper and was **not blind** to the generation channel.
+E1 serves as the internal adjudicator; E2–E4 are independent external raters.
+The adjudicator was **not blind** to the generation channel.
 To constrain adjudicator influence, E1's rulings were bound to this protocol
 rather than free judgement, and on disputed Channel-B acceptances they
 **followed the rulings of E2** (an independent ASPICE assessor). The headline
