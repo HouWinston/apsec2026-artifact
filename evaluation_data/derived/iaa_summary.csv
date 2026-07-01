@@ -19,11 +19,3 @@ Baseline,C,2,0.6851
 Baseline,N,2,0.4917
 Baseline,U,2,0.6664
 Baseline,Accept,2,0.214
-RQ3_FL_4rater(inclE1),C,6,0.5131
-RQ3_FL_4rater(inclE1),N,6,0.8837
-RQ3_FL_4rater(inclE1),U,6,0.5464
-RQ3_FL_4rater(inclE1),Accept,6,0.5261
-RQ3_FL_external(E2E3E4),C,3,0.4843
-RQ3_FL_external(E2E3E4),N,3,0.8449
-RQ3_FL_external(E2E3E4),U,3,0.4611
-RQ3_FL_external(E2E3E4),Accept,3,0.4293
