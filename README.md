@@ -1,11 +1,6 @@
 # Field2VC — Replication Package
 
-Replication artifact for a double-blind conference submission on
-failure-grounded verification-criteria (VC) completion for automotive ECU
-requirements.
-
-> **Anonymous artifact for double-blind review.** No author, affiliation, or
-> identifying information is included. Please do not attempt to de-anonymize.
+Replication package for Field2VC, accepted at APSEC 2026.
 
 ## What this package supports
 
