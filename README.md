@@ -4,8 +4,7 @@ Replication package for Field2VC, accepted at APSEC 2026.
 
 ## What this package supports
 
-`Field2VC` is a five-stage pipeline (Fetch → Filter → Match → Generate →
-Review) that completes ASPICE SYS.2 verification criteria (VCs) by grounding LLM
+`Field2VC` is a four-stage pipeline (Fetch → Filter → Match → Generate) that generates ASPICE SYS.2 verification criteria (VCs) by grounding LLM
 generation in empirical field-failure evidence from two external channels:
 open-source GitHub issues (**Channel A**) and NHTSA ODI consumer complaints
 (**Channel B**).
@@ -19,7 +18,7 @@ Gwet's AC1, ablation, cross-LLM sensitivity).
 
 | Folder | Contents |
 |---|---|
-| `pipeline/` | Stage 1–5 scripts: corpus fetch + filter + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`) |
+| `pipeline/` | Stage 1–4 scripts: corpus fetch + filter + embed-match + generate (`poc_pipeline.py`), Channel-B/NHTSA (`poc_nhtsa.py`), no-context baseline (`poc_baseline.py`), ablations (`poc_ablation.py`), cross-LLM sensitivity (`poc_sensitivity.py`), Domain-2 pilot (`poc_domain2_run.py`) |
 | `prompts/` | `prompt_registry.md` (all Stage-2 filtering and Stage-4 generation prompts) and `model_config_manifest.md` (model/version configuration; API keys are read from environment variables, never stored) |
 | `evaluation/` | `EVALUATION_PROTOCOL.md` (three-criterion (C/N/U) acceptance criteria, rater roles, two-rater + E1-adjudication procedure, adjudicator-transparency note) and `matching_precision_sample.csv` (200-pair annotated retrieval-precision study, seed=42, 73.5 % overall precision) |
 | `ablation/` | 50-item ablation per-rater rating CSVs (E1–E4) and the RQ3 replication table (`eval_2x2_FL_RQ3_replication.csv`); ablation methodology is described in the paper (§IV, RQ3) |
