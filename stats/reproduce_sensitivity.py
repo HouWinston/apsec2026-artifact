@@ -2,15 +2,15 @@
 Canonical reproducer for RQ4 (cross-LLM sensitivity, generation-rate proxy).
 
 Run:  python reproduce_sensitivity.py
-Input: ../sensitivity/ch{A,B}_<model>.jsonl  (per-call generation logs, 7 LLMs)
+Input: ../sensitivity/ch{A,B}_<model>.jsonl  (per-call generation logs, 7 LLM configurations)
 
 Generation rate = fraction of unique SYRS items for which the model emitted a
 VC (is_novel=True) rather than the NO_NOVEL_VC_FOUND sentinel. Denominators:
 Ch-A 208 items, Ch-B 142 items. Self-contained, stdlib only.
 
 Log model_name -> paper RQ4 name:
-  deepseek-chat = DeepSeek-v4-Pro (DeepSeek ships no separate "chat" model;
-  the deepseek-chat endpoint is V4-Pro).
+  deepseek-chat = DeepSeek-chat (direct API); the logs do not record the
+  resolved backend model version.
 """
 import json
 import glob
@@ -22,8 +22,8 @@ SENS = Path(__file__).parent.parent / "sensitivity"
 PAPER_NAME = {
     "qwen-max": "Qwen-Max",
     "qwen-plus": "Qwen-Plus",
-    "deepseek-chat": "DeepSeek-v4-Pro",
-    "deepseek-v4-flash": "DeepSeek-v4-Flash",
+    "deepseek-chat": "DeepSeek-chat (direct API)",
+    "deepseek-v4-flash": "DeepSeek-V4-Flash (DashScope)",
     "glm-5": "GLM-5",
     "kimi-k2.6": "Kimi-K2.6",
     "qwen3.6-plus": "Qwen3.6-Plus",
@@ -49,8 +49,8 @@ def main():
     print("=" * 70)
     print("CANONICAL RQ4 (cross-LLM sensitivity) REPRODUCER")
     print("=" * 70)
-    print(f"{'Model':18s} {'Ch-A gen-rate':>16s} {'Ch-B gen-rate':>16s}")
-    print("-" * 54)
+    print(f"{'LLM configuration':30s} {'Ch-A gen-rate':>16s} {'Ch-B gen-rate':>16s}")
+    print("-" * 66)
     non_adherent = 0
     for m in ORDER:
         cells = {}
@@ -61,11 +61,11 @@ def main():
         rb = 100 * cells["B"][0] / cells["B"][1] if cells["B"][1] else 0
         if ra > 93 and rb > 93:
             non_adherent += 1
-        print(f"{PAPER_NAME.get(m, m):18s} "
+        print(f"{PAPER_NAME.get(m, m):30s} "
               f"{ra:6.1f}% ({cells['A'][0]:3d}/{cells['A'][1]:3d}) "
               f"{rb:6.1f}% ({cells['B'][0]:3d}/{cells['B'][1]:3d})")
-    print("-" * 54)
-    print(f"{len(ORDER)} LLMs; {non_adherent} are non-sentinel-adherent (>93% on both channels).")
+    print("-" * 66)
+    print(f"{len(ORDER)} LLM configurations; {non_adherent} are non-sentinel-adherent (>93% on both channels).")
     print("Only Qwen-Max and Qwen-Plus emit the sentinel discriminatively.")
 
 

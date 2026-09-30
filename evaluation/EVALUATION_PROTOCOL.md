@@ -50,6 +50,8 @@ limitation; a larger blinded independent panel is the natural strengthening.
 - `evaluation_data/evaluation_sheet_merged.csv` — per-VC ratings (E2/E3/E4),
   E1 columns, majority labels, for all 489 VCs.
 - `evaluation_data/E1_adjudication.csv` — the 285 E1-adjudicated split rows.
-- `evaluation/matching_precision_sample.csv` — 200-pair retrieval-precision
-  study (seed 42; 73.5 % overall).
 - `ablation/` — the 50-item RQ3 ablation ratings and replication table.
+
+An earlier `evaluation/matching_precision_sample.csv` was withdrawn because its
+item-level labels could not be traced to annotation records. The corresponding
+claim was removed from the revised paper.
