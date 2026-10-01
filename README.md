@@ -14,6 +14,11 @@ prompts and configuration**, and **reproduce the statistical analysis** behind
 every reported number (acceptance rates, Fisher/Holm tests, Cohen's *h*,
 Gwet's AC1, ablation, cross-LLM sensitivity).
 
+The main evaluation unit is one generated output containing **two VC candidates**.
+Each of the 489 rows has one C/N/U score set per rater and one final label for
+the output. Candidate-level ratings and a rule for combining candidate judgments
+were not recorded; these rates are **output acceptance**, not individual-VC acceptance.
+
 ## Contents
 
 | Folder | Contents |
@@ -24,7 +29,7 @@ Gwet's AC1, ablation, cross-LLM sensitivity).
 | `ablation/` | 50-item ablation per-rater rating CSVs (E1–E4) and the RQ3 replication table (`eval_2x2_FL_RQ3_replication.csv`); ablation methodology is described in the paper (§IV, RQ3) |
 | `syrs_corpus/` | `syrs_with_golden_vcs.json` — de-identified SYRS corpus covering all 350 benchmark items (307 of which entered evaluation) with expert-annotated golden VCs |
 | `stats/` | Three self-contained canonical reproducers (stdlib only): `reproduce_main.py` (RQ1 accept rates + OR/Fisher/Holm/Cohen's *h*, RQ2 scope-stratified, Gwet's AC1 IAA, and adjudication-sensitivity floors), `reproduce_ablation.py` (RQ3 ablation: FL/Abl-LM/Abl-NF + reject attribution), and `reproduce_sensitivity.py` (RQ4 cross-LLM generation rates, 7 LLM configurations). Each prints every number next to its paper value. |
-| `evaluation_data/` | **De-identified** per-VC ratings (E2/E3/E4), majority labels, and E1 adjudication for all 489 VCs; `recompute_iaa_perdim.py` + `derived/` reproduce the per-dimension and final-acceptance agreement analysis (see below) |
+| `evaluation_data/` | **De-identified** per-output ratings (E2/E3/E4), majority labels, and E1 adjudication for all 489 rated outputs (two VC candidates each); `recompute_iaa_perdim.py` + `derived/` reproduce the per-dimension and final-acceptance agreement analysis (see below) |
 | `generated_vcs/` | **De-identified** generated VC corpus: Ch-A (GitHub), Ch-B (NHTSA), baseline, ablations, Domain-2 |
 | `sensitivity/` | Cross-LLM generation-rate runs (7 LLM configurations × Ch-A/Ch-B), de-identified |
 | `redact.py` | The auditable de-identification script used to produce this package |
@@ -38,11 +43,11 @@ python stats/reproduce_ablation.py    # RQ3 ablation: FL/Abl-LM/Abl-NF + reject 
 python stats/reproduce_sensitivity.py # RQ4 cross-LLM generation-rate proxy (7 LLM configurations)
 ```
 
-`reproduce_main.py` reads the per-VC ratings in `evaluation_data/`;
+`reproduce_main.py` reads the per-output ratings in `evaluation_data/`;
 `reproduce_ablation.py` reads `ablation/` and `generated_vcs/ablation/`.
 Each script prints every value next to its paper number for direct comparison.
 The acceptance/adjudication model is documented in each script's header
-(each VC scored by exactly two external raters; E1 adjudicates split decisions
+(each output scored by exactly two external raters; E1 adjudicates split decisions
 under the three-criterion (C/N/U) protocol). Cross-LLM sensitivity (RQ4) generation rates are derived
 from the per-call logs under `sensitivity/`.
 
@@ -73,7 +78,7 @@ rater pair).
 The outputs report effective sample sizes and raw agreement by rater pair
 because they matter for interpretation: rater-pair assignment is strongly
 associated with experimental condition (e.g. the E2–E3 pair rated essentially
-all channel VCs while the E2–E4 pair rated all baseline VCs), and one
+all channel outputs while the E2–E4 pair rated all baseline outputs), and one
 channel-spanning pair contains only 14 jointly rated channel items. Pooled or
 condition-level AC1 values should therefore **not** be interpreted as clean
 estimates of a condition effect; the per-pair `n` columns make this explicit.
@@ -97,6 +102,14 @@ and the novelty assessment for all released labels. Of the 350, **307 entered
 expert evaluation**; the remaining 43 (all Channel-A Diagnostics) carry golden
 VCs but yielded no generated VC under any pipeline condition, so they back no
 released rating or reported statistic.
+
+## Development-tool assistance
+
+Some code and documentation changes were made with assistance from Claude,
+as recorded by `Co-Authored-By` trailers in Git history. These trailers record
+software-tool assistance; the human evaluation roles and adjudication procedure
+are documented in `evaluation/EVALUATION_PROTOCOL.md`. Pipeline generation
+models and prompts are documented separately in `prompts/`.
 
 ## License
 

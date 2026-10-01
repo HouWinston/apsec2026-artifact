@@ -3,9 +3,18 @@
 Human evaluation protocol for the generated Verification Criteria (VCs). This
 single document supersedes the earlier per-rater stub files.
 
+## Evaluation unit
+
+The main sheet contains **489 rated outputs**, each with exactly **two VC candidates**
+in `Generated_VC`. Each row has one C/N/U score set per rater and one final
+output label. Candidate-level judgments and a rule specifying how to combine
+judgments on the two candidates were not recorded. The reported rates therefore
+measure **output acceptance**, not individual-VC acceptance. This clarification
+does not retrospectively impose an all-candidates or any-candidate rule.
+
 ## Acceptance criterion
 
-Each VC is scored on three dimensions; it is **accepted iff all three hold**:
+Each generated output is scored on three dimensions; it is **accepted iff all three hold**:
 
 | Dim | Meaning | Scale | Accept threshold |
 |---|---|---|---|
@@ -26,12 +35,16 @@ Four raters spanning the three ASPICE V&V stakeholder roles:
 
 ## Procedure
 
-1. Each VC receives **exactly two independent external ratings** from E2/E3/E4.
-2. The per-VC label is the **majority** of the present raters where they agree.
-3. A VC is a **split** when the two raters disagree on the accept label or
+1. Each output receives **exactly two independent external ratings** from E2/E3/E4.
+2. The per-output label is the **majority** of the present raters where they agree.
+3. An output is a **split** when the two raters disagree on the accept label or
    differ by ≥2 on C; **E1 adjudicates** splits under this protocol.
-4. E1 adjudicated **285 of 489** VCs (the splits): 50/87 Channel-A,
+4. E1 adjudicated **285 of 489** outputs (the splits): 50/87 Channel-A,
    89/128 Channel-B, 146/274 baseline.
+
+The RQ3 ablation uses a separate procedure: E2/E3/E4 determine the label by
+majority vote (at least two of three). E1 supplies an independent score for
+agreement analysis and does not override that majority.
 
 ## Adjudicator transparency (see paper §VI)
 
@@ -47,8 +60,8 @@ limitation; a larger blinded independent panel is the natural strengthening.
 
 ## Released files
 
-- `evaluation_data/evaluation_sheet_merged.csv` — per-VC ratings (E2/E3/E4),
-  E1 columns, majority labels, for all 489 VCs.
+- `evaluation_data/evaluation_sheet_merged.csv` — per-output ratings (E2/E3/E4),
+  E1 columns, majority labels, for all 489 rated outputs.
 - `evaluation_data/E1_adjudication.csv` — the 285 E1-adjudicated split rows.
 - `ablation/` — the 50-item RQ3 ablation ratings and replication table.
 

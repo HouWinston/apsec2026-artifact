@@ -2,10 +2,10 @@
 Single canonical reproducer for the main evaluation (RQ1 + IAA).
 
 Run:  python reproduce_main.py
-Input: ../evaluation_data/evaluation_sheet_merged.csv  (489 rows, 2 channels)
+Input: ../evaluation_data/evaluation_sheet_merged.csv  (489 output rows, two VC candidates each, 2 channels)
 
 Acceptance model (three-criterion C/N/U, matches the paper headline):
-  Each row is rated by exactly two external raters (E2/E3/E4).
+  Each row is one output containing two candidates and is rated by exactly two external raters (E2/E3/E4).
   A row is a *dispute* if |C_p - C_s| >= 2 OR the two accept-labels differ.
     - dispute      -> final label = E1 adjudication (accept iff E1 accepts; reject if E1 absent)
     - both agree   -> conservative resolution: final C = min(C_p, C_s),
@@ -17,6 +17,7 @@ are implemented inline; stdlib only. This file is self-contained and is the
 single source of truth for the main-evaluation numbers in the paper.
 """
 import csv
+import json
 import math
 from math import comb
 from pathlib import Path
@@ -132,6 +133,8 @@ def final_accept(r):
 # ── main ────────────────────────────────────────────────────────────────────
 def main():
     rows = list(csv.DictReader(open(SHEET, encoding="utf-8-sig")))
+    candidate_counts = Counter(r["Generated_VC"].count("VC_Item") for r in rows)
+    assert candidate_counts == {2: 489}, candidate_counts
     acc_cnt = Counter()
     tot_cnt = Counter()
     for r in rows:
@@ -144,8 +147,30 @@ def main():
             acc_cnt[c] += 1
 
     print("=" * 70)
-    print(f"CANONICAL MAIN-EVALUATION REPRODUCER   sheet rows: {len(rows)}")
+    print(f"CANONICAL MAIN-EVALUATION REPRODUCER   rated output rows: {len(rows)}")
     print("=" * 70)
+
+    print("\n[FLOW] Unique-item generation, rated outputs, and items without evaluation")
+    generated_dir = SHEET.parent.parent / "generated_vcs"
+    for name, filename, assigned in (
+        ("A", "chA_github_generated_vcs.json", 208),
+        ("B", "chB_nhtsa_generated_vcs.json", 142),
+        ("Baseline", "baseline_vcs.json", 350),
+    ):
+        records = json.loads((generated_dir / filename).read_text(encoding="utf-8"))
+        generated = [r for r in records
+                     if "VC_Item" in r.get("generated_vc", "")
+                     and "NO_NOVEL_VC_FOUND" not in r.get("generated_vc", "")]
+        generated_ids = {r["syrs_id"] for r in generated}
+        sentinel_ids = {r["syrs_id"] for r in records
+                        if "NO_NOVEL_VC_FOUND" in r.get("generated_vc", "")}
+        rated_ids = {r["SYRS_ID"] for r in rows if channel(r["Channel"]) == name}
+        print(f"  {name:9s} generated={len(generated_ids)}/{assigned}"
+              f"={100*len(generated_ids)/assigned:.1f}%"
+              f" raw-output-records={len(generated)} rated={tot_cnt[name]}"
+              f" no-evaluation={assigned-len(rated_ids)}"
+              f" sentinel-only-items={len(sentinel_ids-generated_ids)}")
+    print("  Each rated output contains two candidates; scores and labels are output-level.")
 
     print("\n[RQ1] Acceptance rate (majority vote + E1 adjudication)")
     base_k, base_n = acc_cnt["Baseline"], tot_cnt["Baseline"]
@@ -224,6 +249,22 @@ def main():
         print(f"  {cat:22s} pipeline {pr:16s} baseline {br}")
     print("  (paper Tab. rq2_scope: IO/HMI 23/31=74.2 vs 18/39; Body_Control 28/41=68.3 vs 21/42;")
     print("   Comm_Stack(A) 19/31=61.3 vs 31/55; Func_Safety 23/32=71.9; <SIG_43>=DCM(A) 29/44=65.9)")
+
+    print("\n[RQ2] Category-matched effects (only categories with evaluated baseline outputs)")
+    for ch in ("A", "B"):
+        matched_cats = {r["Category"].strip() for r in rows
+                        if channel(r["Channel"]) == ch
+                        and cats[r["Category"].strip()]["bn"] > 0}
+        pipeline = [r for r in rows if channel(r["Channel"]) == ch
+                    and r["Category"].strip() in matched_cats]
+        baseline = [r for r in rows if channel(r["Channel"]) == "Baseline"
+                    and r["Category"].strip() in matched_cats]
+        pk, pn = sum(final_accept(r) for r in pipeline), len(pipeline)
+        bk, bn = sum(final_accept(r) for r in baseline), len(baseline)
+        print(f"  {ch} {pk}/{pn} vs {bk}/{bn}:"
+              f" delta={100*(pk/pn-bk/bn):+.1f} pp"
+              f" h={cohen_h(pk/pn,bk/bn):.4f}")
+    print("  B excludes Functional_Safety (23/32), which has no evaluated baseline output.")
 
     print("\n[IAA] Gwet AC1 on Completeness (C>=3), pairwise, 2-channel scope")
     print("      (paper reports 0.84 / 0.65 / 0.69 mean 0.73 on the A+B+Baseline scope)")
