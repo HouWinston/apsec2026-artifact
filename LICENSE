@@ -1,4 +1,4 @@
-Copyright (c) 2026 The Authors (anonymous for double-blind review)
+Copyright (c) 2026 The Authors
 
 This replication package is released under a dual license:
 
@@ -31,5 +31,5 @@ See https://creativecommons.org/licenses/by/4.0/ for the full text.
 Note: The underlying proprietary SYRS specification is NOT included; all
 proprietary requirement text and component signal names have been redacted
 or replaced with placeholders. External failure evidence (GitHub issues,
-NHTSA recall notices) is public data used under its original terms and
+NHTSA ODI consumer complaints) is public data used under its original terms and
 referenced by source ID.

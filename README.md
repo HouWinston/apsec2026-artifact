@@ -36,6 +36,14 @@ were not recorded; these rates are **output acceptance**, not individual-VC acce
 
 ## Reproducing the statistics
 
+Package labels in filenames and terminal output map to the paper's conditions:
+
+| Package label | Paper condition |
+|---|---|
+| Channel A / `Ch-A` / `A` (`chA_*`) | GitHub evidence |
+| Channel B / `Ch-B` / `B` (`chB_*`) | NHTSA evidence |
+| `Baseline` | Baseline |
+
 ```bash
 # No third-party dependencies — Python 3.9+ standard library only.
 python stats/reproduce_main.py        # RQ1 rates + OR/Fisher/Holm/Cohen's h, RQ2 scope, Gwet's AC1 IAA, adjudication sensitivity
