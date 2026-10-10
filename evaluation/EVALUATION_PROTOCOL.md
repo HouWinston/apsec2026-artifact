@@ -18,7 +18,7 @@ Each generated output is scored on three dimensions; it is **accepted iff all th
 
 | Dim | Meaning | Scale | Accept threshold |
 |---|---|---|---|
-| **C** — Completeness | Does the SYRS omit this VC? | 1–5 | C ≥ 3 |
+| **C** — Correctness | Does the generated VC correctly target the SYRS? (3 = core intent right, one key step/parameter wrong) | 1–5 | C ≥ 3 |
 | **N** — Novelty | Absent from the SYRS and its existing golden VCs? | Y/N | N = Y |
 | **U** — Usefulness | Actionable for downstream test design / qualification? | Y/N | U = Y |
 

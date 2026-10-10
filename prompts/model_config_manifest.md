@@ -8,12 +8,17 @@ environment variables and are never stored in this package.
 | Stage | Role | Model | Provider / endpoint |
 |---|---|---|---|
 | Stage 2 (Filter) | distill failure triple | `qwen-plus` | Alibaba DashScope (`dashscope.aliyuncs.com/compatible-mode/v1`) |
-| Stage 3 (Match) | embedding similarity | `text-embedding-v3` | Alibaba DashScope (snapshot April–May 2026) |
+| Stage 3 (Match) | embedding similarity | `text-embedding-v3` | Alibaba DashScope |
 | Stage 4 (Generate) | generate VCs | `qwen-max` | Alibaba DashScope |
 | Baseline (RQ1) | no-context generation | `qwen-max` | Alibaba DashScope |
 | Abl-LM (RQ3) | binary relevance classifier | `qwen-plus` | Alibaba DashScope |
 
-Generation parameters: `temperature = 0.2`, `max_tokens = 800`.
+Models were accessed via DashScope API aliases in April–May 2026; the aliases
+do not identify fixed snapshots.
+
+Generation parameters: `temperature = 0.2`; `max_tokens = 800` (Stage 4),
+`600` (no-context baseline).
+
 Matching: top-`K = 5` retrieved triples per SYRS, cosine similarity, no hard
 similarity cut-off (relevance is delegated to the Stage-4 abstention sentinel).
 

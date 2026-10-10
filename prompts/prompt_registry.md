@@ -5,8 +5,8 @@ filled at run time. These are the exact templates used in
 `pipeline/poc_pipeline.py` (Channel A / GitHub), `pipeline/poc_nhtsa.py`
 (Channel B / NHTSA), and `pipeline/poc_baseline.py` (no-context baseline).
 
-> Note: the generation prompts label the role as "ASPICE SYS.5" (software
-> qualification test). The target artefact is the SYS.2 system-requirements
+> Note: the generation prompts label the role as "ASPICE SYS.5" (system
+> verification). The target artefact is the SYS.2 system-requirements
 > verification criterion; the prompts are reproduced here exactly as run.
 
 ---
