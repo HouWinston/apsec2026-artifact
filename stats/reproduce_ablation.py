@@ -7,7 +7,7 @@ Inputs (released layout):
   ../generated_vcs/ablation/ablation_multirater_results.json (Abl-LM / Abl-NF MV)
 
 Reproduces the paper's RQ3 numbers:
-  FL (full pipeline)  29/50 = 58.0%   (majority vote of E2/E3/E4; E1 for agreement only)
+  FL (filter + LLM-match)  29/50 = 58.0%   (majority vote of E2/E3/E4; E1 for agreement only)
   Abl-LM (LLM-match)  29/50 = 58.0%
   Abl-NF (no filter)  41/50 = 82.0%
   Reject attribution: Tool_Contamination 14, Semantic_Drift 5, Gen_Failure 2
@@ -39,7 +39,7 @@ def main():
     print("CANONICAL RQ3 (ablation) REPRODUCER")
     print("=" * 64)
     print("\n[RQ3] Human acceptance (E2/E3/E4 majority; E1 for agreement only)")
-    print(f"  Full pipeline (FL)  {fl_acc}/{n} = {100*fl_acc/n:.1f}%   (paper 29/50 = 58.0%)")
+    print(f"  FL (filter+LLM-match) {fl_acc}/{n} = {100*fl_acc/n:.1f}%   (paper 29/50 = 58.0%)")
     print(f"  Abl-LM (LLM-match)  {lm['accept']}/{lm['n']} = {100*lm['rate']:.1f}%   (paper 29/50 = 58.0%)")
     print(f"  Abl-NF (no filter)  {nd['accept']}/{nd['n']} = {100*nd['rate']:.1f}%   (paper 41/50 = 82.0%)")
 
