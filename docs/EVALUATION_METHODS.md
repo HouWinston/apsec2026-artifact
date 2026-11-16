@@ -12,6 +12,8 @@ Each main output has two present external ratings from E2/E3/E4. A dispute occur
 
 E1 adjudicated 285 of the 489 outputs. E1 was not blind to the generation channel. The retained results include adjudication sensitivity; the public numerical export does not establish an independent blinded evaluation.
 
+The saved historical `results/reproduced_main.txt` uses the legacy heading `majority vote + E1 adjudication`. For the main evaluation, interpret that heading using the two-external-rater procedure above. Three-external-rater majority voting applies to RQ3, not the main study. The saved file is preserved unchanged; this note clarifies the heading without changing observations or recalculating historical outputs.
+
 ## RQ3 ablation
 
 For the 50-item FL (filter plus LLM matching) condition, final acceptance is the majority of E2/E3/E4. E1 does not override that majority. The Abl-LM and Abl-NF rating records retain their separately recorded item links. A common item position across source files is not assumed to prove common requirement identity across all three conditions.
@@ -45,3 +47,7 @@ The main Fisher/Holm output is a historical numerical analysis, not proof of ind
 Some retained legacy agreement outputs call thresholded C `Completeness`; the primary C/N/U rubric defines C as Correctness. Preserving that legacy file label does not create a separately collected completeness rating. Pair assignment differs across conditions, so pooled agreement cannot by itself identify a condition effect.
 
 The release does not include retrieval-precision item labels whose annotation provenance was unavailable. Numerical coverage is limited to the main evaluation, the documented RQ3 ablation, RQ4 generation logs and retained agreement summaries; it does not claim complete public replication of Domain-2, retrieval semantics, or every statement in the article.
+
+## Public numerical checker
+
+`scripts/reanalyze_numeric.py` is a read-only adapter for the released CSV schema, prepared on 2026-11-16. It checks numerical decisions and summaries against the public aggregate CSVs; it is not the withheld historical analysis pipeline. The saved Fisher/Holm, effect-size and other text-output calculations are outside this adapter's coverage. Passing checks establish consistency of the released numbers, not the accuracy of the underlying semantic judgments, independent sampling, original execution provenance or end-to-end reproducibility.
