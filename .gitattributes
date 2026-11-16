@@ -1,2 +1,2 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Preserve released bytes; SHA-256 checksums apply to the exact files.
+* -text
