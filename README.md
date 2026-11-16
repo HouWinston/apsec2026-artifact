@@ -1,26 +1,22 @@
-# Field2VC — Numerical Results and Prompt Templates
+# Field2VC — Research Artifacts
 
-Companion numerical materials for Field2VC, accepted at APSEC 2026.
+Field2VC uses field-failure evidence to generate verification criteria (VCs) for automotive system requirements.
 
-Repository address: https://github.com/HouWinston/apsec2026-artifact
-
-This release contains text-free evaluation records, aggregate results, evaluation-method documentation, source-derived prompt templates and model-configuration documentation, and an offline numerical reanalysis script. Industrial requirement specifications, existing and generated verification-criteria texts, text-bearing logs, and the original pipeline and analysis scripts are not publicly distributed.
-
-The camera-ready article describes a broader replication package. The scope of public access is narrower than that description; [AVAILABILITY.md](AVAILABILITY.md) identifies the public and restricted materials. Requests for additional materials are considered case by case and do not guarantee access.
+This repository accompanies the APSEC 2026 paper and provides evaluation records, result summaries, source-derived prompt templates, model configuration metadata, and a numerical reanalysis script.
 
 ## Contents
 
 | Location | Contents |
 |---|---|
 | `data/` | Pseudonymized, text-free ratings and numerical generation records |
-| `results/` | Acceptance, generation, ablation, sensitivity and agreement summaries; saved outputs from offline statistical recomputation |
-| `docs/DATA_DICTIONARY.md` | File definitions, field encodings, missingness, and linkage limits |
+| `results/` | Acceptance, generation, ablation, sensitivity and agreement summaries; saved statistical outputs |
+| `docs/DATA_DICTIONARY.md` | File definitions, fields, units and coverage |
 | `docs/EVALUATION_METHODS.md` | Evaluation unit, scoring criteria, adjudication and calculation definitions |
-| `prompts/` | Main, baseline, ablation, sensitivity and Domain-2 prompt templates; model configuration and provenance limits |
-| `scripts/reanalyze_numeric.py` | Standard-library checker using only public CSVs; no model/API calls |
+| `prompts/` | Source-derived prompt templates and model configuration metadata |
+| `scripts/reanalyze_numeric.py` | Python script for numerical reanalysis |
 | `MANIFEST.sha256` | File-integrity checksums for this release |
 
-## Reanalyzing the released numbers
+## Reanalysis
 
 From the repository root, with Python 3.9 or later:
 
@@ -28,24 +24,22 @@ From the repository root, with Python 3.9 or later:
 python -B scripts/reanalyze_numeric.py
 ```
 
-The checker reads public `data/` records, recalculates the documented numerical summaries and compares them with `results/*.csv`. It exits with a nonzero status on a mismatch and does not modify the data. Its output specifies the checked coverage. Assigned benchmark totals are documented constants, not independently inferred from withheld requirements.
+The script recalculates acceptance, generation, sensitivity and agreement summaries from the released records and checks nine result CSVs. It uses only the Python standard library, makes no model or API calls, and leaves the data unchanged. See [Evaluation Methods](docs/EVALUATION_METHODS.md) for calculations and checker coverage.
 
-This script is a public-data adapter prepared on 2026-11-16, not the historical experiment runner. It does not regenerate the saved `reproduced_*.txt` outputs or rerun model generation. Prompt text is extracted from archived source constants; the configuration document distinguishes source defaults from recorded historical settings. Neither extraction nor numerical agreement proves which exact prompt or model backend served every historical call.
+## Evaluation Data
 
-## Interpreting the data
+- **Main evaluation:** 489 rated outputs across 307 requirement groups. Each output contains two VC candidates, with ratings recorded at the output level.
+- **RQ3 ablation:** 50 FL items and 400 LM/NF condition ratings.
+- **RQ4 sensitivity:** 3,841 numerical generation records across seven model configurations and two evidence channels.
 
-The main evaluation contains 489 rated **outputs** involving 307 distinct requirements. Each output contains two VC candidates, but the historical records contain one score set per rater for the output. The data are not 978 independently scored VCs. E1 adjudicated 285 outputs; missing ratings remain missing.
+Channel A uses GitHub evidence; Channel B uses NHTSA evidence. Baseline generation uses no field-failure context. Identifiers are pseudonymized and preserve within-release grouping; missing ratings remain empty.
 
-Channel A denotes GitHub evidence, Channel B denotes NHTSA evidence, and Baseline denotes generation without field-failure context. New opaque identifiers preserve necessary within-release group relationships while removing original item identifiers. They do not establish independence between groups or guarantee anonymity against holders of prior copies.
+See the [Data Dictionary](docs/DATA_DICTIONARY.md) for fields, units and grouping details.
 
-RQ3 uses E2/E3/E4 majority acceptance for the 50-item ablation. RQ4 `is_novel` is a logged generation/sentinel indicator; it is not an expert novelty rating or a quality-acceptance label. Non-generation outcomes and all recorded numerical rows are retained; repeated sensitivity records are identified rather than silently discarded.
+## Additional Materials
 
-The release permits inspection and reanalysis of the supplied numerical records and inspection of the published templates. It does not permit end-to-end regeneration of the experiment or independent assessment of requirement/VC content. Saved statistical outputs are author-side recomputations, not independent validation of the scientific claims. Refer to the data dictionary for analyses not covered by these files.
-
-## Requests
-
-Contact **Wei Hou** at **71275902063@stu.ecnu.edu.cn** with subject `APSEC 2026 Field2VC Material Request`. Please identify the requested materials, intended use, and affiliation. Access depends on applicable permissions and confidentiality restrictions; some materials may remain unavailable.
+For materials beyond this public release and research access requests, see [Material Availability](AVAILABILITY.md).
 
 ## License
 
-The numerical data, documentation and prompt templates actually included in this public release are provided under CC BY 4.0. The public Python checker is provided under MIT; see [LICENSE](LICENSE). This release does not license or provide access to withheld materials.
+Numerical data, documentation and prompt templates are licensed under CC BY 4.0. The Python checker is licensed under MIT. See [LICENSE](LICENSE).

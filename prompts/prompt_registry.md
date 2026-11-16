@@ -1,21 +1,13 @@
 # Prompt Registry
 
-These are the exact Python string values extracted by AST inspection from a
-local archived source snapshot on 2026-11-16. This documents the inspected
-snapshot; it does not establish the exact prompt sent in every historical run.
-Source filenames and constant names below are provenance labels, not files
-distributed with this public package.
+The templates below were extracted verbatim on 2026-11-16 from an archived
+source snapshot. Source labels identify the original files and constants.
+Runtime placeholders and Python `.format` escaping (`{{` and `}}`) are preserved.
 
-The text inside each code fence is preserved without rewriting, including
-punctuation, trailing newlines, the original SYS.5 role wording, and Python
-`.format` escaping (`{{` and `}}` represent literal braces after formatting).
-The research target is verification criteria for SYS.2 system requirements.
-Runtime requirement text, golden VCs, evidence context, identifiers, and generated
-outputs substituted into the placeholders are not distributed here.
-
-These templates are methodological material, not an executable pipeline or proof
-of semantic correctness. Model aliases and parameters are documented separately
-in [model_config_manifest.md](model_config_manifest.md).
+The original SYS.5 role wording is retained; the research target is verification
+criteria for SYS.2 system requirements. See
+[model_config_manifest.md](model_config_manifest.md) for model aliases and
+request settings.
 
 ## Stage 2 - Channel A (GitHub)
 

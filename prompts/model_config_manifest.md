@@ -1,10 +1,8 @@
 # Model Configuration Manifest
 
-This manifest separates settings found in a local archived source snapshot
-inspected on 2026-11-16 from metadata in the archived sensitivity records.
-Source defaults do not prove the values used in every historical execution.
-The public release contains templates and text-free numerical records, not the
-underlying implementation, runtime inputs, full execution logs, or API credentials.
+This document summarizes model aliases and request settings from the source
+snapshot inspected on 2026-11-16 and archived RQ4 sensitivity records.
+Source defaults and recorded request metadata are listed separately.
 
 ## Source-snapshot defaults
 
@@ -19,23 +17,18 @@ underlying implementation, runtime inputs, full execution logs, or API credentia
 | Domain-2 generation | `qwen-max` | 0.2 | 800 | Same abstention sentinel |
 | RQ4 sensitivity generation | Configured per model | 0.2 | 800 | Channel-specific templates |
 
-These values were read from the source definitions and call sites identified in
-the prompt registry and ablation supplement. Main matching selects the top five
-evidence items without a hard similarity cutoff. The generation prompt permits
-abstention; this is not an independently validated relevance decision.
+Main matching selects the top five evidence items by cosine similarity without
+a hard cutoff. Generation permits abstention using `NO_NOVEL_VC_FOUND`.
 
 The source uses the default DashScope OpenAI-compatible endpoint
 `https://dashscope.aliyuncs.com/compatible-mode/v1` for the main pipeline,
 baseline, ablations, and Domain-2. Environment configuration can override that
-endpoint. API keys are read from environment variables; no key values are
-included in this manifest or the prompt files.
+endpoint. Credentials are supplied through environment variables.
 
 ## Archived RQ4 sensitivity metadata
 
-The following seven request identifiers occur in the archived sensitivity
-records used for the reported numerical results. All these records specify
-temperature 0.2 and `max_tokens_req` 800. The table describes recorded request
-metadata; it is not a recommendation to use these aliases today.
+Archived RQ4 records contain the seven request identifiers below, all with
+temperature 0.2 and `max_tokens_req` 800.
 
 | Recorded request identifier | Recorded provider | Recorded API endpoint |
 |---|---|---|
@@ -47,27 +40,17 @@ metadata; it is not a recommendation to use these aliases today.
 | `kimi-k2.6` | `moonshot-via-dashscope` | DashScope compatible-mode endpoint above |
 | `glm-5` | `zhipu-via-dashscope` | DashScope compatible-mode endpoint above |
 
-There is a source/history discrepancy: in the inspected sensitivity source,
-the `deepseek-chat` registry entry defaults to DashScope with provider
-`deepseek-via-dashscope`, whereas the archived records for that request identifier
-specify the direct DeepSeek endpoint and provider shown above. The archive and
-the source snapshot must not be treated as identical configurations.
+For `deepseek-chat`, the inspected source defaults to DashScope with provider
+`deepseek-via-dashscope`; the archived records specify the direct DeepSeek
+endpoint and provider `deepseek` shown above.
 
-The request identifiers are API aliases, not immutable model snapshots. The
-archived metadata does not identify the resolved backend model versions, and
-the templates alone cannot establish the exact historical backend or substituted
-prompt for any call.
-
-RQ4 measures a generation-rate proxy based on the abstention sentinel and error
-handling. A non-abstaining response is not a human-validated useful or novel VC;
-these rates do not establish semantic quality or equivalent abstention behavior
-across models. No new model calls or empirical experiments were performed to
-prepare this documentation.
+Model names are API aliases; the archived metadata does not identify resolved
+backend versions.
+RQ4 generation rates use the logged generation/abstention indicator, which is
+separate from expert-rated VC quality.
 
 ## Prompt scope
 
 [prompt_registry.md](prompt_registry.md) contains the main pipeline, baseline,
 sensitivity, and Domain-2 prompt literals.
 [ablation_prompts.md](ablation_prompts.md) contains both ablation prompt literals.
-The original SYS.5 role wording is preserved; the research target remains SYS.2
-system-requirements verification criteria. Runtime substituted values are withheld.

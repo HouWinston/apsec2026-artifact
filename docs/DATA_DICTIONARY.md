@@ -1,12 +1,12 @@
 # Numerical data dictionary
 
-All CSV files are UTF-8 with a header. Empty cells mean missing/unrecorded values, never an imputed zero or a negative judgment. Derived decision fields use 1/0 unless a field explicitly retains the original categorical labels. Rates are proportions in [0,1]; saved textual outputs may display percentages.
+All CSV files are UTF-8 with a header. Empty cells mean missing or unrecorded values, not zero or a negative judgment. Derived decision fields use 1/0 unless a field retains the original categorical labels. Rates are proportions in [0,1]; saved textual outputs may display percentages.
 
 ## Files and units
 
 | File | Rows / lines | Unit and coverage |
 |---|---:|---|
-| `data/main_ratings.csv` | 489 | One row per rated output; main C/N/U and scope ratings, derived acceptance and dispute flags. |
+| `data/main_ratings.csv` | 489 | One row per output containing two VC candidates; one C/N/U and scope rating set per rater, derived acceptance and dispute flags. |
 | `results/main_acceptance.csv` | 4 | Main acceptance counts, disputes and Wilson intervals; A+B is an aggregate, not extra observations. |
 | `results/main_category_acceptance.csv` | 16 | Category-level pipeline-versus-baseline counts, including groups without a baseline. |
 | `data/ablation_fl_ratings.csv` | 50 | One row per FL ablation item; all four raters, external majority, fixed rejection category. |
@@ -14,7 +14,7 @@ All CSV files are UTF-8 with a header. Empty cells mean missing/unrecorded value
 | `data/ablation_majority_items.csv` | 100 | One row per anonymous item and Abl-LM/Abl-NF condition; individual and majority decisions. |
 | `results/ablation_acceptance.csv` | 3 | External-rater majority acceptance for FL, LM and NF. |
 | `results/ablation_fl_reject_attribution.csv` | 3 | All 21 FL rejections in three fixed categories. |
-| `data/sensitivity_records.csv` | 3841 | Every parsed numerical log record; generation proxy and within-key last-record selection. |
+| `data/sensitivity_records.csv` | 3841 | Every parsed numerical log record; generation/sentinel indicator and within-key last-record selection. |
 | `results/sensitivity_generation.csv` | 14 | Seven model configurations x two channels, with all-record and distinct-item counts. |
 | `data/generation_records.csv` | 630 | Numerical generation/sentinel flags for every record in the main-generation source files. |
 | `results/generation_flow.csv` | 3 | Assigned, observed, generated and rated item/output counts; these denominators differ. |
@@ -27,17 +27,17 @@ All CSV files are UTF-8 with a header. Empty cells mean missing/unrecorded value
 
 ## Identity, grouping and order
 
-- `Sample_ID` identifies a rated output or FL item with a new random identifier.
-- `Requirement_Group_ID` preserves equality of the original requirement identifiers within the main, generation and sensitivity projections. No text or reverse mapping is public. The main ratings contain 307 distinct groups; the wider generation logs cover the 350-item benchmark. A common group does not imply a new independent observation.
-- `Item_ID` links the two non-FL ablation conditions and their raters within the source-indexed 50-item set. X is presented as LM and Y as NF by matching original row indices and all 400 derived acceptance decisions against the retained canonical JSON. This is numerical reconciliation, not independent verification of a blind condition key, requirement identity, or original condition assignment. The FL and non-FL identifier domains remain unlinked: this release does not assert an unverified paired mapping.
+- `Sample_ID` is a random identifier for a rated output or FL item.
+- `Requirement_Group_ID` preserves equality of the original requirement identifiers within the main, generation and sensitivity projections. The main ratings contain 307 distinct groups; the wider generation logs cover the 350-item benchmark. Group IDs preserve links and do not establish independent observations.
+- `Item_ID` links LM/NF conditions and their raters within the source-indexed 50-item set. The X-to-LM and Y-to-NF mapping reconciles original row indices and all 400 derived acceptance decisions with the retained canonical JSON. A blind condition key, requirement identity and original assignment were not independently verified. FL and LM/NF identifier domains remain unlinked; their paired requirement mapping has not been verified.
 - `Record_ID` is random. Main/FL outputs sort by random ID, and run records sort by random record ID rather than preserving their source global order.
 - Sensitivity `Record_Order` is the 1-based order within one (Model, Channel, Requirement_Group_ID) key, not an original global line number. `Last_Record = 1` selects its final logged row for the retained historical calculation. All 3,841 records remain present, including 1,391 records in excess of one per key.
-- `Has_Error = 1` indicates a nonempty error field in the source record. The error text itself is withheld. These rows remain in the data and are not silently excluded from the historical last-record calculation.
+- `Has_Error = 1` indicates a nonempty source error field. Error rows remain in the data and in the historical last-record calculation; error text is excluded.
 
 ## Labels and rating fields
 
 - `Channel`: A (GitHub evidence), B (NHTSA evidence), or Baseline. `A+B` occurs only as an aggregate result.
-- `Category`: public broad categories retained from the source; two placeholder category labels have been recoded as `Category_03` and `Category_04`. This is a categorical relabeling, not a score change.
+- `Category`: broad source categories; two placeholder labels are recoded as `Category_03` and `Category_04`, with scores unchanged.
 - `Condition`: FL, LM (Abl-LM), NF (Abl-NF), or the stated main-study grouping. Condition labels in retained agreement summaries follow their original fixed vocabulary.
 - `Evaluator`: E1, E2, E3 or E4. E1 is the internal adjudicator in the main study; E2/E3/E4 are the external raters.
 - `*_Correctness_1to5` / `*_C` / `C`: integer 1–5 when recorded.
@@ -46,16 +46,16 @@ All CSV files are UTF-8 with a header. Empty cells mean missing/unrecorded value
 - `*_Accept` / `Accept`: derived rater decision (1 accepted, 0 rejected, blank absent rating); result-table `Accept` is a count.
 - `Dispute`: main-study acceptance disagreement or a C-score difference of at least two. `Final_Accept` applies the documented adjudication/majority rule.
 - In the FL table only, `E1_Accept` through `E4_Accept` retain A/R (accepted/rejected), and `Final_Label` retains Accept/Reject. `E1_Dispute_with_MV` retains Y/N; `MV_Votes_of_3` counts acceptance votes from E2/E3/E4 only. The other per-item acceptance tables use 1/0.
-- `Reject_Category`: fixed labels Tool_Contamination, Semantic_Drift and Gen_Failure for rejected FL items; blank for accepted items. No arbitration free text is included.
-- `Model`: the recorded API model alias, not a guaranteed immutable backend snapshot.
-- Sensitivity `is_novel`: 1/0 for the recorded generation/sentinel proxy; never interpret it as a human quality label.
-- Generation `Generated` / `Sentinel`: text-derived binary flags defined in EVALUATION_METHODS.md. They preserve numerical flow checks without releasing or independently verifying the text.
+- `Reject_Category`: fixed labels Tool_Contamination, Semantic_Drift and Gen_Failure for rejected FL items; blank for accepted items.
+- `Model`: recorded API model alias; backend snapshots are not fixed by this field.
+- Sensitivity `is_novel`: 1/0 for the recorded generation/sentinel indicator, separate from human quality ratings.
+- Generation `Generated` / `Sentinel`: text-derived binary flags defined in [EVALUATION_METHODS.md](EVALUATION_METHODS.md).
 
 ## Aggregate fields
 
 `Outputs`, `Rated_Outputs`, `Records`, `Raw_Records`, `Generated_Records`, `Unique_Items`, `Generated_Items`, `Generated_Unique_Items`, `Observed_Unique_Items`, `Rated_Unique_Items`, `Assigned_Items`, `Duplicate_Records`, `Items_Without_Evaluation`, `Sentinel_Only_Items`, `Reject`, `Missing_Final` and `Disputes` are nonnegative counts, as distinguished by each file's unit. `Rate` and `Generation_Rate` are proportions; `Wilson_Low` and `Wilson_High` are 95% interval bounds.
 
-Agreement summaries retain `scope`/`outer_scope`, `condition`, `dimension`, `rater_pair`, effective `n`/`n_jointly_rated`, `raw_agreement`, `gwet_ac1`, `n_pairs_with_data` and `mean_ac1_unweighted`. The three agreement CSVs retain the original values and labels byte for byte after field/value checks. A legacy `Completeness` dimension label refers to thresholded C in those outputs; it is not evidence that a separate completeness construct was rated.
+Agreement summaries retain `scope`/`outer_scope`, `condition`, `dimension`, `rater_pair`, effective `n`/`n_jointly_rated`, `raw_agreement`, `gwet_ac1`, `n_pairs_with_data` and `mean_ac1_unweighted`. The three agreement CSVs preserve original values and labels. The legacy `Completeness` label refers to the same thresholded Correctness (C) rating.
 
 ## Exact headers
 
@@ -119,8 +119,8 @@ Agreement summaries retain `scope`/`outer_scope`, `condition`, `dimension`, `rat
 
 `scope`, `dimension`, `n_pairs_with_data`, `mean_ac1_unweighted`.
 
-## Coverage and limitations
+## Coverage
 
-The projections retain every row of the canonical 489-output main sheet, the documented ablation inputs, the 14 parsed sensitivity logs, and the three main-generation record files. They do not export all historical rating-table duplicates or older author-only ablation summaries as additional observations. Those originals remain privately archived.
+The projections retain every row of the canonical 489-output main sheet, the documented ablation inputs, the 14 parsed sensitivity logs and the three main-generation record files. Historical rating-table duplicates and older author-only ablation summaries are excluded from the observation counts.
 
-The numerical files contain no requirement text, existing/generated VC text, original identifiers, source links or free-form notes. Prompt templates and a public-data-only checker are distributed separately under `prompts/` and `scripts/`; their presence does not add requirement or VC content to these data. The data do not independently validate semantic judgments or confer rights to withheld materials. Domain-2 and retrieval-precision claims are not covered by this numerical release, even though a source-derived Domain-2 prompt is included. See AVAILABILITY.md and EVALUATION_METHODS.md for the exact access and interpretation limits.
+The numerical files exclude requirement and VC text, original identifiers, source links and free-form notes. Prompt templates and the numerical checker are provided under `prompts/` and `scripts/`. Domain-2 results and retrieval-precision item labels are outside the numerical release's coverage. See [AVAILABILITY.md](../AVAILABILITY.md) for material access and [EVALUATION_METHODS.md](EVALUATION_METHODS.md) for calculation definitions and checker coverage.
