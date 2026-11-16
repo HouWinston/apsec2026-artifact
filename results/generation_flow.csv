@@ -1,0 +1,4 @@
+Channel,Assigned_Items,Raw_Records,Observed_Unique_Items,Duplicate_Records,Generated_Records,Generated_Unique_Items,Generation_Rate,Rated_Outputs,Rated_Unique_Items,Items_Without_Evaluation,Sentinel_Only_Items
+A,208,209,208,1,88,88,0.4230769230769231,87,87,121,120
+B,142,144,142,2,130,129,0.9084507042253521,128,128,14,13
+Baseline,350,277,274,3,277,274,0.7828571428571428,274,274,76,0

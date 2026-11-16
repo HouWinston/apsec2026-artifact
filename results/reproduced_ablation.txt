@@ -1,0 +1,16 @@
+================================================================
+CANONICAL RQ3 (ablation) REPRODUCER
+================================================================
+
+[RQ3] Human acceptance (E2/E3/E4 majority; E1 for agreement only)
+  FL (filter+LLM-match) 29/50 = 58.0%   (paper 29/50 = 58.0%)
+  Abl-LM (LLM-match)  29/50 = 58.0%   (paper 29/50 = 58.0%)
+  Abl-NF (no filter)  41/50 = 82.0%   (paper 41/50 = 82.0%)
+
+[RQ3] FL reject attribution (paper: Tool 14, Drift 5, GenFail 2)
+  Tool_Contamination   14
+  Semantic_Drift       5
+  Gen_Failure          2
+
+[RQ3] FL per-rater accept (paper: E1 33, E2 24, E3 47, E4 27)
+  E1=33  E2=24  E3=47  E4=27

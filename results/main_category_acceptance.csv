@@ -1,0 +1,17 @@
+Category,Condition,Accept,Rated_Outputs,Rate
+Body_Control,Pipeline,28,41,0.6829268292682927
+Body_Control,Baseline,21,42,0.5
+Category_03,Pipeline,29,44,0.6590909090909091
+Category_03,Baseline,25,64,0.390625
+Category_04,Pipeline,4,6,0.6666666666666666
+Category_04,Baseline,14,33,0.42424242424242425
+Communication_Stack,Pipeline,19,31,0.6129032258064516
+Communication_Stack,Baseline,31,55,0.5636363636363636
+Diagnostic_Services,Pipeline,5,6,0.8333333333333334
+Diagnostic_Services,Baseline,4,13,0.3076923076923077
+Functional_Safety,Pipeline,23,32,0.71875
+Functional_Safety,Baseline,0,0,
+IO_HMI,Pipeline,23,31,0.7419354838709677
+IO_HMI,Baseline,18,39,0.46153846153846156
+System_State,Pipeline,12,24,0.5
+System_State,Baseline,11,28,0.39285714285714285

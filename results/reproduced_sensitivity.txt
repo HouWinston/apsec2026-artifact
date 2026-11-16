@@ -1,0 +1,15 @@
+======================================================================
+CANONICAL RQ4 (cross-LLM sensitivity) REPRODUCER
+======================================================================
+LLM configuration                 Ch-A gen-rate    Ch-B gen-rate
+------------------------------------------------------------------
+Qwen-Max                         40.4% ( 84/208)   93.7% (133/142)
+Qwen-Plus                        59.6% (124/208)   94.4% (134/142)
+DeepSeek-chat (direct API)       99.0% (206/208)  100.0% (142/142)
+DeepSeek-V4-Flash (DashScope)   100.0% (208/208)   99.3% (141/142)
+Kimi-K2.6                        94.2% (196/208)   97.2% (138/142)
+GLM-5                            98.6% (205/208)   98.6% (140/142)
+Qwen3.6-Plus                    100.0% (208/208)   99.3% (141/142)
+------------------------------------------------------------------
+7 LLM configurations; 5 are non-sentinel-adherent (>93% on both channels).
+Only Qwen-Max and Qwen-Plus emit the sentinel discriminatively.

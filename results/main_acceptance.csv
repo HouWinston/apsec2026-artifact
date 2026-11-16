@@ -1,0 +1,5 @@
+Channel,Outputs,Rated_Outputs,Accept,Reject,Missing_Final,Disputes,Rate,Wilson_Low,Wilson_High
+A,87,87,57,30,0,50,0.6552,0.5506,0.7466
+B,128,128,86,42,0,89,0.6719,0.5866,0.7472
+Baseline,274,274,124,150,0,146,0.4526,0.3947,0.5117
+A+B,215,215,143,72,0,139,0.6651,0.5996,0.7248

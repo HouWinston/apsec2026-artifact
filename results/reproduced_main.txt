@@ -1,0 +1,51 @@
+======================================================================
+CANONICAL MAIN-EVALUATION REPRODUCER   rated output rows: 489
+======================================================================
+
+[FLOW] Unique-item generation, rated outputs, and items without evaluation
+  A         generated=88/208=42.3% raw-output-records=88 rated=87 no-evaluation=121 sentinel-only-items=120
+  B         generated=129/142=90.8% raw-output-records=130 rated=128 no-evaluation=14 sentinel-only-items=13
+  Baseline  generated=274/350=78.3% raw-output-records=277 rated=274 no-evaluation=76 sentinel-only-items=0
+  Each rated output contains two candidates; scores and labels are output-level.
+
+[RQ1] Acceptance rate (majority vote + E1 adjudication)
+  A          57/ 87 =  65.5%  Wilson[55.1,74.7]   (paper 65.5% 57/87)
+  B          86/128 =  67.2%  Wilson[58.7,74.7]   (paper 67.2% 86/128)
+  Baseline  124/274 =  45.3%  Wilson[39.5,51.2]   (paper 45.3% 124/274)
+  A+B       143/215 =  66.5%   (paper 66.5% 143/215)
+
+[RQ1] Effect sizes vs Baseline (Fisher exact, Cohen's h)
+  A     OR=2.298  h=+0.4106  raw-p=0.0007  Holm-p=0.0007   (paper OR2.30 h0.41 Holm0.0007)
+  B     OR=2.477  h=+0.4459  raw-p=0.0000  Holm-p=0.0000   (paper OR2.48 h0.45 Holm<.001)
+  A+B   OR=2.403  h=+0.4316  raw-p=0.0000  Holm-p=0.0000   (paper OR2.40 h0.43 Holm<.001)
+
+[SENS] Adjudication sensitivity (E1 footprint, no-E1 floor, agreed subset)
+  A         disputes(E1-adjudicated)= 50/87 (57%)   no-E1 floor=37/87=42.5%   agreed-subset accept=37/37=100.0%
+  B         disputes(E1-adjudicated)= 89/128 (70%)   no-E1 floor=20/128=15.6%   agreed-subset accept=20/39=51.3%
+  Baseline  disputes(E1-adjudicated)=146/274 (53%)   no-E1 floor=119/274=43.4%   agreed-subset accept=119/128=93.0%
+
+[RQ2] Scope-stratified acceptance by category (pipeline vs baseline)
+  Category_03               pipeline 29/44=65.9%      baseline 25/64=39.1%
+  Category_04               pipeline 4/6=66.7%        baseline 14/33=42.4%
+  Body_Control           pipeline 28/41=68.3%      baseline 21/42=50.0%
+  Communication_Stack    pipeline 19/31=61.3%      baseline 31/55=56.4%
+  Diagnostic_Services    pipeline 5/6=83.3%        baseline 4/13=30.8%
+  Functional_Safety      pipeline 23/32=71.9%      baseline n/a
+  IO_HMI                 pipeline 23/31=74.2%      baseline 18/39=46.2%
+  System_State           pipeline 12/24=50.0%      baseline 11/28=39.3%
+  (paper Tab. rq2_scope: IO/HMI 23/31=74.2 vs 18/39; Body_Control 28/41=68.3 vs 21/42;
+   Comm_Stack(A) 19/31=61.3 vs 31/55; Func_Safety 23/32=71.9; Category_03 29/44=65.9)
+
+[RQ2] Category-matched effects (only categories with evaluated baseline outputs)
+  A 57/87 vs 74/165: delta=+20.7 pp h=0.4188
+  B 63/96 vs 50/109: delta=+19.8 pp h=0.4005
+  B excludes Functional_Safety (23/32), which has no evaluated baseline output.
+
+[IAA] Gwet AC1 on Completeness (C>=3), pairwise, 2-channel scope
+      (paper reports 0.84 / 0.65 / 0.69 mean 0.73 on the A+B+Baseline scope)
+  [A+B only     ] E2-E3(n=201)=0.84  E3-E4(n=14)=0.4946   mean=0.6673
+  [A+B+Baseline ] E2-E3(n=201)=0.84  E2-E4(n=202)=0.6472  E3-E4(n=86)=0.6892   mean=0.7255
+
+[IAA] Gwet AC1 on the ACCEPT label (three-criterion C/N/U), 2-channel — transparency
+  E2-E3(n=201) accept-AC1=0.0975
+  E3-E4(n=14) accept-AC1=-0.1429
